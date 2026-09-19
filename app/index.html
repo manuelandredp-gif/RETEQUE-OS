@@ -1,0 +1,2283 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EFEAE2}
+a{color:#D91F2A}a:hover{color:#FF3038}
+*{box-sizing:border-box}
+@keyframes scrIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes toastIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.7)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
+@keyframes logoIn{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:none}}
+@keyframes shimmer{0%{background-position:-200px 0}100%{background-position:220px 0}}
+@keyframes ride{0%{transform:translate(0,0)}100%{transform:translate(150px,-96px)}}
+@keyframes dash{to{stroke-dashoffset:-40}}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(31,157,98,.45)}100%{box-shadow:0 0 0 16px rgba(31,157,98,0)}}
+@keyframes moto{0%{offset-distance:0%}100%{offset-distance:100%}}
+@keyframes cheeseBounce{0%,100%{transform:translateY(0) scale(1) rotate(0deg)}50%{transform:translateY(-3px) scale(1.08) rotate(-2deg)}}
+@keyframes dipPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes floatItem{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-3.5px) rotate(1.5deg)}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,48,56,.3)}50%{box-shadow:0 0 0 8px rgba(255,48,56,0)}}
+.cheese-fig{animation:cheeseBounce 2.8s ease-in-out infinite}
+.sauce-fig{animation:dipPulse 3.2s ease-in-out infinite}
+.float-fig{animation:floatItem 3.6s ease-in-out infinite}
+.pulse-badge{animation:glowPulse 2s infinite}
+.scr{animation:scrIn .3s cubic-bezier(.2,.8,.2,1)}
+.stagger>*{animation:fadeUp .34s both cubic-bezier(.2,.8,.2,1)}
+.stagger>*:nth-child(2){animation-delay:.05s}
+.stagger>*:nth-child(3){animation-delay:.1s}
+.stagger>*:nth-child(4){animation-delay:.15s}
+.stagger>*:nth-child(5){animation-delay:.2s}
+.stagger>*:nth-child(6){animation-delay:.25s}
+.stagger>*:nth-child(7){animation-delay:.3s}
+.sc::-webkit-scrollbar{width:0}
+.ph{background:linear-gradient(135deg,#FFF3DF 0%,#FFE0BE 100%);overflow:hidden}
+.ph svg{display:block}
+@keyframes steamUp{0%{transform:translateY(0) scale(1);opacity:0}20%{opacity:.7}100%{transform:translateY(-14px) scale(1.4);opacity:0}}
+@keyframes steamBig{0%{transform:translateY(4px) scale(.7);opacity:0}25%{opacity:.85}100%{transform:translateY(-40px) scale(1.7);opacity:0}}
+@keyframes confettiFall{0%{transform:translate(0,-40px) rotate(0deg);opacity:0}10%{opacity:1}100%{transform:translate(var(--dx,0),320px) rotate(720deg);opacity:0}}
+@keyframes pulseHalo{0%{box-shadow:0 0 0 0 rgba(31,157,98,.5)}70%{box-shadow:0 0 0 22px rgba(31,157,98,0)}100%{box-shadow:0 0 0 0 rgba(31,157,98,0)}}
+@keyframes bump{0%,100%{transform:scale(1)}45%{transform:scale(1.08)}}
+@keyframes motoRide{0%{offset-distance:0%}50%{offset-distance:60%}100%{offset-distance:100%}}
+@keyframes tickBlink{0%,100%{opacity:1}50%{opacity:.35}}
+.steam{animation:steamUp 2.4s ease-in-out infinite}
+.steam2{animation:steamUp 2.4s ease-in-out infinite .5s}
+.steam3{animation:steamUp 2.4s ease-in-out infinite 1s}
+.confetti{position:absolute;width:8px;height:12px;border-radius:2px;animation:confettiFall 3.4s linear infinite;top:-16px;pointer-events:none}
+.moto-path{offset-path:path("M40 220 Q75 220 90 190 T145 130 Q175 100 220 100 T295 88");animation:motoRide 8s linear infinite}
+.tickBlink{animation:tickBlink 1.4s ease-in-out infinite}
+img.rq-photo{width:100%;height:100%;object-fit:cover;display:block;background:#FFF3DF}
+div.rq-photo{width:100%;height:100%;background-size:cover;background-position:center;background-repeat:no-repeat;background-color:#FFF3DF}
+textarea.rq-notes{width:100%;border:1px solid #EFE6D6;background:#fff;border-radius:11px;padding:10px 12px;font:400 12.5px/1.45 'Roboto',sans-serif;color:#242424;min-height:56px;resize:none;outline:0;box-sizing:border-box}
+textarea.rq-notes::placeholder{color:#7A736B}
+textarea.rq-notes:focus{border-color:#FF3038}
+/* Vista móvil real: en un celular se oculta el escritorio del prototipo y la app ocupa toda la pantalla */
+@media (max-width:720px){
+  [data-rail]{display:none!important}
+  [data-stage]{padding:0!important;gap:0!important;height:100dvh!important;overflow:hidden!important}
+  [data-stage-title],[data-stage-hint],[data-statusbar],[data-homebar]{display:none!important}
+  [data-zoom]{transform:none!important;width:100vw;height:100dvh}
+  [data-device]{width:100vw!important;height:100dvh!important;border-radius:0!important;padding:0!important;box-shadow:none!important;background:#FFF8EE!important}
+  [data-screen]{border-radius:0!important}
+}
+</style>
+</helmet>
+
+<div style="display:flex;min-height:100vh;font-family:'Roboto',system-ui,sans-serif;color:#242424">
+
+<aside data-rail style="width:262px;flex:none;background:#242424;color:#fff;padding:22px 18px;display:flex;flex-direction:column;gap:18px;position:sticky;top:0;height:100vh;overflow:auto">
+<div style="display:flex;align-items:center;gap:10px">
+<img src="assets/logo-retequenos.png" alt="Retequeños" style="width:38px;height:38px;border-radius:9px;display:block">
+<div>
+<div style="font:700 14px/1.1 'Roboto',sans-serif">Retequeños</div>
+<div style="font:400 10.5px/1.3 'Roboto',sans-serif;color:#A8A29B;letter-spacing:.04em">PROTOTIPO APP · v2 · MVP</div>
+</div>
+</div>
+
+<div>
+<div style="font:500 10px/1 'Roboto',sans-serif;letter-spacing:.14em;color:#8C867F;margin-bottom:8px">PLATAFORMA</div>
+<div style="display:flex;gap:6px;background:#333">
+<button type="button" onClick="{{ setAnd }}" style="flex:1;padding:9px 0;border:0;cursor:pointer;font:500 12px 'Roboto',sans-serif;background:{{ bgAnd }};color:{{ fgAnd }}">Android</button>
+<button type="button" onClick="{{ setIos }}" style="flex:1;padding:9px 0;border:0;cursor:pointer;font:500 12px 'Roboto',sans-serif;background:{{ bgIos }};color:{{ fgIos }}">iOS</button>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:2px">
+<div style="font:500 10px/1 'Roboto',sans-serif;letter-spacing:.14em;color:#8C867F;margin-bottom:8px">PANTALLAS · LOTES 01–26</div>
+<sc-for list="{{ rail }}" as="it" hint-placeholder-count="12">
+<button type="button" onClick="{{ it.go }}" style="display:flex;align-items:center;gap:9px;width:100%;text-align:left;border:0;cursor:pointer;padding:8px 10px;border-radius:7px;background:{{ it.bg }};color:{{ it.fg }};font:400 12.5px/1.3 'Roboto',sans-serif" style-hover="background:#3A3A3A">
+<span style="font:500 10px 'Roboto',sans-serif;color:{{ it.num }};min-width:18px">{{ it.id }}</span>
+<span>{{ it.label }}</span>
+</button>
+</sc-for>
+</div>
+
+<div style="margin-top:auto;font:400 10.5px/1.6 'Roboto',sans-serif;color:#8C867F;border-top:1px solid #3A3A3A;padding-top:14px">
+Prototipo navegable con fotos reales de la carta 2026. <strong style="color:#F5A623;font-weight:500">Ábrelo desde un celular</strong> y se ve a pantalla completa, como una app.
+<div style="margin-top:8px">Datos ficticios: Milton · Tacna · RTQ-2048</div>
+</div>
+</aside>
+
+<main data-stage style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px 20px 24px;gap:12px;height:100vh;overflow:hidden">
+<div data-stage-title style="display:flex;align-items:baseline;gap:12px;align-self:flex-start;max-width:100%">
+<div style="font:700 20px/1.1 'Roboto',sans-serif">{{ title }}</div>
+<div style="font:400 12.5px/1.4 'Roboto',sans-serif;color:#6B6662">{{ subtitle }}</div>
+</div>
+
+<div style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center;width:100%">
+<div data-zoom style="transform:scale({{ zoom }});transform-origin:center center;flex:none">
+<div data-device style="position:relative;width:{{ devW }};height:{{ devH }};flex:none;background:#111;border-radius:{{ devR }};padding:{{ devPad }};box-shadow:0 24px 60px rgba(0,0,0,.22),0 2px 0 rgba(255,255,255,.08) inset">
+<div data-screen style="position:relative;width:100%;height:100%;border-radius:{{ scrR }};overflow:hidden;background:{{ pageBg }};display:flex;flex-direction:column;font-family:{{ ff }}">
+
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}">
+<div data-statusbar style="flex:none;height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;font:500 11.5px 'Roboto',sans-serif;color:{{ sbFg }};background:transparent;z-index:5">
+<span>9:41</span>
+<span style="display:flex;gap:5px;align-items:center">
+<span style="width:13px;height:9px;border:1.4px solid currentColor;border-radius:1px;display:inline-block"></span>
+<span style="width:11px;height:9px;background:currentColor;clip-path:polygon(0 100%,30% 100%,30% 55%,0 55%,0 100%,40% 100%,40% 30%,70% 30%,70% 100%,100% 100%,100% 0,70% 0)"></span>
+<span style="width:16px;height:9px;border:1.4px solid currentColor;border-radius:2px;display:inline-block;position:relative"></span>
+</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ isIos }}" hint-placeholder-val="{{ false }}">
+<div data-statusbar style="flex:none;height:48px;display:flex;align-items:center;justify-content:space-between;padding:14px 26px 0;font:600 12.5px -apple-system,'Helvetica Neue',sans-serif;color:{{ sbFg }};position:relative;z-index:5">
+<span>9:41</span>
+<span style="position:absolute;left:50%;transform:translateX(-50%);top:8px;width:88px;height:26px;border-radius:13px;background:#111"></span>
+<span style="display:flex;gap:5px;align-items:center">
+<span style="width:15px;height:10px;background:currentColor;clip-path:polygon(0 100%,22% 100%,22% 62%,0 62%,0 100%,37% 100%,37% 34%,63% 34%,63% 100%,100% 100%,100% 0,78% 0,78% 100%)"></span>
+<span style="width:17px;height:10px;border:1.4px solid currentColor;border-radius:3px;display:inline-block"></span>
+</span>
+</div>
+</sc-if>
+
+<div class="sc" style="flex:1;overflow-y:auto;overflow-x:hidden;position:relative">
+
+<sc-if value="{{ s01 }}" hint-placeholder-val="{{ true }}">
+<div class="scr" style="position:absolute;inset:0;background:#FF3038;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;overflow:hidden">
+<div style="position:absolute;inset:0;opacity:.09;background-image:radial-gradient(circle at 20% 18%,#fff 0 9px,transparent 10px),radial-gradient(circle at 78% 34%,#fff 0 7px,transparent 8px),radial-gradient(circle at 34% 72%,#fff 0 8px,transparent 9px),radial-gradient(circle at 84% 84%,#fff 0 6px,transparent 7px)"></div>
+<img src="assets/logo-retequenos.png" alt="Retequeños" style="width:148px;height:148px;border-radius:34px;display:block;animation:logoIn .7s cubic-bezier(.2,.8,.2,1) both">
+<div style="text-align:center;position:relative;z-index:2">
+<div style="font:700 34px/1.1 'Roboto',sans-serif;color:#FFF8EE;letter-spacing:-.01em">Retequeños</div>
+<div style="font:400 15px/1.4 'Roboto',sans-serif;color:#FFE0C9;margin-top:8px">Sabor que nos une</div>
+</div>
+<div style="display:flex;gap:9px;position:absolute;bottom:74px">
+<span style="width:9px;height:9px;border-radius:50%;background:#F5A623;animation:twinkle 1.2s infinite"></span>
+<span style="width:9px;height:9px;border-radius:50%;background:#F5A623;animation:twinkle 1.2s infinite .2s"></span>
+<span style="width:9px;height:9px;border-radius:50%;background:#F5A623;animation:twinkle 1.2s infinite .4s"></span>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s02 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;display:flex;flex-direction:column;background:#FFF8EE">
+<div class="ph" style="height:320px;position:relative;display:flex;align-items:center;justify-content:center;flex:none">
+<svg viewBox="0 0 260 240" style="width:100%;height:100%" preserveAspectRatio="xMidYMid meet">
+<defs>
+<radialGradient id="hg1"><stop offset="0" stop-color="#FFF7EA"/><stop offset="1" stop-color="#FFE3B7" stop-opacity="0"/></radialGradient>
+<linearGradient id="hg2" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#F5C271"/><stop offset=".55" stop-color="#E29438"/><stop offset="1" stop-color="#B8721C"/></linearGradient>
+</defs>
+<circle cx="130" cy="120" r="105" fill="url(#hg1)"/>
+<g opacity=".65"><ellipse class="steam" cx="98" cy="45" rx="4.5" ry="8" fill="#fff"/><ellipse class="steam2" cx="130" cy="38" rx="5" ry="9" fill="#fff"/><ellipse class="steam3" cx="162" cy="45" rx="4.5" ry="8" fill="#fff"/></g>
+<ellipse cx="130" cy="200" rx="108" ry="10" fill="rgba(80,40,10,.16)"/>
+<ellipse cx="130" cy="190" rx="104" ry="14" fill="#7A4A2A"/>
+<ellipse cx="130" cy="185" rx="100" ry="12" fill="#A66E48"/>
+<ellipse cx="130" cy="183" rx="96" ry="10" fill="#FFEDC8"/>
+<g transform="translate(55 135)"><path d="M0 15 Q0 5 10 5 L60 5 Q70 5 70 15 L70 22 Q70 30 60 30 L10 30 Q0 30 0 22 Z" fill="url(#hg2)" stroke="#8A5511" stroke-width="1.2"/><path d="M4 11 Q20 7 36 9 Q52 11 66 10" stroke="#FFDDA6" stroke-width="1.8" fill="none" opacity=".8" stroke-linecap="round"/><circle cx="14" cy="20" r=".9" fill="#6E3D0D" opacity=".55"/><circle cx="32" cy="17" r=".8" fill="#6E3D0D" opacity=".55"/><circle cx="50" cy="21" r=".8" fill="#6E3D0D" opacity=".55"/></g>
+<g transform="translate(140 138)"><path d="M0 15 Q0 5 10 5 L58 5 Q68 5 68 15 L68 22 Q68 30 58 30 L10 30 Q0 30 0 22 Z" fill="url(#hg2)" stroke="#8A5511" stroke-width="1.2"/><path d="M4 11 Q22 7 34 9 Q48 11 62 10" stroke="#FFDDA6" stroke-width="1.6" fill="none" opacity=".78" stroke-linecap="round"/><circle cx="14" cy="20" r=".8" fill="#6E3D0D" opacity=".5"/><circle cx="34" cy="17" r=".8" fill="#6E3D0D" opacity=".5"/><circle cx="52" cy="21" r=".8" fill="#6E3D0D" opacity=".5"/></g>
+<g transform="translate(80 158)"><path d="M0 15 Q0 5 10 5 L62 5 Q72 5 72 15 L72 22 Q72 30 62 30 L10 30 Q0 30 0 22 Z" fill="url(#hg2)" stroke="#8A5511" stroke-width="1.3"/><path d="M4 11 Q22 7 38 9 Q54 11 68 10" stroke="#FFE1AA" stroke-width="1.9" fill="none" opacity=".9" stroke-linecap="round"/><circle cx="16" cy="20" r="1" fill="#6E3D0D" opacity=".6"/><circle cx="36" cy="17" r=".9" fill="#6E3D0D" opacity=".6"/><circle cx="54" cy="21" r=".9" fill="#6E3D0D" opacity=".6"/></g>
+<g transform="translate(198 148)"><ellipse cx="18" cy="34" rx="20" ry="3" fill="rgba(80,40,10,.18)"/><path d="M2 12 Q2 8 6 8 L30 8 Q34 8 34 12 L32 30 Q31 36 18 36 Q5 36 4 30 Z" fill="#F5F0E6" stroke="#C8B99C" stroke-width="1.1"/><ellipse cx="18" cy="12" rx="14" ry="4" fill="#FFF8EE"/><ellipse cx="18" cy="12" rx="10" ry="3" fill="#F1F8E9"/><circle cx="14" cy="12" r=".8" fill="#2E7D32"/><circle cx="20" cy="13" r=".7" fill="#388E3C"/><circle cx="22" cy="11" r=".7" fill="#2E7D32"/></g>
+<g transform="translate(28 148)"><ellipse cx="18" cy="34" rx="20" ry="3" fill="rgba(80,40,10,.18)"/><path d="M2 12 Q2 8 6 8 L30 8 Q34 8 34 12 L32 30 Q31 36 18 36 Q5 36 4 30 Z" fill="#F5F0E6" stroke="#C8B99C" stroke-width="1.1"/><ellipse cx="18" cy="12" rx="14" ry="4" fill="#FBE9E7"/><ellipse cx="18" cy="12" rx="10" ry="3" fill="#FF5722"/><circle cx="16" cy="12" r="1" fill="#FFC107"/></g>
+</svg>
+<img class="rq-photo" src="img/products/tequenos/queso-detail-main.jpg" alt="Tequeños de queso recién fritos" style="position:absolute;inset:0;width:100%;height:100%">
+<button type="button" onClick="{{ goHome }}" style="position:absolute;top:14px;right:16px;border:0;background:rgba(255,255,255,.86);color:#6B6662;font:500 12px 'Roboto',sans-serif;padding:7px 13px;border-radius:{{ pill }};cursor:pointer">Omitir</button>
+</div>
+<div class="stagger" style="padding:30px 26px 26px;display:flex;flex-direction:column;gap:14px;flex:1">
+<div style="display:flex;gap:6px;align-items:center">
+<span style="width:7px;height:7px;border-radius:50%;background:#E4D9C6"></span>
+<span style="width:7px;height:7px;border-radius:50%;background:#E4D9C6"></span>
+<span style="width:22px;height:7px;border-radius:4px;background:#FF3038"></span>
+</div>
+<div style="font:700 27px/1.15 'Roboto',sans-serif;letter-spacing:-.02em;text-wrap:pretty">Tus favoritos, donde quieras</div>
+<div style="font:400 14.5px/1.55 'Roboto',sans-serif;color:#6B6662;text-wrap:pretty">Explora el menú, personaliza tu pedido y recíbelo sin complicaciones.</div>
+<div style="margin-top:auto;display:flex;flex-direction:column;gap:12px">
+<button type="button" onClick="{{ goHome }}" style="border:0;background:#FF3038;color:#fff;font:700 14px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer;box-shadow:0 6px 18px rgba(255,48,56,.28)" style-active="transform:scale(.98)">COMENZAR</button>
+<button type="button" onClick="{{ go03 }}" style="border:0;background:transparent;color:#D91F2A;font:500 13.5px 'Roboto',sans-serif;padding:4px 0;cursor:pointer">Ya tengo una cuenta</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s03 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE;display:flex;flex-direction:column">
+<div style="background:#FF3038;padding:26px 26px 30px;display:flex;align-items:center;gap:14px;flex:none">
+<img src="assets/logo-retequenos.png" alt="" style="width:52px;height:52px;border-radius:13px;display:block">
+<div class="ph" style="flex:1;height:52px;border-radius:9px;display:flex;align-items:center;justify-content:center;overflow:hidden">
+<svg viewBox="0 0 220 48" style="width:100%;height:100%" preserveAspectRatio="xMidYMid meet">
+<defs><linearGradient id="lgg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#F5C271"/><stop offset="1" stop-color="#B8721C"/></linearGradient></defs>
+<ellipse cx="110" cy="42" rx="90" ry="3" fill="rgba(80,40,10,.15)"/>
+<ellipse cx="110" cy="38" rx="88" ry="5" fill="#A66E48"/>
+<ellipse cx="110" cy="36" rx="84" ry="4" fill="#FFEDC8"/>
+<g transform="translate(38 15)"><path d="M0 8 Q0 2 6 2 L34 2 Q40 2 40 8 L40 14 Q40 20 34 20 L6 20 Q0 20 0 14 Z" fill="url(#lgg)" stroke="#8A5511" stroke-width=".8"/><path d="M4 7 Q14 4 22 5 Q32 6 38 6" stroke="#FFDDA6" stroke-width="1.1" fill="none" opacity=".8" stroke-linecap="round"/></g>
+<g transform="translate(88 12)"><path d="M0 8 Q0 2 6 2 L38 2 Q44 2 44 8 L44 14 Q44 20 38 20 L6 20 Q0 20 0 14 Z" fill="url(#lgg)" stroke="#8A5511" stroke-width=".8"/><path d="M4 7 Q16 4 26 5 Q36 6 40 6" stroke="#FFDDA6" stroke-width="1.1" fill="none" opacity=".8" stroke-linecap="round"/></g>
+<g transform="translate(142 15)"><path d="M0 8 Q0 2 6 2 L34 2 Q40 2 40 8 L40 14 Q40 20 34 20 L6 20 Q0 20 0 14 Z" fill="url(#lgg)" stroke="#8A5511" stroke-width=".8"/><path d="M4 7 Q14 4 22 5 Q32 6 38 6" stroke="#FFDDA6" stroke-width="1.1" fill="none" opacity=".8" stroke-linecap="round"/></g>
+</svg>
+</div>
+</div>
+<div class="stagger" style="padding:26px;display:flex;flex-direction:column;gap:15px;flex:1">
+<div>
+<div style="font:700 24px/1.2 'Roboto',sans-serif;letter-spacing:-.02em">{{ loginTitle }}</div>
+<div style="font:400 13.5px/1.5 'Roboto',sans-serif;color:#6B6662;margin-top:6px">{{ loginSub }}</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:11px">
+<div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:13px 14px">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B6662" stroke-width="1.8"><rect x="2.5" y="5" width="19" height="14" rx="2"></rect><path d="M3 6.5l9 6.5 9-6.5"></path></svg>
+<span style="font:400 13.5px 'Roboto',sans-serif;color:#7A736B">Correo electrónico</span>
+</div>
+<div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:13px 14px">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B6662" stroke-width="1.8"><rect x="4" y="10.5" width="16" height="10.5" rx="2"></rect><path d="M8 10.5V7.5a4 4 0 018 0v3"></path></svg>
+<span style="flex:1;font:400 13.5px 'Roboto',sans-serif;color:#242424;letter-spacing:.18em">••••••••</span>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B6662" stroke-width="1.8"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"></path><circle cx="12" cy="12" r="2.6"></circle></svg>
+</div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between">
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}">
+<label style="display:flex;align-items:center;gap:8px;font:400 12.5px 'Roboto',sans-serif;color:#6B6662;cursor:pointer">
+<span style="width:17px;height:17px;border-radius:3px;background:#FF3038;display:flex;align-items:center;justify-content:center"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4"><path d="M4 12.5l5.2 5L20 6.5"></path></svg></span>Recordarme</label>
+</sc-if>
+<sc-if value="{{ isIos }}" hint-placeholder-val="{{ false }}"><span></span></sc-if>
+<span style="font:500 12.5px -apple-system,'Roboto',sans-serif;color:#D91F2A">¿Olvidaste tu contraseña?</span>
+</div>
+<button type="button" onClick="{{ goHome }}" style="border:0;background:#FF3038;color:#fff;font:700 14px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer;box-shadow:0 6px 18px rgba(255,48,56,.26)" style-active="transform:scale(.98)">INICIAR SESIÓN</button>
+<button type="button" onClick="{{ goHome }}" style="border:1.5px solid #DCD2C1;background:transparent;color:#242424;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:13px 0;border-radius:{{ btnR }};cursor:pointer">CONTINUAR COMO INVITADO</button>
+<div style="display:flex;align-items:center;gap:12px;color:#A69E93;font:400 11.5px 'Roboto',sans-serif"><span style="flex:1;height:1px;background:#E7DECD"></span>O continúa con<span style="flex:1;height:1px;background:#E7DECD"></span></div>
+<sc-if value="{{ isIos }}" hint-placeholder-val="{{ false }}">
+<button type="button" style="border:0;background:#000;color:#fff;font:600 13.5px -apple-system,sans-serif;padding:14px 0;border-radius:{{ btnR }};cursor:pointer">Continuar con Apple</button>
+</sc-if>
+<button type="button" style="background:#fff;border:1px solid #DCD2C1;color:#242424;font:500 13.5px 'Roboto',sans-serif;padding:13px 0;border-radius:{{ btnR }};cursor:pointer">Continuar con Google</button>
+<div style="text-align:center;font:400 12.5px 'Roboto',sans-serif;color:#6B6662;margin-top:2px">{{ loginSignup }}</div>
+<sc-if value="{{ isIos }}" hint-placeholder-val="{{ false }}">
+<div style="text-align:center;font:400 11.5px -apple-system,sans-serif;color:#A69E93">Tus datos están protegidos</div>
+</sc-if>
+<div style="text-align:center;margin-top:4px"><button type="button" onClick="{{ go04 }}" style="border:0;background:transparent;color:#D91F2A;font:500 12.5px 'Roboto',sans-serif;cursor:pointer;text-decoration:underline">Ir a crear cuenta</button></div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s04 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px;background:#FFF8EE;position:sticky;top:0;z-index:3">
+<button type="button" onClick="{{ go03 }}" aria-label="Volver" style="border:0;background:transparent;cursor:pointer;padding:6px;margin:-6px;display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<span style="font:500 16px 'Roboto',sans-serif">Crea tu cuenta</span>
+</div>
+<div class="stagger" style="padding:8px 24px 26px;display:flex;flex-direction:column;gap:12px">
+<div style="background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:12px 14px;font:400 13.5px 'Roboto',sans-serif;color:#7A736B">Nombre completo</div>
+<div style="background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:12px 14px;font:400 13.5px 'Roboto',sans-serif;color:#7A736B">Correo electrónico</div>
+<div style="display:flex;gap:8px">
+<div style="background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:12px 12px;font:500 13.5px 'Roboto',sans-serif;color:#242424">+51</div>
+<div style="flex:1;background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:12px 14px;font:400 13.5px 'Roboto',sans-serif;color:#7A736B">Celular</div>
+</div>
+<div>
+<div style="background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:12px 14px;font:400 13.5px 'Roboto',sans-serif;color:#242424;letter-spacing:.18em">••••••</div>
+<div style="display:flex;gap:4px;margin-top:7px;align-items:center">
+<span style="flex:1;height:3px;border-radius:2px;background:#1F9D62"></span>
+<span style="flex:1;height:3px;border-radius:2px;background:#1F9D62"></span>
+<span style="flex:1;height:3px;border-radius:2px;background:#E4D9C6"></span>
+<span style="font:400 10.5px 'Roboto',sans-serif;color:#6B6662;margin-left:6px">Contraseña</span>
+</div>
+</div>
+<div style="background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:12px 14px;font:400 13.5px 'Roboto',sans-serif;color:#7A736B">Confirmar contraseña</div>
+<label style="display:flex;gap:10px;align-items:flex-start;font:400 12.5px/1.45 'Roboto',sans-serif;color:#6B6662;cursor:pointer;margin-top:2px">
+<span style="width:18px;height:18px;flex:none;border-radius:{{ checkR }};background:#FF3038;display:flex;align-items:center;justify-content:center"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4"><path d="M4 12.5l5.2 5L20 6.5"></path></svg></span>
+<span>Acepto los <span style="color:#D91F2A">Términos</span> y la <span style="color:#D91F2A">Política de privacidad</span></span>
+</label>
+<button type="button" onClick="{{ goHome }}" style="border:0;background:#FF3038;color:#fff;font:700 14px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer;margin-top:6px" style-active="transform:scale(.98)">CREAR CUENTA</button>
+<div style="text-align:center;font:400 12.5px 'Roboto',sans-serif;color:#6B6662">¿Ya tienes cuenta? <span style="color:#D91F2A">Inicia sesión</span></div>
+<div style="text-align:center"><button type="button" onClick="{{ go05 }}" style="border:0;background:transparent;color:#D91F2A;font:500 12.5px 'Roboto',sans-serif;cursor:pointer;text-decoration:underline">Recuperar contraseña</button></div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s05 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE;display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;gap:12px;padding:16px 20px">
+<button type="button" onClick="{{ go03 }}" aria-label="Volver" style="border:0;background:transparent;cursor:pointer;padding:6px;margin:-6px;display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><path d="M15 5l-7 7 7 7"></path></svg></button>
+</div>
+<div class="stagger" style="padding:10px 26px 26px;display:flex;flex-direction:column;gap:16px;flex:1">
+<div style="align-self:center;width:132px;height:104px;position:relative;display:flex;align-items:center;justify-content:center">
+<div style="width:118px;height:82px;border:2px solid #242424;border-radius:6px;background:#fff"></div>
+<div style="position:absolute;width:118px;height:52px;border-left:2px solid #242424;border-right:2px solid #242424;clip-path:polygon(0 0,50% 100%,100% 0);top:11px;background:#FFF3DF"></div>
+<div style="position:absolute;right:6px;bottom:8px;width:34px;height:16px;border-radius:8px;background:#F5A623;border:2px solid #D9891A"></div>
+</div>
+<div style="font:700 23px/1.2 'Roboto',sans-serif;letter-spacing:-.02em">Recupera tu contraseña</div>
+<div style="font:400 14px/1.55 'Roboto',sans-serif;color:#6B6662">Te enviaremos un enlace para restablecerla.</div>
+<div style="background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:14px;font:400 13.5px 'Roboto',sans-serif;color:#7A736B">Correo electrónico</div>
+<button type="button" onClick="{{ sendLink }}" style="border:0;background:#FF3038;color:#fff;font:700 14px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer" style-active="transform:scale(.98)">ENVIAR ENLACE</button>
+<button type="button" onClick="{{ go03 }}" style="border:0;background:transparent;color:#D91F2A;font:500 13.5px 'Roboto',sans-serif;cursor:pointer">Volver a iniciar sesión</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s06 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE;padding-bottom:14px">
+<div style="padding:6px 20px 14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+<div>
+<div style="font:700 20px/1.2 'Roboto',sans-serif">Hola, Milton 👋</div>
+<div onClick="{{ go14 }}" style="display:flex;align-items:center;gap:5px;margin-top:6px;cursor:pointer">
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FF3038" stroke-width="2"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>
+<span style="font:400 11.5px 'Roboto',sans-serif;color:#6B6662">Entregar en</span>
+<span style="font:500 12.5px 'Roboto',sans-serif;color:#242424">Tacna</span>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2.2"><path d="M6 9l6 6 6-6"></path></svg>
+</div>
+</div>
+<div style="display:flex;gap:6px;align-items:center">
+<button type="button" onClick="{{ go23 }}" aria-label="Notificaciones" style="border:0;background:#fff;width:38px;height:38px;border-radius:{{ iconR }};display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative">
+<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="1.8"><path d="M18 15v-5a6 6 0 10-12 0v5l-1.5 3h15z"></path><path d="M10 20a2 2 0 004 0"></path></svg>
+<span style="position:absolute;top:8px;right:9px;width:7px;height:7px;border-radius:50%;background:#FF3038"></span>
+</button>
+<button type="button" onClick="{{ go13 }}" aria-label="Carrito" style="border:0;background:#FF3038;width:38px;height:38px;border-radius:{{ iconR }};display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative">
+<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M6 7h12l-1 12H7L6 7z"></path><path d="M9 7V5.5a3 3 0 016 0V7"></path></svg>
+<span style="position:absolute;top:-4px;right:-4px;min-width:19px;height:19px;border-radius:10px;background:#242424;color:#fff;font:700 11px 'Roboto',sans-serif;display:flex;align-items:center;justify-content:center;padding:0 5px;animation:pop .3s">{{ cart }}</span>
+</button>
+</div>
+</div>
+
+<div onClick="{{ go07 }}" style="margin:0 20px;background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:13px 14px;display:flex;align-items:center;gap:10px;cursor:pointer">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#7A736B" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M16.5 16.5L21 21"></path></svg>
+<span style="font:400 13.5px 'Roboto',sans-serif;color:#7A736B">¿Qué se te antoja hoy?</span>
+</div>
+
+<div style="display:flex;align-items:center;gap:8px;padding:10px 20px 0;flex-wrap:wrap">
+<span style="display:inline-flex;align-items:center;gap:6px;background:#E7F6EE;color:#187348;font:600 11px 'Roboto',sans-serif;padding:5px 10px;border-radius:999px"><span style="width:7px;height:7px;border-radius:50%;background:#1F9D62"></span>{{ openStatus }}</span>
+<span style="font:400 11px 'Roboto',sans-serif;color:#6B6662">🛵 Delivery S/ 5.90 · 35–45 min</span>
+</div>
+
+<div onClick="{{ go12 }}" style="margin:16px 20px 0;border-radius:14px;background:#FF3038;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;overflow:hidden;position:relative">
+<div style="flex:1">
+<div style="font:500 10.5px 'Roboto',sans-serif;color:#FFD9B0;letter-spacing:.12em">PROMOCIONES</div>
+<div style="font:700 19px/1.2 'Roboto',sans-serif;color:#fff;margin-top:6px">Martes de Retequeños</div>
+<div style="font:400 12.5px 'Roboto',sans-serif;color:#FFE0C9;margin-top:5px">2x1 en clásicos seleccionados</div>
+</div>
+<div class="ph" style="width:82px;height:82px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;overflow:hidden">
+<img class="rq-photo" src="img/promos/promo-duo.jpg" alt="Promo Duo">
+</div>
+</div>
+
+<div style="display:flex;gap:8px;padding:14px 20px 0;overflow-x:auto" class="sc">
+<div style="flex:none;background:#fff;border:1px solid #EFE6D6;border-radius:999px;padding:6px 13px 6px 8px;display:flex;align-items:center;gap:6px;box-shadow:0 1px 4px rgba(0,0,0,.04)">
+<div class="cheese-fig" style="display:flex;align-items:center">
+<svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M4 23L27 23C27.6 23 28.2 22.3 28 21.6L21 6C20.6 5.4 19.9 5 19.2 5.2L4.5 8.5C3.8 8.7 3.3 9.4 3.4 10.1L4 23Z" fill="#FFA726" stroke="#D87A00" stroke-width="1.3" stroke-linejoin="round"/><path d="M4.5 8.5L19.2 5.2L28 21.6L16 17.5L4.5 8.5Z" fill="#FFE082"/><ellipse cx="12" cy="19" rx="2.2" ry="1.9" fill="#E65100"/><ellipse cx="20" cy="19.5" rx="2.6" ry="2.1" fill="#E65100"/></svg>
+</div>
+<span style="font:600 11.5px 'Roboto',sans-serif;color:#242424">Queso fundido</span>
+</div>
+<div style="flex:none;background:#fff;border:1px solid #EFE6D6;border-radius:999px;padding:6px 13px 6px 8px;display:flex;align-items:center;gap:6px;box-shadow:0 1px 4px rgba(0,0,0,.04)">
+<div class="sauce-fig" style="display:flex;align-items:center">
+<svg width="20" height="20" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="23" rx="11" ry="4" fill="rgba(0,0,0,0.1)"/><path d="M5 14C5 21 10 23.5 16 23.5C22 23.5 27 21 27 14L25 11H7L5 14Z" fill="#F5F0E6" stroke="#D7CCC8" stroke-width="1.3"/><ellipse cx="16" cy="12" rx="10" ry="4.5" fill="#FFFDE7"/><circle cx="12.5" cy="11.5" r="1" fill="#2E7D32"/><circle cx="17" cy="13" r="0.9" fill="#388E3C"/></svg>
+</div>
+<span style="font:600 11.5px 'Roboto',sans-serif;color:#242424">Mayonesa de ajo</span>
+</div>
+<div style="flex:none;background:#fff;border:1px solid #EFE6D6;border-radius:999px;padding:6px 13px 6px 8px;display:flex;align-items:center;gap:6px;box-shadow:0 1px 4px rgba(0,0,0,.04)">
+<div class="sauce-fig" style="display:flex;align-items:center">
+<svg width="20" height="20" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="23" rx="11" ry="4" fill="rgba(0,0,0,0.1)"/><path d="M5 14C5 21 10 23.5 16 23.5C22 23.5 27 21 27 14L25 11H7L5 14Z" fill="#EDE7F6" stroke="#D1C4E9" stroke-width="1.3"/><ellipse cx="16" cy="12" rx="10" ry="4.5" fill="#5E35B1"/><ellipse cx="16" cy="10.5" rx="3" ry="2" fill="#311B92"/></svg>
+</div>
+<span style="font:600 11.5px 'Roboto',sans-serif;color:#242424">Mayopalta</span>
+</div>
+<div style="flex:none;background:#fff;border:1px solid #EFE6D6;border-radius:999px;padding:6px 13px 6px 8px;display:flex;align-items:center;gap:6px;box-shadow:0 1px 4px rgba(0,0,0,.04)">
+<div class="float-fig" style="display:flex;align-items:center">
+<svg width="20" height="20" viewBox="0 0 32 32" fill="none"><rect x="4" y="12" width="23" height="9.5" rx="4.8" transform="rotate(-15 16 16)" fill="#FFB300" stroke="#D48800" stroke-width="1.3"/><path d="M9 11L11.5 20M14 9.5L16.5 18.5" stroke="#FFE082" stroke-width="1.2" stroke-linecap="round"/><path d="M5 19C3 20.5 3.5 22 5 22C6.5 22 6 20.5 7 19.5" fill="#FFCA28" stroke="#FFA000" stroke-width="0.9"/></svg>
+</div>
+<span style="font:600 11.5px 'Roboto',sans-serif;color:#242424">Masa Crunch</span>
+</div>
+</div>
+
+<div style="display:flex;gap:8px;padding:18px 20px 4px;overflow-x:auto" class="sc">
+<sc-for list="{{ chips }}" as="c" hint-placeholder-count="4">
+<button type="button" onClick="{{ c.pick }}" style="flex:none;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};font:500 12.5px 'Roboto',sans-serif;padding:9px 15px;border-radius:{{ pill }};cursor:pointer;transition:all .18s">{{ c.label }}</button>
+</sc-for>
+</div>
+
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding:16px 20px 10px">
+<div style="font:700 16px 'Roboto',sans-serif">Los más pedidos</div>
+<button type="button" onClick="{{ go08 }}" style="border:0;background:transparent;color:#D91F2A;font:500 12.5px 'Roboto',sans-serif;cursor:pointer">Ver todo</button>
+</div>
+
+<div class="stagger" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 20px">
+<sc-for list="{{ topProducts }}" as="p" hint-placeholder-count="4">
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+<div class="ph" onClick="{{ p.open }}" style="height:96px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden">
+<div class="rq-photo" role="img" aria-label="{{ p.name }}" style="background-image:url({{ p.img }})"></div>
+<span style="position:absolute;top:6px;left:6px;font:600 9.5px 'Roboto',sans-serif;background:rgba(255,255,255,.94);color:{{ p.badgeFg }};padding:2px 6px;border-radius:5px;box-shadow:0 1px 4px rgba(0,0,0,.08)">{{ p.badgeText }}</span>
+</div>
+<div style="padding:10px 11px 11px;display:flex;flex-direction:column;gap:4px;flex:1">
+<div style="font:500 13px/1.25 'Roboto',sans-serif">{{ p.name }}</div>
+<div style="font:400 11px 'Roboto',sans-serif;color:#6B6662">{{ p.qty }}</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:8px">
+<span style="font:700 13.5px 'Roboto',sans-serif;color:#242424">{{ p.price }}</span>
+<button type="button" onClick="{{ p.add }}" aria-label="Agregar al carrito" style="border:0;width:36px;height:36px;border-radius:{{ iconR }};background:#FF3038;color:#fff;font:700 19px/1 'Roboto',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;padding-bottom:2px" style-active="transform:scale(.9)">+</button>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="margin:16px 20px 0;background:#fff;border:1px solid #EFE6D6;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px">
+<img src="img/products/tequenos/queso.jpg" alt="" style="width:46px;height:46px;border-radius:10px;object-fit:cover;flex:none">
+<div style="flex:1;min-width:0"><div style="font:500 10px 'Roboto',sans-serif;letter-spacing:.14em;color:#8C867F">TU ÚLTIMO PEDIDO</div><div style="font:600 13px/1.3 'Roboto',sans-serif;color:#242424;margin-top:3px">2× Tequeños de queso + Limonada ½ L</div><div style="font:400 11px 'Roboto',sans-serif;color:#6B6662;margin-top:2px">RTQ-1987 · S/ 45.90 · 12 ago.</div></div>
+<button type="button" onClick="{{ repeatLast }}" style="border:0;background:#FF3038;color:#fff;font:700 11px 'Roboto',sans-serif;padding:10px 12px;border-radius:{{ pill }};cursor:pointer;flex:none">REPETIR</button>
+</div>
+<div onClick="{{ go10 }}" style="margin:18px 20px 4px;border:1.5px dashed #F5A623;border-radius:14px;padding:16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:#FFF3DF">
+<div>
+<div style="font:700 15px 'Roboto',sans-serif;color:#242424">Arma tu combo</div>
+<div style="font:400 12px 'Roboto',sans-serif;color:#8C7A55;margin-top:4px">Elige relleno y salsas</div>
+</div>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D9891A" stroke-width="2.2"><path d="M9 5l7 7-7 7"></path></svg>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s07 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE">
+<div style="padding:8px 18px 12px;display:flex;align-items:center;gap:10px;position:sticky;top:0;background:#FFF8EE;z-index:3">
+<button type="button" onClick="{{ goHome }}" aria-label="Volver" style="border:0;background:transparent;cursor:pointer;padding:6px;margin:-6px;display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div style="flex:1;display:flex;align-items:center;gap:9px;background:#fff;border:1.5px solid #FF3038;border-radius:{{ fieldR }};padding:11px 13px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3038" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M16.5 16.5L21 21"></path></svg>
+<input type="text" value="{{ query }}" onChange="{{ onQuery }}" placeholder="Buscar en Retequeños" style="flex:1;border:0;outline:0;background:transparent;font:400 13.5px 'Roboto',sans-serif;color:#242424;min-width:0">
+<button type="button" onClick="{{ clearQuery }}" aria-label="Borrar búsqueda" style="border:0;background:#EFE6D6;width:26px;height:26px;border-radius:50%;cursor:pointer;color:#6B6662;font:700 13px/1 'Roboto',sans-serif;display:flex;align-items:center;justify-content:center;flex:none">×</button>
+</div>
+</div>
+<div style="display:flex;gap:8px;padding:0 18px 12px;overflow-x:auto" class="sc">
+<sc-for list="{{ searchChips }}" as="c" hint-placeholder-count="5">
+<button type="button" onClick="{{ c.pick }}" style="flex:none;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};font:500 12px 'Roboto',sans-serif;padding:8px 14px;border-radius:{{ pill }};cursor:pointer;transition:all .18s">{{ c.label }}</button>
+</sc-for>
+</div>
+<div style="padding:0 18px 8px;font:400 12px 'Roboto',sans-serif;color:#6B6662">{{ resultCount }}</div>
+<div class="stagger" style="display:flex;flex-direction:column;gap:10px;padding:0 18px 18px">
+<sc-for list="{{ results }}" as="p" hint-placeholder-count="4">
+<div style="display:flex;gap:12px;background:#fff;border:1px solid #EFE6D6;border-radius:13px;padding:10px">
+<div class="ph" onClick="{{ p.open }}" style="width:74px;height:74px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden">
+<div class="rq-photo" role="img" aria-label="{{ p.name }}" style="background-image:url({{ p.img }})"></div>
+</div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+<span style="font:500 13.5px/1.25 'Roboto',sans-serif">{{ p.name }}</span>
+<button type="button" onClick="{{ p.fav }}" aria-label="Favorito" style="border:0;background:transparent;cursor:pointer;padding:6px;margin:-6px;display:flex;animation:pop .3s"><svg width="18" height="18" viewBox="0 0 24 24" fill="{{ p.heartFill }}" stroke="{{ p.heartStroke }}" stroke-width="1.9"><path d="M12 20s-7-4.6-7-9.4A3.9 3.9 0 0112 8a3.9 3.9 0 017 2.6C19 15.4 12 20 12 20z"></path></svg></button>
+</div>
+<div style="font:400 11.5px/1.35 'Roboto',sans-serif;color:#6B6662">{{ p.desc }}</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto">
+<span style="display:flex;align-items:center;gap:8px">
+<span style="font:700 13.5px 'Roboto',sans-serif">{{ p.price }}</span>
+<span style="font:400 11px 'Roboto',sans-serif;color:#8C7A55">★ {{ p.rating }}</span>
+</span>
+<button type="button" onClick="{{ p.add }}" style="border:0;background:#FF3038;color:#fff;font:500 11.5px 'Roboto',sans-serif;padding:7px 13px;border-radius:{{ pill }};cursor:pointer" style-active="transform:scale(.95)">Agregar</button>
+</div>
+</div>
+</div>
+</sc-for>
+<sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+<div style="text-align:center;padding:44px 20px;display:flex;flex-direction:column;gap:12px;align-items:center">
+<div class="ph" style="width:90px;height:70px;border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden">
+<svg viewBox="0 0 90 70" width="90" height="70">
+<ellipse cx="45" cy="52" rx="34" ry="4" fill="rgba(80,40,10,.15)"/>
+<ellipse cx="45" cy="45" rx="34" ry="8" fill="#B08558"/>
+<ellipse cx="45" cy="42" rx="30" ry="6" fill="#EFE0C2"/>
+<path d="M45 20 L47.5 27 L55 27.6 L49 32.5 L51 40 L45 36 L39 40 L41 32.5 L35 27.6 L42.5 27 Z" fill="#F5A623" stroke="#D48800" stroke-width=".8"/>
+<circle cx="30" cy="24" r="1.4" fill="#F5A623" opacity=".6"/>
+<circle cx="62" cy="26" r="1" fill="#F5A623" opacity=".5"/>
+<circle cx="66" cy="20" r=".8" fill="#F5A623" opacity=".4"/>
+<circle cx="24" cy="30" r=".9" fill="#F5A623" opacity=".5"/>
+</svg>
+</div>
+<div style="font:700 16px 'Roboto',sans-serif">No encontramos resultados</div>
+<div style="font:400 13px/1.5 'Roboto',sans-serif;color:#6B6662;max-width:220px">Prueba con otro nombre o revisa nuestras categorías.</div>
+<button type="button" onClick="{{ go08 }}" style="border:0;background:#FF3038;color:#fff;font:700 12.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:13px 22px;border-radius:{{ btnR }};cursor:pointer">VER TODO EL MENÚ</button>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s08 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE">
+<div style="padding:8px 20px 4px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+<div style="font:700 {{ h1Size }} 'Roboto',sans-serif;letter-spacing:-.02em">Nuestro menú</div>
+<button type="button" onClick="{{ go13 }}" aria-label="Carrito" style="border:0;background:#FF3038;width:38px;height:38px;border-radius:{{ iconR }};display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;flex:none">
+<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M6 7h12l-1 12H7L6 7z"></path><path d="M9 7V5.5a3 3 0 016 0V7"></path></svg>
+<span style="position:absolute;top:-4px;right:-4px;min-width:19px;height:19px;border-radius:10px;background:#242424;color:#fff;font:700 11px 'Roboto',sans-serif;display:flex;align-items:center;justify-content:center;padding:0 5px">{{ cart }}</span>
+</button>
+</div>
+<div style="display:flex;gap:8px;padding:14px 20px 12px;overflow-x:auto;position:sticky;top:0;background:#FFF8EE;z-index:3" class="sc">
+<sc-for list="{{ cats }}" as="c" hint-placeholder-count="6">
+<button type="button" onClick="{{ c.pick }}" style="flex:none;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};font:500 12.5px 'Roboto',sans-serif;padding:9px 15px;border-radius:{{ pill }};cursor:pointer;transition:all .18s">{{ c.label }}</button>
+</sc-for>
+</div>
+<div style="padding:0 20px 8px;font:400 12px 'Roboto',sans-serif;color:#6B6662">{{ menuSub }}</div>
+<div class="stagger" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 20px 20px">
+<sc-for list="{{ menuProducts }}" as="p" hint-placeholder-count="6">
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+<div class="ph" onClick="{{ p.open }}" style="height:96px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden">
+<div class="rq-photo" role="img" aria-label="{{ p.name }}" style="background-image:url({{ p.img }})"></div>
+<span style="position:absolute;top:6px;left:6px;font:600 9.5px 'Roboto',sans-serif;background:rgba(255,255,255,.94);color:{{ p.badgeFg }};padding:2px 6px;border-radius:5px;box-shadow:0 1px 4px rgba(0,0,0,.08)">{{ p.badgeText }}</span>
+</div>
+<div style="padding:10px 11px 11px;display:flex;flex-direction:column;gap:4px;flex:1">
+<div style="font:500 13px/1.25 'Roboto',sans-serif">{{ p.name }}</div>
+<div style="font:400 11px 'Roboto',sans-serif;color:#6B6662">{{ p.qty }}</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:8px">
+<span style="font:700 13.5px 'Roboto',sans-serif">{{ p.price }}</span>
+<button type="button" onClick="{{ p.add }}" aria-label="Agregar al carrito" style="border:0;width:36px;height:36px;border-radius:{{ iconR }};background:#FF3038;color:#fff;font:700 19px/1 'Roboto',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;padding-bottom:2px" style-active="transform:scale(.9)">+</button>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s09 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#fff;display:flex;flex-direction:column">
+<div class="ph" style="height:250px;flex:none;position:relative;overflow:hidden">
+<div class="rq-photo" role="img" aria-label="{{ dName }}" style="background-image:url({{ dImg }})"></div>
+<div style="position:absolute;left:16px;bottom:14px;font:700 11.5px 'Roboto',sans-serif;color:#8C7A55;background:rgba(255,255,255,.92);padding:4px 12px;border-radius:999px">{{ dTag }}</div>
+<div style="position:absolute;top:14px;left:16px;right:16px;display:flex;justify-content:space-between">
+<button type="button" onClick="{{ go08 }}" style="border:0;background:rgba(255,255,255,.92);width:34px;height:34px;border-radius:{{ iconR }};display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<span style="display:flex;gap:8px">
+<button type="button" style="border:0;background:rgba(255,255,255,.92);width:34px;height:34px;border-radius:{{ iconR }};display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="1.9"><path d="M12 15V4"></path><path d="M8 8l4-4 4 4"></path><path d="M5 14v5h14v-5"></path></svg></button>
+<button type="button" onClick="{{ favDetail }}" aria-label="Favorito" style="border:0;background:rgba(255,255,255,.92);width:34px;height:34px;border-radius:{{ iconR }};display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="{{ dHeartFill }}" stroke="{{ dHeartStroke }}" stroke-width="1.9"><path d="M12 20s-7-4.6-7-9.4A3.9 3.9 0 0112 8a3.9 3.9 0 017 2.6C19 15.4 12 20 12 20z"></path></svg></button>
+</span>
+</div>
+</div>
+<div class="stagger" style="padding:16px 20px 18px;display:flex;flex-direction:column;gap:12px;flex:1;overflow-y:auto">
+<div>
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+<div style="font:700 21px/1.2 'Roboto',sans-serif;letter-spacing:-.02em">{{ dName }}</div>
+<div style="font:500 12px 'Roboto',sans-serif;color:#8C7A55;white-space:nowrap;padding-top:4px">★ {{ dRating }}</div>
+</div>
+<div style="font:400 12px 'Roboto',sans-serif;color:#6B6662;margin-top:4px">{{ dSub }}</div>
+</div>
+
+<div style="display:flex;gap:7px;overflow-x:auto;padding:2px 0 4px" class="sc">
+<span style="display:inline-flex;align-items:center;gap:6px;background:#FFF9F0;border:1px solid #F5E6CC;padding:6px 11px;border-radius:999px;font:600 11px 'Roboto',sans-serif;color:#8C7A55;flex:none">
+<span class="cheese-fig" style="display:flex"><svg width="15" height="15" viewBox="0 0 32 32" fill="none"><path d="M4 23L27 23C27.6 23 28.2 22.3 28 21.6L21 6C20.6 5.4 19.9 5 19.2 5.2L4.5 8.5C3.8 8.7 3.3 9.4 3.4 10.1L4 23Z" fill="#FFA726" stroke="#D87A00" stroke-width="1.3" stroke-linejoin="round"/><ellipse cx="12" cy="19" rx="2.2" ry="1.9" fill="#E65100"/></svg></span>
+Queso fundido
+</span>
+<span style="display:inline-flex;align-items:center;gap:6px;background:#FFF9F0;border:1px solid #F5E6CC;padding:6px 11px;border-radius:999px;font:600 11px 'Roboto',sans-serif;color:#8C7A55;flex:none">
+<span class="float-fig" style="display:flex"><svg width="15" height="15" viewBox="0 0 32 32" fill="none"><rect x="4" y="12" width="23" height="9.5" rx="4.8" transform="rotate(-15 16 16)" fill="#FFB300" stroke="#D48800" stroke-width="1.3"/></svg></span>
+Masa crocante
+</span>
+<span style="display:inline-flex;align-items:center;gap:4px;background:#FFF9F0;border:1px solid #F5E6CC;padding:6px 11px;border-radius:999px;font:600 11px 'Roboto',sans-serif;color:#8C7A55;flex:none">🔥 Al momento</span>
+</div>
+
+<sc-if value="{{ dHasPres }}" hint-placeholder-val="{{ true }}">
+<div>
+<div style="font:600 13px 'Roboto',sans-serif;color:#242424;margin-bottom:8px">📦 Presentación</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<sc-for list="{{ dPres }}" as="x" hint-placeholder-count="2">
+<button type="button" onClick="{{ x.pick }}" style="border:1.5px solid {{ x.bd }};background:{{ x.bg }};color:{{ x.fg }};border-radius:12px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font:600 12.5px 'Roboto',sans-serif;transition:all .18s"><span>{{ x.label }}</span><span style="font-weight:700">{{ x.price }}</span></button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ dHasSauce }}" hint-placeholder-val="{{ true }}">
+<div>
+<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px">
+<div style="font:600 13px 'Roboto',sans-serif;color:#242424">🥣 Salsa incluida</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<sc-for list="{{ saucePicks }}" as="x" hint-placeholder-count="4">
+<button type="button" onClick="{{ x.pick }}" style="border:1.5px solid {{ x.bd }};background:{{ x.bg }};border-radius:12px;padding:8px 10px;display:flex;align-items:center;gap:8px;cursor:pointer;text-align:left;transition:all .18s;box-shadow:{{ x.shadow }}">
+<div style="width:28px;height:28px;border-radius:8px;background:{{ x.iconBg }};display:flex;align-items:center;justify-content:center;flex:none">
+<sc-if value="{{ x.isTartara }}">
+<svg width="20" height="20" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="23" rx="11" ry="4" fill="rgba(0,0,0,0.1)"/><path d="M5 14C5 21 10 23.5 16 23.5C22 23.5 27 21 27 14L25 11H7L5 14Z" fill="#F5F0E6" stroke="#D7CCC8" stroke-width="1.3"/><ellipse cx="16" cy="12" rx="10" ry="4.5" fill="#FFFDE7"/><circle cx="12.5" cy="11.5" r="1" fill="#2E7D32"/><circle cx="17" cy="13" r="0.9" fill="#388E3C"/></svg>
+</sc-if>
+<sc-if value="{{ x.isAceituna }}">
+<svg width="20" height="20" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="23" rx="11" ry="4" fill="rgba(0,0,0,0.1)"/><path d="M5 14C5 21 10 23.5 16 23.5C22 23.5 27 21 27 14L25 11H7L5 14Z" fill="#EDE7F6" stroke="#D1C4E9" stroke-width="1.3"/><ellipse cx="16" cy="12" rx="10" ry="4.5" fill="#5E35B1"/><ellipse cx="16" cy="10.5" rx="3" ry="2" fill="#311B92"/></svg>
+</sc-if>
+<sc-if value="{{ x.isPicante }}">
+<svg width="20" height="20" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="23" rx="11" ry="4" fill="rgba(0,0,0,0.1)"/><path d="M5 14C5 21 10 23.5 16 23.5C22 23.5 27 21 27 14L25 11H7L5 14Z" fill="#FBE9E7" stroke="#FFCCBC" stroke-width="1.3"/><ellipse cx="16" cy="12" rx="10" ry="4.5" fill="#FF5722"/><circle cx="16" cy="12" r="1.5" fill="#FFC107"/></svg>
+</sc-if>
+<sc-if value="{{ x.isGuacamole }}">
+<svg width="20" height="20" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="23" rx="11" ry="4" fill="rgba(0,0,0,0.1)"/><path d="M5 14C5 21 10 23.5 16 23.5C22 23.5 27 21 27 14L25 11H7L5 14Z" fill="#F1F8E9" stroke="#DCEDC8" stroke-width="1.3"/><ellipse cx="16" cy="12" rx="10" ry="4.5" fill="#689F38"/><circle cx="13" cy="13" r="0.8" fill="#D32F2F"/></svg>
+</sc-if>
+</div>
+<span style="flex:1;font:600 12px 'Roboto',sans-serif;color:{{ x.fg }}">{{ x.label }}</span>
+<span style="width:16px;height:16px;border-radius:50%;background:{{ x.dotBg }};color:#fff;display:flex;align-items:center;justify-content:center;font:700 9.5px 'Roboto',sans-serif;flex:none">{{ x.dotText }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="font:600 12.5px 'Roboto',sans-serif;color:#242424">Extras</div>
+<div style="display:flex;gap:8px">
+<button type="button" onClick="{{ toggleExtraCheese }}" style="flex:1;border:1.5px solid {{ extraCheeseBd }};background:{{ extraCheeseBg }};border-radius:11px;padding:8px 9px;display:flex;align-items:center;gap:7px;cursor:pointer;transition:all .18s;text-align:left">
+<div class="cheese-fig" style="flex:none">
+<svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M4 23L27 23C27.6 23 28.2 22.3 28 21.6L21 6C20.6 5.4 19.9 5 19.2 5.2L4.5 8.5C3.8 8.7 3.3 9.4 3.4 10.1L4 23Z" fill="#FFA726" stroke="#D87A00" stroke-width="1.3"/><ellipse cx="12" cy="19" rx="2.2" ry="1.9" fill="#E65100"/></svg>
+</div>
+<div style="flex:1">
+<div style="font:600 11px 'Roboto',sans-serif;color:#242424">+ Queso</div>
+<div style="font:500 9.5px 'Roboto',sans-serif;color:#D91F2A">+ S/ 3.00</div>
+</div>
+<div style="width:18px;height:18px;border-radius:50%;background:{{ extraCheeseDotBg }};display:flex;align-items:center;justify-content:center;color:#fff;font:700 10.5px 'Roboto',sans-serif">{{ extraCheeseCheck }}</div>
+</button>
+
+<button type="button" onClick="{{ toggleExtraSauce }}" style="flex:1;border:1.5px solid {{ extraSauceBd }};background:{{ extraSauceBg }};border-radius:11px;padding:8px 9px;display:flex;align-items:center;gap:7px;cursor:pointer;transition:all .18s;text-align:left">
+<div class="sauce-fig" style="flex:none">
+<svg width="20" height="20" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="23" rx="11" ry="4" fill="rgba(0,0,0,0.1)"/><path d="M5 14C5 21 10 23.5 16 23.5C22 23.5 27 21 27 14L25 11H7L5 14Z" fill="#F5F0E6" stroke="#D7CCC8" stroke-width="1.3"/><ellipse cx="16" cy="12" rx="10" ry="4.5" fill="#FFFDE7"/><circle cx="12.5" cy="11.5" r="1" fill="#2E7D32"/></svg>
+</div>
+<div style="flex:1">
+<div style="font:600 11px 'Roboto',sans-serif;color:#242424">+ Crema 2 oz</div>
+<div style="font:500 9.5px 'Roboto',sans-serif;color:#D91F2A">+ S/ 2.00</div>
+</div>
+<div style="width:18px;height:18px;border-radius:50%;background:{{ extraSauceDotBg }};display:flex;align-items:center;justify-content:center;color:#fff;font:700 10.5px 'Roboto',sans-serif">{{ extraSauceCheck }}</div>
+</button>
+</div>
+</div>
+
+</sc-if>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:2px">
+<span style="font:500 13.5px 'Roboto',sans-serif">Cantidad</span>
+<span style="display:flex;align-items:center;gap:16px;background:#FFF8EE;border:1px solid #EFE6D6;border-radius:{{ pill }};padding:5px 12px">
+<button type="button" onClick="{{ dec }}" aria-label="Menos" style="border:0;background:transparent;font:700 17px/1 'Roboto',sans-serif;color:#D91F2A;cursor:pointer;padding:8px 10px">−</button>
+<span style="font:700 14px 'Roboto',sans-serif;min-width:14px;text-align:center">{{ qty }}</span>
+<button type="button" onClick="{{ inc }}" aria-label="Más" style="border:0;background:transparent;font:700 17px/1 'Roboto',sans-serif;color:#D91F2A;cursor:pointer;padding:8px 10px">+</button>
+</span>
+</div>
+</div>
+<div style="flex:none;padding:12px 20px 16px;border-top:1px solid #EFE6D6;background:#fff;display:flex;align-items:center;gap:14px">
+<div>
+<div style="font:400 10px 'Roboto',sans-serif;color:#6B6662">Total</div>
+<div style="font:700 18px 'Roboto',sans-serif">{{ detailTotal }}</div>
+</div>
+<button type="button" onClick="{{ addDetail }}" style="flex:1;border:0;background:#FF3038;color:#fff;font:700 13px 'Roboto',sans-serif;letter-spacing:.04em;padding:14px 0;border-radius:{{ btnR }};cursor:pointer;box-shadow:0 6px 18px rgba(255,48,56,.26)" style-active="transform:scale(.98)">AGREGAR AL CARRITO</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s10 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE;display:flex;flex-direction:column">
+<div style="padding:10px 0 0;display:flex;justify-content:center;flex:none"><span style="width:38px;height:4px;border-radius:3px;background:#DCD2C1"></span></div>
+<div style="padding:14px 20px 6px;display:flex;align-items:center;justify-content:space-between">
+<div style="font:700 20px 'Roboto',sans-serif;letter-spacing:-.02em">Personaliza tu combo</div>
+<button type="button" onClick="{{ goHome }}" style="border:0;background:transparent;color:#D91F2A;font:500 13px 'Roboto',sans-serif;cursor:pointer">Cerrar</button>
+</div>
+<div class="stagger" style="padding:12px 20px 20px;display:flex;flex-direction:column;gap:16px;flex:1;overflow-y:auto">
+
+<div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+<span style="font:600 13px 'Roboto',sans-serif;color:#242424">🧀 Relleno</span>
+<span style="font:400 11px 'Roboto',sans-serif;color:#8C7A55">1 incluido</span>
+</div>
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:14px;overflow:hidden">
+<sc-for list="{{ fillings }}" as="f" hint-placeholder-count="4">
+<button type="button" onClick="{{ f.pick }}" style="width:100%;border:0;border-bottom:1px solid #F4EDE0;background:{{ f.cardBg }};display:flex;align-items:center;gap:12px;padding:10px 13px;cursor:pointer;text-align:left;transition:background .18s">
+<div style="width:34px;height:34px;border-radius:10px;background:{{ f.iconBg }};display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 2px 5px rgba(0,0,0,.04)">
+<sc-if value="{{ f.isCheese }}">
+<svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M4 23L27 23C27.6 23 28.2 22.3 28 21.6L21 6C20.6 5.4 19.9 5 19.2 5.2L4.5 8.5C3.8 8.7 3.3 9.4 3.4 10.1L4 23Z" fill="#FFA726" stroke="#D87A00" stroke-width="1.3" stroke-linejoin="round"/><path d="M4.5 8.5L19.2 5.2L28 21.6L16 17.5L4.5 8.5Z" fill="#FFE082"/><ellipse cx="12" cy="19" rx="2.2" ry="1.9" fill="#E65100"/><ellipse cx="20" cy="19.5" rx="2.6" ry="2.1" fill="#E65100"/><path d="M10 23C10 25.2 11.8 26.5 12.8 26.5C13.8 26.5 14.2 24.8 14.2 23" fill="#FFB74D" stroke="#D87A00" stroke-width="1"/></svg>
+</sc-if>
+<sc-if value="{{ f.isHamCheese }}">
+<svg width="24" height="24" viewBox="0 0 32 32" fill="none"><rect x="5" y="14" width="20" height="11" rx="3" fill="#FFCA28" stroke="#FFA000" stroke-width="1.1"/><ellipse cx="10" cy="20" rx="1.6" ry="1.3" fill="#E65100"/><path d="M7 8C7 6 11 6 14 7.2C17 8.5 21 6.5 23 9C25 11.5 23 15 21 17C18.5 18 10 18 8 16C6 14.5 7 10 7 8Z" fill="#EC407A" stroke="#C2185B" stroke-width="1.2"/><path d="M10 10C12.5 9 17 10.8 20 10" stroke="#F8BBD0" stroke-width="1.2" stroke-linecap="round"/></svg>
+</sc-if>
+<sc-if value="{{ f.isLomo }}">
+<svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M6 18C6 22 10.5 24 16 24C21.5 24 26 22 26 18" stroke="#37474F" stroke-width="1.8" stroke-linecap="round"/><rect x="9" y="12" width="14" height="6" rx="3" transform="rotate(-10 16 15)" fill="#5D4037" stroke="#3E2723" stroke-width="1.1"/><path d="M10 8C12 6.5 15 7 15.5 9" stroke="#BA68C8" stroke-width="1.8" stroke-linecap="round"/><path d="M20 8C21 6.5 23 6.5 24 4.5C24 7 26 8 25 9.5C23.5 9 22 8.5 20 8Z" fill="#FF9800"/></svg>
+</sc-if>
+<sc-if value="{{ f.isChocolate }}">
+<svg width="24" height="24" viewBox="0 0 32 32" fill="none"><rect x="6" y="9" width="9.5" height="9.5" rx="1.8" fill="#5D4037" stroke="#3E2723" stroke-width="1.1"/><rect x="8" y="11" width="5.5" height="5.5" rx="1" fill="#6D4C41"/><rect x="16.5" y="9" width="9.5" height="9.5" rx="1.8" fill="#4E342E" stroke="#3E2723" stroke-width="1.1"/><path d="M12.5 19C12.5 23 15.5 25 16.5 25C17.5 25 20.5 23 20.5 19" fill="#3E2723"/></svg>
+</sc-if>
+</div>
+<span style="flex:1;font:600 13px 'Roboto',sans-serif;color:#242424">{{ f.label }}</span>
+<span style="width:20px;height:20px;border-radius:50%;border:2px solid {{ f.ring }};display:flex;align-items:center;justify-content:center;flex:none"><span style="width:10px;height:10px;border-radius:50%;background:{{ f.dot }}"></span></span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div>
+<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px">
+<span style="font:600 13px 'Roboto',sans-serif;color:#242424">🥣 Salsas (2 incluidas)</span>
+<span style="font:600 11.5px 'Roboto',sans-serif;color:{{ sauceCountColor }}">{{ sauceCount }}</span>
+</div>
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:14px;overflow:hidden">
+<sc-for list="{{ sauceRows }}" as="x" hint-placeholder-count="4">
+<button type="button" onClick="{{ x.pick }}" style="width:100%;border:0;border-bottom:1px solid #F4EDE0;background:{{ x.cardBg }};display:flex;align-items:center;gap:12px;padding:10px 13px;cursor:pointer;text-align:left;transition:background .18s">
+<div style="width:34px;height:34px;border-radius:10px;background:{{ x.iconBg }};display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 2px 5px rgba(0,0,0,.04)">
+<sc-if value="{{ x.isTartara }}">
+<svg width="24" height="24" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="23" rx="11" ry="4" fill="rgba(0,0,0,0.1)"/><path d="M5 14C5 21 10 23.5 16 23.5C22 23.5 27 21 27 14L25 11H7L5 14Z" fill="#F5F0E6" stroke="#D7CCC8" stroke-width="1.3"/><ellipse cx="16" cy="12" rx="10" ry="4.5" fill="#FFFDE7" stroke="#ECEFF1" stroke-width="1.1"/><circle cx="12.5" cy="11.5" r="1" fill="#2E7D32"/><circle cx="17" cy="13" r="0.9" fill="#388E3C"/><circle cx="20" cy="11.8" r="1.1" fill="#2E7D32"/></svg>
+</sc-if>
+<sc-if value="{{ x.isAceituna }}">
+<svg width="24" height="24" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="23" rx="11" ry="4" fill="rgba(0,0,0,0.1)"/><path d="M5 14C5 21 10 23.5 16 23.5C22 23.5 27 21 27 14L25 11H7L5 14Z" fill="#EDE7F6" stroke="#D1C4E9" stroke-width="1.3"/><ellipse cx="16" cy="12" rx="10" ry="4.5" fill="#5E35B1" stroke="#4527A0" stroke-width="1.1"/><ellipse cx="16" cy="10.5" rx="3" ry="2" fill="#311B92" stroke="#1A237E" stroke-width="0.7"/></svg>
+</sc-if>
+<sc-if value="{{ x.isPicante }}">
+<svg width="24" height="24" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="23" rx="11" ry="4" fill="rgba(0,0,0,0.1)"/><path d="M5 14C5 21 10 23.5 16 23.5C22 23.5 27 21 27 14L25 11H7L5 14Z" fill="#FBE9E7" stroke="#FFCCBC" stroke-width="1.3"/><ellipse cx="16" cy="12" rx="10" ry="4.5" fill="#FF5722" stroke="#E64A19" stroke-width="1.1"/><path d="M14 10.5C14 10.5 16 9 17.5 9.8C18.5 10.2 18 11.5 16 11.8C15 12 14 10.5 14 10.5Z" fill="#D32F2F"/></svg>
+</sc-if>
+<sc-if value="{{ x.isGuacamole }}">
+<svg width="24" height="24" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="23" rx="11" ry="4" fill="rgba(0,0,0,0.1)"/><path d="M5 14C5 21 10 23.5 16 23.5C22 23.5 27 21 27 14L25 11H7L5 14Z" fill="#F1F8E9" stroke="#DCEDC8" stroke-width="1.3"/><ellipse cx="16" cy="12" rx="10" ry="4.5" fill="#689F38" stroke="#558B2F" stroke-width="1.1"/><circle cx="13" cy="13" r="0.8" fill="#D32F2F"/></svg>
+</sc-if>
+</div>
+<span style="flex:1;font:600 13px 'Roboto',sans-serif;color:#242424">{{ x.label }}</span>
+<span style="width:20px;height:20px;border-radius:{{ checkR }};border:2px solid {{ x.ring }};background:{{ x.boxBg }};display:flex;align-items:center;justify-content:center;flex:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="{{ x.tick }}" stroke-width="3.4"><path d="M4 12.5l5.2 5L20 6.5"></path></svg></span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div style="background:#FFF3DF;border:1.5px dashed #F5A623;border-radius:14px;padding:10px 13px;display:flex;flex-direction:column;gap:7px">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<span style="font:700 11px 'Roboto',sans-serif;color:#8C7A55;letter-spacing:.05em">TU COMBO</span>
+<span style="font:600 11px 'Roboto',sans-serif;color:{{ comboStatusColor }}">{{ comboStatusText }}</span>
+</div>
+<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+<span style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid #EFE6D6;padding:4px 9px;border-radius:999px;font:500 11px 'Roboto',sans-serif;color:#242424">🥟 20 Tequeños + 🥤 2 gaseosas</span>
+<span style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1.5px solid #FF3038;padding:4px 9px;border-radius:999px;font:600 11px 'Roboto',sans-serif;color:#D91F2A;animation:pop .25s">{{ previewRellenoIcon }} {{ previewRellenoText }}</span>
+<sc-for list="{{ previewSauces }}" as="ps" hint-placeholder-count="2">
+<span style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid #1F9D62;padding:4px 9px;border-radius:999px;font:600 11px 'Roboto',sans-serif;color:#1F9D62;animation:pop .25s">{{ ps.icon }} {{ ps.name }}</span>
+</sc-for>
+</div>
+</div>
+
+<div>
+<div style="font:600 12.5px 'Roboto',sans-serif;margin-bottom:6px">Notas</div>
+<textarea class="rq-notes" value="{{ comboNotes }}" onInput="{{ onComboNotes }}" placeholder="Ej: cremas aparte, sin servilletas" aria-label="Notas del combo"></textarea>
+</div>
+
+</div>
+<div style="flex:none;padding:12px 20px 16px;background:#fff;border-top:1px solid #EFE6D6">
+<button type="button" onClick="{{ addCombo }}" style="width:100%;border:0;background:#FF3038;color:#fff;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:15px 0;border-radius:{{ btnR }};cursor:pointer" style-active="transform:scale(.98)">AGREGAR COMBO • S/ 35.90</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s11 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE">
+<div style="padding:8px 20px 2px">
+<div style="font:700 {{ h1Size }} 'Roboto',sans-serif;letter-spacing:-.02em">Mis favoritos</div>
+<div style="font:400 12.5px 'Roboto',sans-serif;color:#6B6662;margin-top:5px">Tus antojos guardados</div>
+</div>
+<div class="stagger" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:18px 20px 20px">
+<sc-for list="{{ favProducts }}" as="p" hint-placeholder-count="3">
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+<div class="ph" onClick="{{ p.open }}" style="height:96px;position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden">
+<div class="rq-photo" role="img" aria-label="{{ p.name }}" style="background-image:url({{ p.img }})"></div>
+<button type="button" onClick="{{ p.fav }}" style="position:absolute;top:8px;right:8px;border:0;background:rgba(255,255,255,.94);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" fill="#FF3038" stroke="#FF3038" stroke-width="1.9"><path d="M12 20s-7-4.6-7-9.4A3.9 3.9 0 0112 8a3.9 3.9 0 017 2.6C19 15.4 12 20 12 20z"></path></svg></button>
+</div>
+<div style="padding:10px 11px 11px;display:flex;flex-direction:column;gap:6px;flex:1">
+<div style="font:500 13px/1.25 'Roboto',sans-serif">{{ p.name }}</div>
+<div style="font:700 13.5px 'Roboto',sans-serif;margin-top:auto">{{ p.price }}</div>
+<button type="button" onClick="{{ p.add }}" style="border:0;background:#FF3038;color:#fff;font:700 11.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:9px 0;border-radius:{{ btnR }};cursor:pointer" style-active="transform:scale(.96)">AGREGAR</button>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s12 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE">
+<div style="padding:8px 20px 2px">
+<div style="font:700 {{ h1Size }} 'Roboto',sans-serif;letter-spacing:-.02em">Promociones</div>
+</div>
+<div class="stagger" style="padding:18px 20px 22px;display:flex;flex-direction:column;gap:14px">
+<div style="border-radius:16px;overflow:hidden;background:#FF3038;position:relative">
+<div class="ph" style="height:132px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative">
+<svg viewBox="0 0 340 132" style="width:100%;height:100%" preserveAspectRatio="xMidYMid slice">
+<defs><linearGradient id="bnrg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#F5C271"/><stop offset="1" stop-color="#B8721C"/></linearGradient>
+<radialGradient id="bnrrg"><stop offset="0" stop-color="#FFF7EA"/><stop offset="1" stop-color="#FFE3B7" stop-opacity="0"/></radialGradient></defs>
+<circle cx="170" cy="66" r="90" fill="url(#bnrrg)"/>
+<g opacity=".6"><ellipse class="steam" cx="145" cy="25" rx="3.5" ry="6" fill="#fff"/><ellipse class="steam2" cx="170" cy="20" rx="4" ry="7" fill="#fff"/><ellipse class="steam3" cx="195" cy="25" rx="3.5" ry="6" fill="#fff"/></g>
+<ellipse cx="170" cy="112" rx="130" ry="6" fill="rgba(80,40,10,.15)"/>
+<ellipse cx="170" cy="106" rx="126" ry="9" fill="#7A4A2A"/>
+<ellipse cx="170" cy="102" rx="122" ry="7" fill="#A66E48"/>
+<ellipse cx="170" cy="100" rx="118" ry="6" fill="#FFEDC8"/>
+<g transform="translate(80 68)"><path d="M0 12 Q0 4 8 4 L54 4 Q62 4 62 12 L62 20 Q62 28 54 28 L8 28 Q0 28 0 20 Z" fill="url(#bnrg)" stroke="#8A5511" stroke-width="1"/><path d="M4 10 Q22 6 36 8 Q50 10 58 10" stroke="#FFDDA6" stroke-width="1.5" fill="none" opacity=".8" stroke-linecap="round"/><circle cx="16" cy="20" r=".9" fill="#6E3D0D" opacity=".55"/><circle cx="34" cy="17" r=".9" fill="#6E3D0D" opacity=".55"/><circle cx="52" cy="21" r=".9" fill="#6E3D0D" opacity=".55"/></g>
+<g transform="translate(160 62)"><path d="M0 12 Q0 4 8 4 L58 4 Q66 4 66 12 L66 20 Q66 28 58 28 L8 28 Q0 28 0 20 Z" fill="url(#bnrg)" stroke="#8A5511" stroke-width="1"/><path d="M4 10 Q22 6 38 8 Q54 10 62 10" stroke="#FFDDA6" stroke-width="1.5" fill="none" opacity=".8" stroke-linecap="round"/><circle cx="16" cy="20" r=".9" fill="#6E3D0D" opacity=".55"/><circle cx="34" cy="17" r=".9" fill="#6E3D0D" opacity=".55"/><circle cx="52" cy="21" r=".9" fill="#6E3D0D" opacity=".55"/></g>
+<g transform="translate(120 82)"><path d="M0 12 Q0 4 8 4 L56 4 Q64 4 64 12 L64 20 Q64 28 56 28 L8 28 Q0 28 0 20 Z" fill="url(#bnrg)" stroke="#8A5511" stroke-width="1.2"/><path d="M4 10 Q22 6 38 8 Q54 10 60 10" stroke="#FFE1AA" stroke-width="1.7" fill="none" opacity=".9" stroke-linecap="round"/><circle cx="16" cy="20" r="1" fill="#6E3D0D" opacity=".6"/><circle cx="34" cy="17" r=".9" fill="#6E3D0D" opacity=".6"/><circle cx="52" cy="21" r=".9" fill="#6E3D0D" opacity=".6"/></g>
+<g transform="translate(228 76)"><ellipse cx="18" cy="30" rx="19" ry="2.5" fill="rgba(80,40,10,.16)"/><path d="M2 10 Q2 6 6 6 L30 6 Q34 6 34 10 L32 28 Q31 34 18 34 Q5 34 4 28 Z" fill="#F5F0E6" stroke="#C8B99C" stroke-width="1"/><ellipse cx="18" cy="10" rx="14" ry="4" fill="#FFF8EE"/><ellipse cx="18" cy="10" rx="10" ry="3" fill="#F1F8E9"/><circle cx="14" cy="10" r=".8" fill="#2E7D32"/><circle cx="21" cy="11" r=".7" fill="#388E3C"/></g>
+</svg>
+<div style="position:absolute;left:16px;top:14px;font:700 12px 'Roboto',sans-serif;color:#D91F2A;background:#fff;padding:4px 10px;border-radius:16px;box-shadow:0 2px 6px rgba(0,0,0,.08)">🥟 Recién horneados</div>
+</div>
+<span style="position:absolute;top:12px;left:14px;background:#F5A623;color:#3B2A08;font:700 10px 'Roboto',sans-serif;letter-spacing:.1em;padding:5px 10px;border-radius:{{ pill }}">NUEVO</span>
+<div style="padding:16px 16px 18px">
+<div style="font:700 19px/1.2 'Roboto',sans-serif;color:#fff">Martes de Retequeños</div>
+<div style="font:400 13px 'Roboto',sans-serif;color:#FFE0C9;margin-top:6px">2x1 en clásicos seleccionados</div>
+<button type="button" onClick="{{ showTerms }}" style="border:0;background:transparent;color:#FFD9B0;font:500 12.5px 'Roboto',sans-serif;padding:10px 0 0;cursor:pointer;text-decoration:underline">Ver condiciones</button>
+</div>
+</div>
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;position:relative">
+<span style="position:absolute;left:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#FFF8EE;border:1px solid #EFE6D6"></span>
+<span style="position:absolute;right:-7px;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#FFF8EE;border:1px solid #EFE6D6"></span>
+<div style="flex:1">
+<div style="font:500 10px 'Roboto',sans-serif;letter-spacing:.14em;color:#8C7A55">CUPÓN</div>
+<div style="font:700 22px 'Roboto',sans-serif;color:#D91F2A;letter-spacing:.06em;margin-top:4px">RETE10</div>
+<div style="font:400 11.5px 'Roboto',sans-serif;color:#6B6662;margin-top:6px">Válido hasta el 30 de septiembre</div>
+</div>
+<button type="button" onClick="{{ copyCoupon }}" style="border:1.5px solid #FF3038;background:{{ copyBg }};color:{{ copyFg }};font:500 12.5px 'Roboto',sans-serif;padding:10px 16px;border-radius:{{ pill }};cursor:pointer;transition:all .2s">{{ copyLabel }}</button>
+</div>
+<div style="background:#fff;border:1.5px dashed #1F9D62;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px">
+<span style="width:44px;height:44px;border-radius:12px;background:#E7F6EE;display:flex;align-items:center;justify-content:center;font-size:22px;flex:none">📋</span>
+<div style="flex:1;min-width:0">
+<div style="font:500 10px 'Roboto',sans-serif;letter-spacing:.14em;color:#187348">ENCUESTA RÁPIDA</div>
+<div style="font:700 13.5px/1.25 'Roboto',sans-serif;color:#242424;margin-top:4px">Cuéntanos cómo estuvo y gana S/ 3.00</div>
+<div style="font:400 11px/1.4 'Roboto',sans-serif;color:#6B6662;margin-top:4px">1 minuto · cupón ENCUESTA3 · vence el 30 de septiembre</div>
+</div>
+<button type="button" onClick="{{ go22 }}" style="border:0;background:#1F9D62;color:#fff;font:700 11px 'Roboto',sans-serif;padding:10px 12px;border-radius:{{ pill }};cursor:pointer;flex:none">RESPONDER</button>
+</div>
+<sc-if value="{{ terms }}" hint-placeholder-val="{{ false }}">
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:14px;padding:16px;font:400 12.5px/1.6 'Roboto',sans-serif;color:#6B6662;animation:fadeUp .3s">
+<div style="font:500 13.5px 'Roboto',sans-serif;color:#242424;margin-bottom:8px">Condiciones</div>
+Válido solo los martes en tienda y delivery. No acumulable con otras promociones. Aplica a tequeños de queso de 10 unidades.
+<button type="button" onClick="{{ showTerms }}" style="display:block;margin-top:12px;border:0;background:transparent;color:#D91F2A;font:500 12.5px 'Roboto',sans-serif;cursor:pointer;padding:0">Cerrar</button>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s13 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE;display:flex;flex-direction:column">
+<div style="padding:8px 20px 4px;font:700 {{ h1Size }} 'Roboto',sans-serif;letter-spacing:-.02em">Tu carrito</div>
+<div class="stagger" style="padding:16px 20px 8px;display:flex;flex-direction:column;gap:10px;flex:1">
+<sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="text-align:center;padding:40px 20px;display:flex;flex-direction:column;gap:12px;align-items:center">
+<img src="img/products/tequenos/queso.jpg" alt="" style="width:120px;height:80px;object-fit:cover;border-radius:14px;opacity:.9">
+<div style="font:700 17px 'Roboto',sans-serif">Tu carrito está vacío</div>
+<div style="font:400 13px/1.5 'Roboto',sans-serif;color:#6B6662;max-width:230px">Agrega tequeños, promos o pizzas desde el menú.</div>
+<button type="button" onClick="{{ go08 }}" style="border:0;background:#FF3038;color:#fff;font:700 12.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:13px 22px;border-radius:{{ btnR }};cursor:pointer">VER EL MENÚ</button>
+</div>
+</sc-if>
+<sc-if value="{{ cartHas }}" hint-placeholder-val="{{ true }}">
+<sc-for list="{{ cartItems }}" as="it" hint-placeholder-count="2">
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;padding:11px;display:flex;gap:12px">
+<div class="ph" style="width:66px;height:66px;border-radius:10px;flex:none;overflow:hidden"><div class="rq-photo" role="img" aria-label="{{ it.name }}" style="background-image:url({{ it.img }})"></div></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+<div style="display:flex;justify-content:space-between;gap:8px">
+<span style="font:500 13.5px/1.25 'Roboto',sans-serif">{{ it.name }}</span>
+<button type="button" onClick="{{ it.remove }}" aria-label="Eliminar del carrito" style="border:0;background:transparent;cursor:pointer;padding:6px;margin:-6px;display:flex"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="1.9"><path d="M5 7h14"></path><path d="M8 7V5h8v2"></path><path d="M7 7l1 13h8l1-13"></path></svg></button>
+</div>
+<div style="font:400 11px/1.4 'Roboto',sans-serif;color:#6B6662">{{ it.opts }}</div>
+<div style="display:flex;gap:4px;margin-top:1px;flex-wrap:wrap">
+<span style="font:500 9.5px 'Roboto',sans-serif;background:{{ it.badgeBg }};color:{{ it.badgeFg }};padding:1px 6px;border-radius:4px">{{ it.badgeText }}</span>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto">
+<span style="display:flex;align-items:center;gap:10px">
+<span style="display:flex;align-items:center;gap:12px;border:1px solid #EFE6D6;border-radius:999px;padding:4px 10px">
+<button type="button" onClick="{{ it.dec }}" aria-label="Menos" style="border:0;background:transparent;color:#D91F2A;font:700 15px/1 'Roboto',sans-serif;cursor:pointer;padding:6px 6px">−</button>
+<span style="font:700 13px 'Roboto',sans-serif">{{ it.n }}</span>
+<button type="button" onClick="{{ it.inc }}" aria-label="Más" style="border:0;background:transparent;color:#D91F2A;font:700 15px/1 'Roboto',sans-serif;cursor:pointer;padding:6px 6px">+</button>
+</span>
+<button type="button" onClick="{{ it.edit }}" style="border:0;background:transparent;color:#D91F2A;font:500 11.5px 'Roboto',sans-serif;cursor:pointer;padding:0">Editar</button>
+</span>
+<span style="font:700 13.5px 'Roboto',sans-serif">{{ it.total }}</span>
+</div>
+</div>
+</div>
+</sc-for>
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;padding:13px;display:flex;flex-direction:column;gap:9px">
+<div style="font:500 12.5px 'Roboto',sans-serif">¿Tienes un cupón?</div>
+<div style="display:flex;gap:8px">
+<div style="flex:1;border:1px dashed #F5A623;background:#FFF3DF;border-radius:{{ fieldR }};padding:11px 13px;font:700 13px 'Roboto',sans-serif;color:#D91F2A;letter-spacing:.06em">RETE10</div>
+<button type="button" onClick="{{ applyCoupon }}" style="border:0;background:{{ applyBg }};color:{{ applyFg }};font:500 12.5px 'Roboto',sans-serif;padding:0 18px;border-radius:{{ btnR }};cursor:pointer;transition:all .2s">{{ applyLabel }}</button>
+</div>
+</div>
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;padding:14px;display:flex;flex-direction:column;gap:9px;font:400 13px 'Roboto',sans-serif;color:#6B6662">
+<div style="display:flex;justify-content:space-between"><span>Subtotal</span><span style="color:#242424">{{ subtotalLabel }}</span></div>
+<div style="display:flex;justify-content:space-between"><span>{{ feeName }}</span><span style="color:#242424">{{ feeLabel }}</span></div>
+<div style="display:flex;justify-content:space-between"><span>Descuento</span><span style="color:#1F9D62">{{ discount }}</span></div>
+<div style="height:1px;background:#F4EDE0"></div>
+<div style="display:flex;justify-content:space-between;font:700 15px 'Roboto',sans-serif;color:#242424"><span>Total</span><span>{{ cartTotal }}</span></div>
+</div>
+</sc-if>
+</div>
+<div style="position:sticky;bottom:0;padding:12px 20px 16px;background:#FFF8EE;border-top:1px solid #EFE6D6">
+<button type="button" onClick="{{ continueCart }}" style="width:100%;border:0;background:#FF3038;color:#fff;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer" style-active="transform:scale(.98)">{{ continueLabel }}</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s14 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE;display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;gap:12px;padding:14px 20px 6px">
+<button type="button" onClick="{{ go16 }}" aria-label="Volver" style="border:0;background:transparent;cursor:pointer;padding:6px;margin:-6px;display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<span style="font:700 18px 'Roboto',sans-serif;letter-spacing:-.01em">¿Dónde lo llevamos?</span>
+</div>
+<div style="margin:12px 20px 0;height:126px;border-radius:13px;overflow:hidden;position:relative;background:#EDE7DB;flex:none">
+<div style="position:absolute;inset:0;background-image:linear-gradient(90deg,transparent 47%,#DED6C6 47% 53%,transparent 53%),linear-gradient(0deg,transparent 30%,#DED6C6 30% 33%,transparent 33%),linear-gradient(0deg,transparent 72%,#DED6C6 72% 75%,transparent 75%)"></div>
+<div style="position:absolute;left:50%;top:44%;transform:translate(-50%,-100%)">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="#FF3038"><path d="M12 22s7-6.6 7-11.4A7 7 0 105 10.6C5 15.4 12 22 12 22z"></path><circle cx="12" cy="10" r="2.6" fill="#fff"></circle></svg>
+</div>
+<span style="position:absolute;bottom:8px;left:10px;font:500 9.5px 'Roboto',sans-serif;color:#8C867F;letter-spacing:.1em">MAPA · TACNA</span>
+</div>
+<div class="stagger" style="padding:16px 20px;display:flex;flex-direction:column;gap:10px;flex:1">
+<sc-for list="{{ addresses }}" as="a" hint-placeholder-count="2">
+<button type="button" onClick="{{ a.pick }}" style="border:1.5px solid {{ a.bd }};background:#fff;border-radius:13px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;text-align:left;width:100%;transition:border-color .18s">
+<span style="width:19px;height:19px;border-radius:50%;border:2px solid {{ a.ring }};display:flex;align-items:center;justify-content:center;flex:none"><span style="width:9px;height:9px;border-radius:50%;background:{{ a.dot }}"></span></span>
+<span style="flex:1">
+<span style="display:block;font:500 13.5px 'Roboto',sans-serif;color:#242424">{{ a.label }}</span>
+<span style="display:block;font:400 12px 'Roboto',sans-serif;color:#6B6662;margin-top:3px">{{ a.line }}</span>
+</span>
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#7A736B" stroke-width="1.8"><path d="M4 20l4-1 10-10-3-3L5 16l-1 4z"></path></svg>
+</button>
+</sc-for>
+<button type="button" onClick="{{ go15 }}" style="border:1.5px dashed #DCD2C1;background:transparent;border-radius:13px;padding:14px;display:flex;align-items:center;gap:10px;cursor:pointer;color:#D91F2A;font:500 13px 'Roboto',sans-serif">
+<span style="font:400 18px/1 'Roboto',sans-serif">＋</span>Agregar nueva dirección
+</button>
+</div>
+<div style="position:sticky;bottom:0;padding:12px 20px 16px;background:#FFF8EE;border-top:1px solid #EFE6D6">
+<button type="button" onClick="{{ go17 }}" style="width:100%;border:0;background:#FF3038;color:#fff;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer" style-active="transform:scale(.98)">CONFIRMAR DIRECCIÓN</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s15 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE;display:flex;flex-direction:column">
+<div style="height:280px;flex:none;position:relative;background:#EDE7DB">
+<div style="position:absolute;inset:0;background-image:linear-gradient(90deg,transparent 30%,#DED6C6 30% 34%,transparent 34%),linear-gradient(90deg,transparent 68%,#DED6C6 68% 71%,transparent 71%),linear-gradient(0deg,transparent 26%,#DED6C6 26% 29%,transparent 29%),linear-gradient(0deg,transparent 62%,#DED6C6 62% 66%,transparent 66%)"></div>
+<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);animation:fadeUp .4s">
+<svg width="34" height="34" viewBox="0 0 24 24" fill="#FF3038"><path d="M12 22s7-6.6 7-11.4A7 7 0 105 10.6C5 15.4 12 22 12 22z"></path><circle cx="12" cy="10" r="2.6" fill="#fff"></circle></svg>
+</div>
+<button type="button" onClick="{{ go14 }}" style="position:absolute;top:14px;left:16px;border:0;background:#fff;width:34px;height:34px;border-radius:{{ iconR }};display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<button type="button" style="position:absolute;bottom:16px;right:16px;border:0;background:#fff;width:38px;height:38px;border-radius:{{ iconR }};display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.12)"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FF3038" stroke-width="1.9"><circle cx="12" cy="12" r="3.4"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg></button>
+<div style="position:absolute;left:16px;bottom:16px;background:rgba(36,36,36,.86);color:#fff;font:400 11.5px 'Roboto',sans-serif;padding:8px 12px;border-radius:9px">Mueve el pin hasta la ubicación exacta</div>
+</div>
+<div class="stagger" style="padding:20px;display:flex;flex-direction:column;gap:12px;flex:1">
+<div style="font:700 19px 'Roboto',sans-serif;letter-spacing:-.02em">Nueva dirección</div>
+<div style="background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:13px 14px;font:400 13.5px 'Roboto',sans-serif;color:#7A736B">Dirección</div>
+<div style="background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:13px 14px;font:400 13.5px 'Roboto',sans-serif;color:#7A736B">Referencia</div>
+<div style="display:flex;gap:8px">
+<sc-for list="{{ addrTags }}" as="t" hint-placeholder-count="3">
+<button type="button" onClick="{{ t.pick }}" style="border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.fg }};font:500 12.5px 'Roboto',sans-serif;padding:9px 16px;border-radius:{{ pill }};cursor:pointer;transition:all .18s">{{ t.label }}</button>
+</sc-for>
+</div>
+<label style="display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:13px 14px;font:400 13px 'Roboto',sans-serif;cursor:pointer">
+Guardar como dirección principal
+<button type="button" onClick="{{ toggleMain }}" style="border:0;width:42px;height:25px;border-radius:999px;background:{{ mainTrack }};cursor:pointer;padding:0;display:flex;align-items:center;justify-content:{{ mainJustify }};transition:all .2s"><span style="width:19px;height:19px;border-radius:50%;background:#fff;margin:0 3px;box-shadow:0 1px 3px rgba(0,0,0,.2)"></span></button>
+</label>
+</div>
+<div style="position:sticky;bottom:0;padding:12px 20px 16px;background:#FFF8EE;border-top:1px solid #EFE6D6">
+<button type="button" onClick="{{ saveAddr }}" style="width:100%;border:0;background:#FF3038;color:#fff;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer" style-active="transform:scale(.98)">GUARDAR DIRECCIÓN</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s16 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE;display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;gap:12px;padding:14px 20px 4px">
+<button type="button" onClick="{{ go13 }}" aria-label="Volver" style="border:0;background:transparent;cursor:pointer;padding:6px;margin:-6px;display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<span style="font:700 18px/1.25 'Roboto',sans-serif;letter-spacing:-.01em">¿Cómo recibirás tu pedido?</span>
+</div>
+<div class="stagger" style="padding:18px 20px;display:flex;flex-direction:column;gap:12px;flex:1">
+<button type="button" onClick="{{ pickDelivery }}" style="border:2px solid {{ delBd }};background:{{ delBg }};border-radius:15px;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;text-align:left;transition:all .2s">
+<span style="width:44px;height:44px;border-radius:12px;background:#FFE9E9;display:flex;align-items:center;justify-content:center;flex:none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF3038" stroke-width="1.8"><circle cx="6" cy="17.5" r="2.6"></circle><circle cx="18" cy="17.5" r="2.6"></circle><path d="M8.6 17.5h6.8M6 15V9h5l3 4h4v4.5"></path></svg></span>
+<span style="flex:1"><span style="display:block;font:700 15.5px 'Roboto',sans-serif">Delivery</span><span style="display:block;font:400 12.5px 'Roboto',sans-serif;color:#6B6662;margin-top:4px">Llega en 35–45 min</span></span>
+<span style="width:19px;height:19px;border-radius:50%;border:2px solid {{ delRing }};display:flex;align-items:center;justify-content:center;flex:none"><span style="width:9px;height:9px;border-radius:50%;background:{{ delDot }}"></span></span>
+</button>
+<button type="button" onClick="{{ pickPickup }}" style="border:2px solid {{ pickBd }};background:{{ pickBg }};border-radius:15px;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;text-align:left;transition:all .2s">
+<span style="width:44px;height:44px;border-radius:12px;background:#FFF3DF;display:flex;align-items:center;justify-content:center;flex:none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D9891A" stroke-width="1.8"><path d="M4 9l1.5-4h13L20 9"></path><path d="M4 9h16v11H4z"></path><path d="M9 20v-5h6v5"></path></svg></span>
+<span style="flex:1"><span style="display:block;font:700 15.5px 'Roboto',sans-serif">Recojo en tienda</span><span style="display:block;font:400 12.5px 'Roboto',sans-serif;color:#6B6662;margin-top:4px">Listo en 20–25 min · {{ storeAddr }}</span></span>
+<span style="width:19px;height:19px;border-radius:50%;border:2px solid {{ pickRing }};display:flex;align-items:center;justify-content:center;flex:none"><span style="width:9px;height:9px;border-radius:50%;background:{{ pickDot }}"></span></span>
+</button>
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;overflow:hidden;margin-top:6px">
+<sc-for list="{{ timings }}" as="t" hint-placeholder-count="2">
+<button type="button" onClick="{{ t.pick }}" style="width:100%;border:0;border-bottom:1px solid #F4EDE0;background:transparent;display:flex;align-items:center;gap:12px;padding:15px 14px;cursor:pointer;text-align:left">
+<span style="width:19px;height:19px;border-radius:50%;border:2px solid {{ t.ring }};display:flex;align-items:center;justify-content:center;flex:none"><span style="width:9px;height:9px;border-radius:50%;background:{{ t.dot }}"></span></span>
+<span style="font:400 13.5px 'Roboto',sans-serif">{{ t.label }}</span>
+</button>
+</sc-for>
+<div style="display:flex;gap:10px;padding:14px;opacity:{{ schedOpacity }}">
+<div style="flex:1;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:11px 13px;font:400 12.5px 'Roboto',sans-serif;color:#6B6662">{{ schedDate }}</div>
+<div style="flex:1;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:11px 13px;font:400 12.5px 'Roboto',sans-serif;color:#6B6662">{{ schedTime }}</div>
+</div>
+</div>
+</div>
+<div style="position:sticky;bottom:0;padding:12px 20px 16px;background:#FFF8EE;border-top:1px solid #EFE6D6">
+<button type="button" onClick="{{ confirmMode }}" style="width:100%;border:0;background:#FF3038;color:#fff;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer" style-active="transform:scale(.98)">CONTINUAR</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s17 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE;display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;gap:12px;padding:14px 20px 4px">
+<button type="button" onClick="{{ go16 }}" aria-label="Volver" style="border:0;background:transparent;cursor:pointer;padding:6px;margin:-6px;display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<span style="font:700 18px 'Roboto',sans-serif;letter-spacing:-.01em">Revisa tu pedido</span>
+</div>
+<div class="stagger" style="padding:16px 20px;display:flex;flex-direction:column;gap:11px;flex:1">
+<div onClick="{{ go16 }}" style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;padding:14px;cursor:pointer">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<span style="font:500 10px 'Roboto',sans-serif;letter-spacing:.14em;color:#8C867F">ENTREGA</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7A736B" stroke-width="2"><path d="M9 5l7 7-7 7"></path></svg>
+</div>
+<div style="font:500 13.5px 'Roboto',sans-serif;margin-top:8px">{{ entregaLine }}</div>
+<div style="font:400 12px 'Roboto',sans-serif;color:#6B6662;margin-top:3px">{{ entregaSub }}</div>
+</div>
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;padding:14px">
+<div style="font:500 10px 'Roboto',sans-serif;letter-spacing:.14em;color:#8C867F">TU PEDIDO</div>
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;font:400 13px 'Roboto',sans-serif">
+<sc-for list="{{ cartItems }}" as="it" hint-placeholder-count="2">
+<div style="display:flex;justify-content:space-between;gap:10px"><span>{{ it.n }} × {{ it.name }}</span><span style="flex:none">{{ it.total }}</span></div>
+</sc-for>
+</div>
+</div>
+<button type="button" onClick="{{ go18 }}" style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;padding:14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;text-align:left;width:100%">
+<span><span style="display:block;font:500 10px 'Roboto',sans-serif;letter-spacing:.14em;color:#8C867F">MÉTODO DE PAGO</span><span style="display:block;font:500 13.5px 'Roboto',sans-serif;margin-top:8px">{{ payLabel }}</span></span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7A736B" stroke-width="2"><path d="M9 5l7 7-7 7"></path></svg>
+</button>
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;padding:14px;display:flex;align-items:center;justify-content:space-between">
+<span><span style="display:block;font:500 10px 'Roboto',sans-serif;letter-spacing:.14em;color:#8C867F">COMPROBANTE</span><span style="display:block;font:500 13.5px 'Roboto',sans-serif;margin-top:8px">Boleta</span></span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7A736B" stroke-width="2"><path d="M9 5l7 7-7 7"></path></svg>
+</div>
+<textarea class="rq-notes" value="{{ driverNotes }}" onInput="{{ onDriverNotes }}" placeholder="Instrucciones para el repartidor (opcional)" aria-label="Instrucciones" style="border-radius:13px;padding:14px;min-height:60px;font-size:13px"></textarea>
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;padding:14px;display:flex;flex-direction:column;gap:9px;font:400 13px 'Roboto',sans-serif;color:#6B6662">
+<div style="display:flex;justify-content:space-between"><span>Subtotal</span><span style="color:#242424">{{ subtotalLabel }}</span></div>
+<div style="display:flex;justify-content:space-between"><span>{{ feeName }}</span><span style="color:#242424">{{ feeLabel }}</span></div>
+<div style="display:flex;justify-content:space-between"><span>Descuento</span><span style="color:#1F9D62">{{ discount }}</span></div>
+<div style="height:1px;background:#F4EDE0"></div>
+<div style="display:flex;justify-content:space-between;font:700 15px 'Roboto',sans-serif;color:#242424"><span>Total</span><span>{{ cartTotal }}</span></div>
+</div>
+<label style="display:flex;gap:10px;align-items:flex-start;font:400 12px/1.45 'Roboto',sans-serif;color:#6B6662;cursor:pointer">
+<span style="width:17px;height:17px;flex:none;border-radius:{{ checkR }};background:#FF3038;display:flex;align-items:center;justify-content:center"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4"><path d="M4 12.5l5.2 5L20 6.5"></path></svg></span>
+Acepto los Términos del servicio y la Política de privacidad
+</label>
+</div>
+<div style="position:sticky;bottom:0;padding:12px 20px 16px;background:#FFF8EE;border-top:1px solid #EFE6D6">
+<button type="button" onClick="{{ pay }}" style="width:100%;border:0;background:#FF3038;color:#fff;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer;box-shadow:0 6px 18px rgba(255,48,56,.26)" style-active="transform:scale(.98)">{{ payBtn }}</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s18 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE;display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;gap:12px;padding:14px 20px 4px">
+<button type="button" onClick="{{ go17 }}" aria-label="Volver" style="border:0;background:transparent;cursor:pointer;padding:6px;margin:-6px;display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<span style="font:700 18px 'Roboto',sans-serif;letter-spacing:-.01em">Método de pago</span>
+</div>
+<div class="stagger" style="padding:16px 20px;display:flex;flex-direction:column;gap:11px;flex:1">
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;overflow:hidden">
+<sc-for list="{{ payMethods }}" as="m" hint-placeholder-count="4">
+<button type="button" onClick="{{ m.pick }}" style="width:100%;border:0;border-bottom:1px solid #F4EDE0;background:transparent;display:flex;align-items:center;gap:12px;padding:15px 14px;cursor:pointer;text-align:left">
+<span style="width:19px;height:19px;border-radius:50%;border:2px solid {{ m.ring }};display:flex;align-items:center;justify-content:center;flex:none"><span style="width:9px;height:9px;border-radius:50%;background:{{ m.dot }}"></span></span>
+<span style="flex:1"><span style="display:block;font:400 13.5px 'Roboto',sans-serif;color:#242424">{{ m.label }}</span><span style="display:block;font:400 11.5px 'Roboto',sans-serif;color:#6B6662;margin-top:2px">{{ m.note }}</span></span>
+<span style="width:34px;height:22px;border-radius:4px;background:#F4EDE0;display:flex;align-items:center;justify-content:center;font:700 8.5px 'Roboto',sans-serif;color:#6B6662;letter-spacing:.06em">{{ m.tag }}</span>
+</button>
+</sc-for>
+<div style="padding:12px 14px;background:#FFF8EE;font:400 12px/1.5 'Roboto',sans-serif;color:#6B6662;border-top:1px solid #F4EDE0">🛵 <strong>Efectivo:</strong> el motorizado lleva sencillo y le pagas en tu puerta.<br>💳 <strong>Yape / Plin / transferencia:</strong> nos envías la captura por WhatsApp, la verificamos en minutos y empezamos a preparar.</div>
+<sc-if value="{{ showYape }}" hint-placeholder-val="{{ false }}">
+<div style="padding:12px 14px;background:#FFF3DF;border-top:1px dashed #F5A623;display:flex;align-items:center;gap:12px;animation:fadeUp .25s">
+<span style="width:40px;height:40px;border-radius:10px;background:#742284;color:#fff;font:700 11px 'Roboto',sans-serif;display:flex;align-items:center;justify-content:center;flex:none">YAPE</span>
+<div style="flex:1;font:400 12px/1.45 'Roboto',sans-serif;color:#6B6662">Yapea o plinea a <strong style="color:#242424;font-size:14px">{{ yapeNumber }}</strong> · Retequeños<br>Luego envía la captura al mismo número por WhatsApp.</div>
+</div>
+</sc-if>
+</div>
+<div style="display:flex;align-items:center;gap:9px;font:400 12px 'Roboto',sans-serif;color:#1F9D62;padding:0 4px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1F9D62" stroke-width="1.9"><path d="M12 3l7 3v6c0 4.4-3 7.7-7 9-4-1.3-7-4.6-7-9V6l7-3z"></path><path d="M8.6 12l2.4 2.3 4.4-4.6"></path></svg>
+Sin pasarela ni comisiones · pagas directo a Retequeños
+</div>
+</div>
+<div style="position:sticky;bottom:0;padding:12px 20px 16px;background:#FFF8EE;border-top:1px solid #EFE6D6">
+<button type="button" onClick="{{ go17 }}" style="width:100%;border:0;background:#FF3038;color:#fff;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer" style-active="transform:scale(.98)">CONFIRMAR</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s19 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:linear-gradient(180deg,#FFF3DF 0%,#FFF8EE 45%);display:flex;flex-direction:column;padding:24px 22px 22px;gap:14px;text-align:center;position:relative;overflow:hidden">
+
+<span class="confetti" style="left:8%;background:#FF3038;animation-delay:0s;--dx:20px"></span>
+<span class="confetti" style="left:22%;background:#F5A623;animation-delay:.4s;--dx:-14px"></span>
+<span class="confetti" style="left:36%;background:#1F9D62;animation-delay:.8s;--dx:16px;border-radius:50%"></span>
+<span class="confetti" style="left:48%;background:#FF3038;animation-delay:.2s;--dx:-22px"></span>
+<span class="confetti" style="left:60%;background:#F5A623;animation-delay:1.1s;--dx:14px;border-radius:50%"></span>
+<span class="confetti" style="left:74%;background:#7E22CE;animation-delay:.6s;--dx:-16px"></span>
+<span class="confetti" style="left:86%;background:#1F9D62;animation-delay:.9s;--dx:22px"></span>
+<span class="confetti" style="left:14%;background:#F5A623;animation-delay:1.5s;--dx:14px;border-radius:50%"></span>
+<span class="confetti" style="left:66%;background:#FF3038;animation-delay:1.8s;--dx:-18px"></span>
+<span class="confetti" style="left:30%;background:#1F9D62;animation-delay:2.2s;--dx:14px"></span>
+
+<div style="position:relative;width:220px;height:180px;align-self:center;margin-top:8px">
+<div style="position:absolute;left:0;top:0;right:0;bottom:0" class="stagger">
+<svg viewBox="0 0 220 180" style="width:100%;height:100%">
+<defs>
+<radialGradient id="conG" cx=".5" cy=".5"><stop offset="0" stop-color="#FFF7EA"/><stop offset="1" stop-color="#FFE3B7" stop-opacity="0"/></radialGradient>
+<linearGradient id="conTq" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#F5C271"/><stop offset=".55" stop-color="#E29438"/><stop offset="1" stop-color="#B8721C"/></linearGradient>
+</defs>
+<circle cx="110" cy="100" r="90" fill="url(#conG)"/>
+<g opacity=".85"><ellipse class="steam" cx="82" cy="38" rx="5" ry="9" fill="#fff" style="animation:steamBig 2.6s ease-in-out infinite"/><ellipse class="steam2" cx="110" cy="28" rx="6" ry="11" fill="#fff" style="animation:steamBig 2.6s ease-in-out infinite .4s"/><ellipse class="steam3" cx="138" cy="38" rx="5" ry="9" fill="#fff" style="animation:steamBig 2.6s ease-in-out infinite .8s"/></g>
+<ellipse cx="110" cy="162" rx="92" ry="8" fill="rgba(80,40,10,.16)"/>
+<ellipse cx="110" cy="152" rx="88" ry="12" fill="#7A4A2A"/>
+<ellipse cx="110" cy="147" rx="84" ry="10" fill="#A66E48"/>
+<ellipse cx="110" cy="145" rx="80" ry="8" fill="#FFEDC8"/>
+<g transform="translate(42 105)"><path d="M0 12 Q0 4 8 4 L56 4 Q64 4 64 12 L64 20 Q64 28 56 28 L8 28 Q0 28 0 20 Z" fill="url(#conTq)" stroke="#8A5511" stroke-width="1.1"/><path d="M4 10 Q22 6 36 8 Q50 10 60 10" stroke="#FFDDA6" stroke-width="1.6" fill="none" opacity=".8" stroke-linecap="round"/><circle cx="14" cy="20" r="1" fill="#6E3D0D" opacity=".55"/><circle cx="32" cy="17" r=".9" fill="#6E3D0D" opacity=".55"/><circle cx="52" cy="21" r=".9" fill="#6E3D0D" opacity=".55"/></g>
+<g transform="translate(120 108)"><path d="M0 12 Q0 4 8 4 L54 4 Q62 4 62 12 L62 20 Q62 28 54 28 L8 28 Q0 28 0 20 Z" fill="url(#conTq)" stroke="#8A5511" stroke-width="1.1"/><path d="M4 10 Q22 6 34 8 Q48 10 58 10" stroke="#FFDDA6" stroke-width="1.5" fill="none" opacity=".78" stroke-linecap="round"/><circle cx="14" cy="20" r=".9" fill="#6E3D0D" opacity=".55"/><circle cx="32" cy="17" r=".8" fill="#6E3D0D" opacity=".55"/><circle cx="52" cy="21" r=".8" fill="#6E3D0D" opacity=".55"/></g>
+<g transform="translate(70 122)"><path d="M0 12 Q0 4 8 4 L60 4 Q68 4 68 12 L68 20 Q68 28 60 28 L8 28 Q0 28 0 20 Z" fill="url(#conTq)" stroke="#8A5511" stroke-width="1.2"/><path d="M4 10 Q22 6 38 8 Q54 10 64 10" stroke="#FFE1AA" stroke-width="1.8" fill="none" opacity=".9" stroke-linecap="round"/><circle cx="18" cy="20" r="1" fill="#6E3D0D" opacity=".6"/><circle cx="36" cy="17" r=".9" fill="#6E3D0D" opacity=".6"/><circle cx="54" cy="21" r=".9" fill="#6E3D0D" opacity=".6"/></g>
+</svg>
+</div>
+<span style="position:absolute;right:6px;bottom:22px;width:48px;height:48px;border-radius:50%;background:#1F9D62;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(31,157,98,.35);animation:pulseHalo 1.8s infinite;z-index:2">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2"><path d="M4 12.5l5.2 5L20 6.5"></path></svg>
+</span>
+</div>
+
+<div class="stagger" style="display:flex;flex-direction:column;gap:14px;align-items:center;width:100%">
+
+<div>
+<div style="font:700 24px/1.2 'Roboto',sans-serif;letter-spacing:-.02em;color:#242424">¡Gracias, Milton! 🥟</div>
+<div style="font:400 13.5px/1.5 'Roboto',sans-serif;color:#6B6662;margin-top:4px">Empezamos a preparar tu pedido en cocina</div>
+</div>
+
+<div style="background:linear-gradient(135deg,#FF3038,#D91F2A);color:#fff;border-radius:16px;padding:16px 18px;width:100%;box-shadow:0 10px 24px rgba(255,48,56,.28);text-align:left;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden">
+<div style="position:absolute;right:-24px;top:-24px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,.08)"></div>
+<div style="width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;flex:none">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+</div>
+<div style="flex:1;position:relative">
+<div style="font:500 10.5px 'Roboto',sans-serif;color:#FFD9B0;letter-spacing:.12em">{{ etaTitle }}</div>
+<div style="font:700 26px/1.1 'Roboto',sans-serif;letter-spacing:-.02em;margin-top:2px" class="tickBlink">{{ eta }}</div>
+<div style="font:400 12px 'Roboto',sans-serif;color:#FFE0C9;margin-top:2px">{{ etaSub }}</div>
+</div>
+</div>
+
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;padding:14px 16px;width:100%;display:flex;flex-direction:column;gap:8px;text-align:left;font:400 12.5px 'Roboto',sans-serif;color:#6B6662">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<span style="font:600 11.5px 'Roboto',sans-serif;color:#8C867F;letter-spacing:.06em">PEDIDO {{ orderId }}</span>
+<span style="background:{{ payBadgeBg }};color:{{ payBadgeFg }};font:700 10.5px 'Roboto',sans-serif;padding:3px 9px;border-radius:20px;letter-spacing:.05em">{{ payBadge }}</span>
+</div>
+<div style="font:400 11.5px/1.4 'Roboto',sans-serif;color:#8C7A55;background:#FFF8EE;border:1px dashed #EFE6D6;border-radius:9px;padding:7px 10px">{{ payNote }}</div>
+<div style="display:flex;justify-content:space-between;gap:10px"><span>{{ orderSummary }}</span><span style="color:#242424;font-weight:600;flex:none">{{ orderSubtotal }}</span></div>
+<div style="display:flex;justify-content:space-between;gap:10px"><span>{{ orderFeeName }}</span><span style="color:#242424;font-weight:600;flex:none">{{ orderFee }}</span></div>
+<div style="height:1px;background:#F4EDE0;margin:2px 0"></div>
+<div style="display:flex;justify-content:space-between"><span style="color:#242424;font-weight:700">Total</span><span style="color:#FF3038;font:700 15px 'Roboto',sans-serif">{{ orderTotal }}</span></div>
+</div>
+
+<div style="background:#E7F6EE;border:1px dashed #1F9D62;border-radius:12px;padding:11px 14px;width:100%;display:flex;align-items:center;gap:10px;text-align:left">
+<span style="width:32px;height:32px;border-radius:50%;background:#1F9D62;display:flex;align-items:center;justify-content:center;flex:none">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+</span>
+<span style="flex:1;font:500 12.5px/1.35 'Roboto',sans-serif;color:#187348">{{ notifyLine }}</span>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:9px;width:100%;margin-top:2px">
+<button type="button" onClick="{{ go20 }}" style="width:100%;border:0;background:#FF3038;color:#fff;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer;box-shadow:0 6px 18px rgba(255,48,56,.26);display:flex;align-items:center;justify-content:center;gap:8px" style-active="transform:scale(.98)">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>
+SEGUIR MI PEDIDO EN VIVO
+</button>
+<button type="button" onClick="{{ goHome }}" style="width:100%;border:1.5px solid #DCD2C1;background:transparent;color:#242424;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:13px 0;border-radius:{{ btnR }};cursor:pointer">VOLVER AL MENÚ</button>
+</div>
+
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s20 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE;display:flex;flex-direction:column">
+
+<div style="height:290px;flex:none;position:relative;background:#E8E0CD;overflow:hidden">
+
+<svg viewBox="0 0 390 290" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMid slice">
+<defs>
+<pattern id="mapBlocks" x="0" y="0" width="90" height="70" patternUnits="userSpaceOnUse">
+<rect width="90" height="70" fill="#E8E0CD"/>
+<rect x="4" y="4" width="38" height="28" rx="3" fill="#DFD5BE"/>
+<rect x="48" y="4" width="38" height="28" rx="3" fill="#DFD5BE"/>
+<rect x="4" y="38" width="38" height="28" rx="3" fill="#DFD5BE"/>
+<rect x="48" y="38" width="38" height="28" rx="3" fill="#DFD5BE"/>
+</pattern>
+</defs>
+<rect width="390" height="290" fill="url(#mapBlocks)"/>
+
+<path d="M0 60 Q80 90 140 70 T260 120 T390 100" fill="none" stroke="#B6D9E8" stroke-width="14" opacity=".55"/>
+<path d="M0 60 Q80 90 140 70 T260 120 T390 100" fill="none" stroke="#8FBFD6" stroke-width="1.5" stroke-dasharray="3 5" opacity=".6"/>
+
+<rect x="130" y="150" width="60" height="14" rx="2" fill="#C8BB9E" opacity=".7" transform="rotate(-8 160 157)"/>
+<circle cx="298" cy="160" r="22" fill="#CDDDBE" opacity=".8"/>
+<circle cx="298" cy="160" r="12" fill="#B4CC9F" opacity=".7"/>
+
+<line x1="0" y1="220" x2="390" y2="220" stroke="#F5A623" stroke-width="4" opacity=".35"/>
+<line x1="0" y1="220" x2="390" y2="220" stroke="#F5A623" stroke-width="1" stroke-dasharray="6 8"/>
+<text x="10" y="215" font-family="Roboto" font-size="8" font-weight="700" fill="#8C7A55" letter-spacing="1">AV. BOLOGNESI</text>
+
+<line x1="0" y1="170" x2="390" y2="170" stroke="#C8BB9E" stroke-width="2.5" opacity=".55"/>
+<text x="10" y="165" font-family="Roboto" font-size="7" font-weight="600" fill="#8C867F" letter-spacing=".8">AV. CORONEL MENDOZA</text>
+
+<line x1="0" y1="255" x2="390" y2="255" stroke="#C8BB9E" stroke-width="2.5" opacity=".55"/>
+<text x="10" y="269" font-family="Roboto" font-size="7" font-weight="600" fill="#8C867F" letter-spacing=".8">AV. LEGUÍA</text>
+
+<line x1="140" y1="0" x2="140" y2="290" stroke="#C8BB9E" stroke-width="2.5" opacity=".55"/>
+<line x1="230" y1="0" x2="230" y2="290" stroke="#C8BB9E" stroke-width="2.5" opacity=".55"/>
+<text x="234" y="12" font-family="Roboto" font-size="7" font-weight="600" fill="#8C867F" letter-spacing=".8">AV. PINTO</text>
+
+<line x1="80" y1="0" x2="80" y2="290" stroke="#C8BB9E" stroke-width="2" opacity=".45" stroke-dasharray="4 4"/>
+
+<path d="M40 220 Q75 220 90 190 T145 130 Q175 100 220 100 T295 88" fill="none" stroke="#FF3038" stroke-width="4" stroke-linecap="round" stroke-dasharray="9 7" style="animation:dash 1.6s linear infinite"/>
+
+<g transform="translate(295 88)">
+<circle r="20" fill="rgba(255,48,56,.15)"/>
+<circle r="14" fill="#FF3038"/>
+<circle r="6" fill="#fff"/>
+<path d="M-4 -14 L-4 -8 L-8 -8 L0 -22 L8 -8 L4 -8 L4 -14 Z" fill="#FF3038" transform="translate(0 -8)"/>
+</g>
+
+<g transform="translate(40 220)">
+<circle r="18" fill="rgba(245,166,35,.2)"/>
+<circle r="13" fill="#F5A623" stroke="#fff" stroke-width="3"/>
+<text y="4" text-anchor="middle" font-size="12">🥟</text>
+</g>
+</svg>
+
+<div style="position:absolute;top:0;left:0;width:44px;height:44px" class="moto-path">
+<div style="width:44px;height:44px;border-radius:50%;background:#FF3038;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(255,48,56,.5);border:3px solid #fff">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><circle cx="6" cy="17.5" r="2.4"></circle><circle cx="18" cy="17.5" r="2.4"></circle><path d="M8.4 17.5h7.2M6 15V9h5l3 4h4v4.5"></path></svg>
+</div>
+<div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:#242424;color:#fff;font:700 9px 'Roboto',sans-serif;padding:2px 7px;border-radius:10px;white-space:nowrap;letter-spacing:.06em">CARLOS</div>
+</div>
+
+<div style="position:absolute;top:14px;left:14px;background:rgba(255,255,255,.95);backdrop-filter:blur(6px);border-radius:12px;padding:10px 14px;box-shadow:0 6px 18px rgba(0,0,0,.12);display:flex;align-items:center;gap:10px">
+<div style="width:36px;height:36px;border-radius:10px;background:#E7F6EE;display:flex;align-items:center;justify-content:center;flex:none">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F9D62" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+</div>
+<div>
+<div style="font:600 9.5px 'Roboto',sans-serif;color:#6B6662;letter-spacing:.1em">LLEGA EN</div>
+<div style="font:700 18px/1 'Roboto',sans-serif;color:#1F9D62;margin-top:2px" class="tickBlink">12:34</div>
+</div>
+</div>
+
+<div style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,.95);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.12);cursor:pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M12 11l3-2M11 11V7"/></svg>
+</div>
+
+<div style="position:absolute;bottom:8px;left:12px;background:rgba(255,255,255,.85);padding:3px 8px;border-radius:5px;font:600 9px 'Roboto',sans-serif;color:#6B6662;letter-spacing:.1em">TACNA · CERCADO</div>
+</div>
+
+<div class="stagger" style="margin-top:-22px;background:#fff;border-radius:22px 22px 0 0;padding:22px 22px 20px;display:flex;flex-direction:column;gap:16px;flex:1;position:relative;box-shadow:0 -10px 24px rgba(0,0,0,.08);z-index:2">
+
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+<div>
+<div style="font:700 19px/1.25 'Roboto',sans-serif;letter-spacing:-.02em">Tu pedido está en camino 🛵</div>
+<div style="display:flex;align-items:center;gap:6px;margin-top:6px">
+<span style="width:7px;height:7px;border-radius:50%;background:#1F9D62;animation:twinkle 1.2s infinite"></span>
+<span style="font:600 12px 'Roboto',sans-serif;color:#1F9D62">Carlos está a 3 cuadras · Av. Bolognesi 890</span>
+</div>
+</div>
+<div style="background:#FFF3DF;color:#D9891A;padding:5px 10px;border-radius:20px;font:700 10.5px 'Roboto',sans-serif;letter-spacing:.05em;flex:none">EN VIVO</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:0;padding:2px 0">
+<div style="flex:1;height:6px;background:linear-gradient(90deg,#1F9D62 0%,#1F9D62 72%,#E4D9C6 72%);border-radius:3px;position:relative">
+<span style="position:absolute;top:-5px;left:0;width:16px;height:16px;border-radius:50%;background:#1F9D62;border:3px solid #fff;box-shadow:0 2px 6px rgba(31,157,98,.4)"></span>
+<span style="position:absolute;top:-5px;left:33%;width:16px;height:16px;border-radius:50%;background:#1F9D62;border:3px solid #fff;box-shadow:0 2px 6px rgba(31,157,98,.4)"></span>
+<span style="position:absolute;top:-5px;left:66%;width:16px;height:16px;border-radius:50%;background:#1F9D62;border:3px solid #fff;box-shadow:0 0 0 4px rgba(31,157,98,.2),0 2px 6px rgba(31,157,98,.4);animation:pulseHalo 1.8s infinite"></span>
+<span style="position:absolute;top:-5px;right:0;width:16px;height:16px;border-radius:50%;background:#E4D9C6;border:3px solid #fff"></span>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;font:500 10px 'Roboto',sans-serif;color:#6B6662;letter-spacing:.04em;margin-top:-4px">
+<span style="color:#1F9D62;font-weight:700">✓ Confirmado</span>
+<span style="color:#1F9D62;font-weight:700">✓ Cocina</span>
+<span style="color:#1F9D62;font-weight:700">● En camino</span>
+<span>Entregado</span>
+</div>
+
+<div style="background:#FFF8EE;border:1px solid #EFE6D6;border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:12px">
+<span style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#FF3038,#D91F2A);color:#fff;font:700 16px 'Roboto',sans-serif;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 4px 10px rgba(255,48,56,.3)">C</span>
+<div style="flex:1;min-width:0">
+<div style="font:600 13.5px 'Roboto',sans-serif;color:#242424">Carlos Ríos</div>
+<div style="display:flex;align-items:center;gap:6px;margin-top:3px">
+<span style="font:400 11.5px 'Roboto',sans-serif;color:#6B6662">Moto roja · M2-4821</span>
+<span style="font:700 10.5px 'Roboto',sans-serif;color:#F5A623;background:#FFF3DF;padding:1px 6px;border-radius:8px">★ 4.9</span>
+</div>
+</div>
+<button type="button" style="border:0;background:#1F9D62;width:38px;height:38px;border-radius:{{ iconR }};display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 10px rgba(31,157,98,.3)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></button>
+<button type="button" style="border:0;background:#242424;width:38px;height:38px;border-radius:{{ iconR }};display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1C11 20 4 13 4 5a1 1 0 011-1z"/></svg></button>
+</div>
+
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:10px">
+<span style="width:32px;height:32px;border-radius:8px;background:#FFF3DF;display:flex;align-items:center;justify-content:center;flex:none">🥟</span>
+<div style="flex:1;min-width:0">
+<div style="font:600 12.5px 'Roboto',sans-serif;color:#242424">{{ orderId }} · {{ orderTotal }}</div>
+<div style="font:400 11px 'Roboto',sans-serif;color:#6B6662">{{ orderSummary }} · {{ orderPayShort }}</div>
+</div>
+<button type="button" onClick="{{ go22 }}" style="border:0;background:transparent;color:#D91F2A;font:600 12px 'Roboto',sans-serif;cursor:pointer;padding:6px 4px;flex:none">Detalle ›</button>
+</div>
+
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s21 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE">
+<div style="padding:8px 20px 2px;font:700 {{ h1Size }} 'Roboto',sans-serif;letter-spacing:-.02em">Mis pedidos</div>
+<div style="display:flex;gap:8px;padding:14px 20px 6px">
+<sc-for list="{{ histTabs }}" as="t" hint-placeholder-count="2">
+<button type="button" onClick="{{ t.pick }}" style="flex:1;border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.fg }};font:500 12.5px 'Roboto',sans-serif;padding:10px 0;border-radius:{{ pill }};cursor:pointer;transition:all .18s">{{ t.label }}</button>
+</sc-for>
+</div>
+<div class="stagger" style="padding:12px 20px 20px;display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{ orders }}" as="o" hint-placeholder-count="2">
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:11px">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<span style="font:700 14px 'Roboto',sans-serif;letter-spacing:.02em">{{ o.id }}</span>
+<span style="font:500 10.5px 'Roboto',sans-serif;color:{{ o.stFg }};background:{{ o.stBg }};padding:5px 10px;border-radius:999px">{{ o.status }}</span>
+</div>
+<div style="display:flex;gap:8px;align-items:center">
+<div class="ph" style="width:44px;height:44px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center">
+<svg viewBox="0 0 44 44" width="44" height="44">
+<defs><linearGradient id="mng" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#F5C271"/><stop offset="1" stop-color="#B8721C"/></linearGradient></defs>
+<ellipse cx="22" cy="34" rx="14" ry="2" fill="rgba(80,40,10,.14)"/>
+<ellipse cx="22" cy="32" rx="14" ry="3" fill="#A66E48"/>
+<ellipse cx="22" cy="31" rx="12" ry="2" fill="#FFEDC8"/>
+<g transform="translate(9 18)"><path d="M0 6 Q0 2 4 2 L22 2 Q26 2 26 6 L26 10 Q26 14 22 14 L4 14 Q0 14 0 10 Z" fill="url(#mng)" stroke="#8A5511" stroke-width=".7"/><path d="M3 5 Q10 3 16 4 Q22 5 24 5" stroke="#FFDDA6" stroke-width=".9" fill="none" opacity=".8" stroke-linecap="round"/></g>
+</svg>
+</div>
+<div class="ph" style="width:44px;height:44px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center">
+<svg viewBox="0 0 44 44" width="44" height="44">
+<defs><linearGradient id="mng" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#F5C271"/><stop offset="1" stop-color="#B8721C"/></linearGradient></defs>
+<ellipse cx="22" cy="34" rx="14" ry="2" fill="rgba(80,40,10,.14)"/>
+<ellipse cx="22" cy="32" rx="14" ry="3" fill="#A66E48"/>
+<ellipse cx="22" cy="31" rx="12" ry="2" fill="#FFEDC8"/>
+<g transform="translate(9 18)"><path d="M0 6 Q0 2 4 2 L22 2 Q26 2 26 6 L26 10 Q26 14 22 14 L4 14 Q0 14 0 10 Z" fill="url(#mng)" stroke="#8A5511" stroke-width=".7"/><path d="M3 5 Q10 3 16 4 Q22 5 24 5" stroke="#FFDDA6" stroke-width=".9" fill="none" opacity=".8" stroke-linecap="round"/></g>
+</svg>
+</div>
+<div style="flex:1;font:400 11.5px/1.5 'Roboto',sans-serif;color:#6B6662">{{ o.date }}<br><span style="color:#242424;font-weight:700;font-size:13px">{{ o.total }}</span></div>
+</div>
+<div style="display:flex;gap:9px">
+<button type="button" onClick="{{ o.detail }}" style="flex:1;border:1.5px solid #DCD2C1;background:transparent;color:#242424;font:700 11.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:11px 0;border-radius:{{ btnR }};cursor:pointer">VER DETALLE</button>
+<button type="button" onClick="{{ o.again }}" style="flex:1;border:0;background:#FF3038;color:#fff;font:700 11.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:11px 0;border-radius:{{ btnR }};cursor:pointer">PEDIR DE NUEVO</button>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s22 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE">
+<div style="display:flex;align-items:center;gap:12px;padding:14px 20px 4px">
+<button type="button" onClick="{{ go21 }}" aria-label="Volver" style="border:0;background:transparent;cursor:pointer;padding:6px;margin:-6px;display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<span style="font:700 18px 'Roboto',sans-serif;letter-spacing:-.01em">Detalle del pedido</span>
+</div>
+<div class="stagger" style="padding:14px 20px 22px;display:flex;flex-direction:column;gap:12px">
+<div>
+<div style="font:700 17px 'Roboto',sans-serif;letter-spacing:.02em">RTQ-1987</div>
+<div style="font:400 12.5px 'Roboto',sans-serif;color:#6B6662;margin-top:4px">Entregado el 12 ago. 2026</div>
+</div>
+<div style="background:#fff;border:1.5px solid #F5A623;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:11px">
+<div style="font:700 15px 'Roboto',sans-serif">¿Cómo estuvo tu pedido?</div>
+<div style="font:400 12.5px 'Roboto',sans-serif;color:#6B6662">Califica tu experiencia</div>
+<div style="display:flex;gap:8px">
+<sc-for list="{{ stars }}" as="s" hint-placeholder-count="5">
+<button type="button" onClick="{{ s.pick }}" style="border:0;background:transparent;cursor:pointer;padding:0;display:flex;animation:pop .3s">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="{{ s.fill }}" stroke="{{ s.stroke }}" stroke-width="1.6"><path d="M12 3.5l2.6 5.6 6 .7-4.4 4.1 1.1 6-5.3-3-5.3 3 1.1-6L3.4 9.8l6-.7z"></path></svg>
+</button>
+</sc-for>
+</div>
+<div>
+<div style="font:600 12px 'Roboto',sans-serif;color:#242424;margin-bottom:6px">¿Qué podemos mejorar?</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<sc-for list="{{ improveChips }}" as="c" hint-placeholder-count="5">
+<button type="button" onClick="{{ c.pick }}" style="border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};font:500 11.5px 'Roboto',sans-serif;padding:7px 11px;border-radius:{{ pill }};cursor:pointer;transition:all .18s">{{ c.label }}</button>
+</sc-for>
+</div>
+</div>
+<div>
+<div style="font:600 12px 'Roboto',sans-serif;color:#242424;margin-bottom:6px">¿Dónde nos viste?</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<sc-for list="{{ sourceChips }}" as="c" hint-placeholder-count="5">
+<button type="button" onClick="{{ c.pick }}" style="border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};font:500 11.5px 'Roboto',sans-serif;padding:7px 11px;border-radius:{{ pill }};cursor:pointer;transition:all .18s">{{ c.label }}</button>
+</sc-for>
+</div>
+</div>
+<div style="background:#FFF8EE;border:1px solid #EFE6D6;border-radius:11px;padding:12px;font:400 12.5px 'Roboto',sans-serif;color:#7A736B;min-height:56px">Cuéntanos algo más (opcional)</div>
+<sc-if value="{{ showGoogle }}" hint-placeholder-val="{{ false }}">
+<div style="background:#E7F6EE;border:1px dashed #1F9D62;border-radius:11px;padding:10px 12px;display:flex;align-items:center;gap:10px;animation:fadeUp .3s">
+<span style="font-size:20px;line-height:1">⭐</span>
+<span style="flex:1;font:500 12px/1.4 'Roboto',sans-serif;color:#187348">¡Gracias! ¿Nos dejas tu reseña en Google? Nos ayuda muchísimo.</span>
+<button type="button" onClick="{{ goGoogle }}" style="border:0;background:#1F9D62;color:#fff;font:700 11px 'Roboto',sans-serif;padding:8px 11px;border-radius:{{ pill }};cursor:pointer;flex:none">IR A GOOGLE</button>
+</div>
+</sc-if>
+<button type="button" onClick="{{ sendSurvey }}" style="border:0;background:{{ surveyBg }};color:#fff;font:700 12.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:13px 0;border-radius:{{ btnR }};cursor:pointer;transition:all .2s" style-active="transform:scale(.98)">{{ surveyLabel }}</button>
+<div style="font:400 11px/1.4 'Roboto',sans-serif;color:#8C7A55;text-align:center">Al enviar recibes el cupón <strong>ENCUESTA3</strong> · S/ 3.00 de descuento · vence el 30 de septiembre</div>
+</div>
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;padding:14px">
+<div style="font:500 10px 'Roboto',sans-serif;letter-spacing:.14em;color:#8C867F">PRODUCTOS</div>
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;font:400 13px 'Roboto',sans-serif">
+<div style="display:flex;justify-content:space-between"><span>2 × Tequeños de queso</span><span>S/ 32.00</span></div>
+<div style="display:flex;justify-content:space-between"><span>1 × Limonada ½ litro</span><span>S/ 8.00</span></div>
+</div>
+</div>
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;padding:14px;display:flex;flex-direction:column;gap:10px;font:400 12.5px 'Roboto',sans-serif;color:#6B6662">
+<div><span style="display:block;font:500 10px 'Roboto',sans-serif;letter-spacing:.14em;color:#8C867F">ENTREGA</span><span style="display:block;color:#242424;margin-top:6px">Av. Bolognesi 845, Tacna</span></div>
+<div style="height:1px;background:#F4EDE0"></div>
+<div><span style="display:block;font:500 10px 'Roboto',sans-serif;letter-spacing:.14em;color:#8C867F">PAGO</span><span style="display:block;color:#242424;margin-top:6px">Yape · Pago verificado ✓</span></div>
+<div style="height:1px;background:#F4EDE0"></div>
+<div style="display:flex;justify-content:space-between;font:700 15px 'Roboto',sans-serif;color:#242424"><span>Total</span><span>S/ 45.90</span></div>
+</div>
+<button type="button" onClick="{{ orderAgain }}" style="border:0;background:#FF3038;color:#fff;font:700 13px 'Roboto',sans-serif;letter-spacing:.04em;padding:15px 0;border-radius:{{ btnR }};cursor:pointer" style-active="transform:scale(.98)">PEDIR DE NUEVO</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s23 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE">
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding:8px 20px 2px;gap:10px">
+<span style="font:700 {{ h1Size }} 'Roboto',sans-serif;letter-spacing:-.02em">Notificaciones</span>
+<button type="button" onClick="{{ readAll }}" style="border:0;background:transparent;color:#D91F2A;font:500 12px 'Roboto',sans-serif;cursor:pointer;white-space:nowrap">Marcar todo como leído</button>
+</div>
+<div class="stagger" style="padding:16px 20px 20px;display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ notifs }}" as="n" hint-placeholder-count="4">
+<div>
+<sc-if value="{{ n.isHeader }}" hint-placeholder-val="{{ false }}">
+<div style="font:500 10px 'Roboto',sans-serif;letter-spacing:.14em;color:#8C867F;padding:6px 0 2px">{{ n.label }}</div>
+</sc-if>
+<sc-if value="{{ n.isItem }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ n.open }}" style="width:100%;text-align:left;background:{{ n.bg }};border:1px solid #EFE6D6;border-radius:13px;padding:13px;display:flex;gap:12px;align-items:flex-start;cursor:pointer">
+<span style="width:34px;height:34px;border-radius:{{ iconR }};background:{{ n.iconBg }};display:flex;align-items:center;justify-content:center;flex:none">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="{{ n.iconFg }}" stroke-width="1.9"><path d="M6 7h12l-1 13H7L6 7z"></path><path d="M9.5 7V5.5a2.5 2.5 0 015 0V7"></path></svg>
+</span>
+<span style="flex:1">
+<span style="display:block;font:500 13px/1.35 'Roboto',sans-serif;color:#242424">{{ n.title }}</span>
+<span style="display:block;font:400 11.5px 'Roboto',sans-serif;color:#6B6662;margin-top:4px">{{ n.time }}</span>
+</span>
+<span style="width:8px;height:8px;border-radius:50%;background:{{ n.dot }};flex:none;margin-top:5px"></span>
+</button>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s24 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE">
+<div style="padding:8px 20px 2px;font:700 {{ h1Size }} 'Roboto',sans-serif;letter-spacing:-.02em">Mi perfil</div>
+<div class="stagger" style="padding:16px 20px 20px;display:flex;flex-direction:column;gap:12px">
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px">
+<span style="width:54px;height:54px;border-radius:50%;background:#FF3038;color:#fff;font:700 22px 'Roboto',sans-serif;display:flex;align-items:center;justify-content:center;flex:none">M</span>
+<span style="flex:1"><span style="display:block;font:700 15.5px 'Roboto',sans-serif">Milton Flores</span><span style="display:block;font:400 12.5px 'Roboto',sans-serif;color:#6B6662;margin-top:4px">milton@example.com</span></span>
+<button type="button" style="border:1.5px solid #DCD2C1;background:transparent;color:#242424;font:500 11.5px 'Roboto',sans-serif;padding:8px 13px;border-radius:{{ pill }};cursor:pointer;white-space:nowrap">Editar perfil</button>
+</div>
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:14px;overflow:hidden">
+<sc-for list="{{ profileRows }}" as="r" hint-placeholder-count="6">
+<button type="button" onClick="{{ r.go }}" style="width:100%;border:0;border-bottom:1px solid #F4EDE0;background:transparent;display:flex;align-items:center;gap:13px;padding:15px 14px;cursor:pointer;text-align:left">
+<span style="width:30px;height:30px;border-radius:{{ iconR }};background:#FFF3DF;display:flex;align-items:center;justify-content:center;flex:none;font:700 12px 'Roboto',sans-serif;color:#D9891A">{{ r.mark }}</span>
+<span style="flex:1;font:400 13.5px 'Roboto',sans-serif;color:#242424">{{ r.label }}</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7A736B" stroke-width="2"><path d="M9 5l7 7-7 7"></path></svg>
+</button>
+</sc-for>
+</div>
+<button type="button" onClick="{{ logout }}" style="border:1.5px solid #E8C9C6;background:#fff;color:#B42318;font:500 13.5px 'Roboto',sans-serif;padding:15px 0;border-radius:{{ btnR }};cursor:pointer">Cerrar sesión</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s25 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE">
+<div style="display:flex;align-items:center;gap:12px;padding:14px 20px 4px">
+<button type="button" onClick="{{ go24 }}" aria-label="Volver" style="border:0;background:transparent;cursor:pointer;padding:6px;margin:-6px;display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<span style="font:700 18px 'Roboto',sans-serif;letter-spacing:-.01em">Configuración</span>
+</div>
+<div class="stagger" style="padding:16px 20px 22px;display:flex;flex-direction:column;gap:12px">
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:14px;overflow:hidden">
+<sc-for list="{{ switches }}" as="w" hint-placeholder-count="3">
+<div style="border-bottom:1px solid #F4EDE0;display:flex;align-items:center;gap:12px;padding:14px">
+<span style="flex:1;font:400 13.5px 'Roboto',sans-serif">{{ w.label }}</span>
+<button type="button" onClick="{{ w.toggle }}" style="border:0;width:42px;height:25px;border-radius:999px;background:{{ w.track }};cursor:pointer;padding:0;display:flex;align-items:center;justify-content:{{ w.justify }};transition:all .2s"><span style="width:19px;height:19px;border-radius:50%;background:#fff;margin:0 3px;box-shadow:0 1px 3px rgba(0,0,0,.2)"></span></button>
+</div>
+</sc-for>
+<div style="display:flex;align-items:center;gap:12px;padding:14px">
+<span style="flex:1;font:400 13.5px 'Roboto',sans-serif">Tema</span>
+<span style="font:400 12.5px 'Roboto',sans-serif;color:#6B6662">Según el sistema</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7A736B" stroke-width="2"><path d="M9 5l7 7-7 7"></path></svg>
+</div>
+</div>
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:14px;overflow:hidden">
+<div style="border-bottom:1px solid #F4EDE0;display:flex;align-items:center;padding:14px;font:400 13.5px 'Roboto',sans-serif">Política de privacidad<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7A736B" stroke-width="2" style="margin-left:auto"><path d="M9 5l7 7-7 7"></path></svg></div>
+<div style="display:flex;align-items:center;padding:14px;font:400 13.5px 'Roboto',sans-serif">Términos y condiciones<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7A736B" stroke-width="2" style="margin-left:auto"><path d="M9 5l7 7-7 7"></path></svg></div>
+</div>
+<button type="button" onClick="{{ deleteAcct }}" style="border:1px solid #E8C9C6;background:#fff;color:#B42318;font:500 13.5px 'Roboto',sans-serif;padding:15px 0;border-radius:{{ btnR }};cursor:pointer;margin-top:4px">Eliminar mi cuenta</button>
+<div style="text-align:center;font:400 11.5px 'Roboto',sans-serif;color:#7A736B">Versión 1.0.0</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ s26 }}" hint-placeholder-val="{{ false }}">
+<div class="scr" style="min-height:100%;background:#FFF8EE;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 30px;gap:16px">
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;align-items:center;gap:18px" class="stagger">
+<div style="position:relative;width:130px;height:120px;display:flex;align-items:center;justify-content:center">
+<span style="width:56px;height:96px;border-radius:28px;background:#F5A623;border:2.5px solid #D9891A;position:relative;display:block"></span>
+<span style="position:absolute;width:26px;height:26px;border-radius:50%;border:3px solid #242424;border-top-color:transparent;border-right-color:transparent;transform:rotate(-45deg);top:30px"></span>
+<span style="position:absolute;width:44px;height:3px;background:#B42318;transform:rotate(-38deg);top:52px"></span>
+</div>
+<div style="font:700 22px/1.25 'Roboto',sans-serif;letter-spacing:-.02em">Sin conexión</div>
+<div style="font:400 14px/1.55 'Roboto',sans-serif;color:#6B6662;max-width:250px">Revisa tu internet e inténtalo nuevamente.</div>
+<button type="button" onClick="{{ retry }}" style="border:0;background:#FF3038;color:#fff;font:700 13px 'Roboto',sans-serif;letter-spacing:.04em;padding:15px 34px;border-radius:{{ btnR }};cursor:pointer" style-active="transform:scale(.97)">REINTENTAR</button>
+<button type="button" onClick="{{ go21 }}" style="border:0;background:transparent;color:#D91F2A;font:500 13px 'Roboto',sans-serif;cursor:pointer">Ver pedidos guardados</button>
+</div>
+</sc-if>
+<sc-if value="{{ isIos }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;align-items:center;gap:18px" class="stagger">
+<div class="ph" style="width:118px;height:88px;border-radius:12px;display:flex;align-items:center;justify-content:center;position:relative;overflow:visible">
+<svg viewBox="0 0 118 88" width="118" height="88">
+<ellipse cx="59" cy="66" rx="46" ry="4" fill="rgba(80,40,10,.14)"/>
+<ellipse cx="59" cy="60" rx="46" ry="10" fill="#B08558"/>
+<ellipse cx="59" cy="56" rx="42" ry="8" fill="#EFE0C2"/>
+<ellipse cx="59" cy="55" rx="38" ry="6" fill="#F7ECD1"/>
+<path d="M40 32 L44 22 L48 32 M42 26 L47 26" stroke="#D9891A" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".55"/>
+<circle cx="70" cy="28" r="1.6" fill="#F5A623" opacity=".6"/>
+<circle cx="82" cy="24" r="1.1" fill="#F5A623" opacity=".5"/>
+<circle cx="30" cy="26" r="1.2" fill="#F5A623" opacity=".5"/>
+</svg>
+<span style="position:absolute;right:-10px;bottom:-10px;width:44px;height:44px;border-radius:50%;background:#fff;border:2.5px solid #242424"></span>
+<span style="position:absolute;right:-22px;bottom:-20px;width:18px;height:3.5px;background:#242424;transform:rotate(45deg);border-radius:2px"></span>
+</div>
+<div style="font:700 22px/1.25 -apple-system,'Roboto',sans-serif;letter-spacing:-.02em">No encontramos resultados</div>
+<div style="font:400 14px/1.55 -apple-system,'Roboto',sans-serif;color:#6B6662;max-width:250px">Prueba con otro nombre o revisa nuestras categorías.</div>
+<button type="button" onClick="{{ go08 }}" style="border:0;background:#FF3038;color:#fff;font:700 13px -apple-system,'Roboto',sans-serif;letter-spacing:.04em;padding:15px 30px;border-radius:{{ btnR }};cursor:pointer" style-active="transform:scale(.97)">VER TODO EL MENÚ</button>
+<button type="button" onClick="{{ clearAndSearch }}" style="border:0;background:transparent;color:#D91F2A;font:500 13px -apple-system,'Roboto',sans-serif;cursor:pointer">Limpiar búsqueda</button>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+</div>
+
+<sc-if value="{{ showCartBar }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ go13 }}" aria-label="Ver carrito" style="flex:none;margin:0 14px 8px;border:0;background:#242424;color:#fff;border-radius:14px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.18);font:600 13px 'Roboto',sans-serif;animation:fadeUp .25s">
+<span style="display:flex;align-items:center;gap:10px"><span style="min-width:24px;height:24px;border-radius:12px;background:#FF3038;display:flex;align-items:center;justify-content:center;font:700 12px 'Roboto',sans-serif;padding:0 7px">{{ cartCount }}</span>Ver carrito</span>
+<span style="font:700 14px 'Roboto',sans-serif">{{ cartBarTotal }}</span>
+</button>
+</sc-if>
+<sc-if value="{{ showNav }}" hint-placeholder-val="{{ false }}">
+<div style="flex:none;background:{{ navBg }};border-top:1px solid #EFE6D6;padding:{{ navPad }};display:flex;justify-content:space-around;align-items:center">
+<button type="button" onClick="{{ goHome }}" style="border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 10px;color:{{ cHome }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 11l8-6.5 8 6.5"></path><path d="M6.5 10v9h11v-9"></path></svg>
+<span style="font:500 10px 'Roboto',sans-serif">Inicio</span>
+</button>
+<button type="button" onClick="{{ go08 }}" style="border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 10px;color:{{ cMenu }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg>
+<span style="font:500 10px 'Roboto',sans-serif">Menú</span>
+</button>
+<button type="button" onClick="{{ go21 }}" style="border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 10px;color:{{ cOrders }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M6 7h12l-1 13H7L6 7z"></path><path d="M9.5 7V5.5a2.5 2.5 0 015 0V7"></path></svg>
+<span style="font:500 10px 'Roboto',sans-serif">Pedidos</span>
+</button>
+<button type="button" onClick="{{ go24 }}" style="border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 10px;color:{{ cProfile }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8.5" r="3.7"></circle><path d="M5 20c1.4-3.4 4-5 7-5s5.6 1.6 7 5"></path></svg>
+<span style="font:500 10px 'Roboto',sans-serif">Perfil</span>
+</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ isAnd }}" hint-placeholder-val="{{ true }}">
+<div data-homebar style="flex:none;height:22px;background:{{ navBg }};display:flex;align-items:center;justify-content:center"><span style="width:104px;height:3.5px;border-radius:3px;background:#B5ADA3"></span></div>
+</sc-if>
+<sc-if value="{{ isIos }}" hint-placeholder-val="{{ false }}">
+<div data-homebar style="flex:none;height:26px;background:{{ navBg }};display:flex;align-items:center;justify-content:center"><span style="width:136px;height:5px;border-radius:3px;background:#1A1A1A;opacity:.85"></span></div>
+</sc-if>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ toastTap }}" role="status" style="position:absolute;left:16px;right:16px;bottom:92px;background:#242424;color:#fff;border-radius:11px;padding:14px 16px;font:500 13px 'Roboto',sans-serif;display:flex;align-items:center;gap:10px;animation:toastIn .28s cubic-bezier(.2,.8,.2,1);z-index:20;box-shadow:0 12px 30px rgba(0,0,0,.25);cursor:pointer">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#7BE0A9" stroke-width="2.6"><path d="M4 12.5l5.2 5L20 6.5"></path></svg>
+<span style="flex:1">{{ toast }}</span>
+<span style="font:700 12px 'Roboto',sans-serif;color:#FFD9B0;flex:none">{{ toastCta }}</span>
+</div>
+</sc-if>
+
+</div>
+</div>
+</div>
+</div>
+
+<div data-stage-hint style="flex:none;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:560px;font:400 12px/1.5 'Roboto',sans-serif;color:#6B6662;text-align:center">
+{{ hint }}
+</div>
+</main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;1280&quot;,&quot;height&quot;:&quot;1000&quot;}}">
+const P = {coral:'#FF3038', dark:'#D91F2A', gold:'#F5A623', cream:'#FFF8EE', char:'#242424', gray:'#6B6662'};
+
+// Datos del local (configurables; el horario y la dirección deben confirmarse con Retequeños)
+const STORE = {name:'Retequeños', addr:'Calle Alto Lima 1488, Tacna', hours:'Abierto hoy · delivery hasta 11:00 p. m.', fee:5.90, yape:'912 266 950'};
+
+// Fotos reales de la carta (las mismas de la web)
+const IMG_DEFAULT = 'img/products/tequenos/queso.jpg';
+const IMG = {
+  clasicos:'img/products/tequenos/queso.jpg', combo:'img/promos/promo-duo.jpg', jamon:'img/products/tequenos/jamon-queso.jpg',
+  dulces:'img/products/tequenos/chocolate.jpg', tocino:'img/products/tequenos/tocino-queso.jpg', hotdog:'img/products/tequenos/hotdog-queso.jpg',
+  tresquesos:'img/products/tequenos/tres-quesos.jpg', ajigallina:'img/products/tequenos/aji-de-gallina.jpg', oregano:'img/products/tequenos/queso.jpg',
+  cheddar:'img/products/tequenos/queso-cheddar.jpg', jamoncheddar:'img/products/tequenos/jamon-cheddar.jpg',
+  'promo-solo':'img/promos/promo-solo-para-mi.jpg', 'promo-extra':'img/promos/promo-extra.jpg', 'promo-familiar':'img/promos/promo-familiar.jpg',
+  'promo-tequepizza':'img/promos/promo-tequepizza.jpg', 'promo-antojo':'img/promos/antojo-criollo.jpg', 'promo-sazon':'img/promos/sazon-antojo.jpg',
+  'promo-bocados':'img/promos/bocaditos-de-felicidad.jpg', 'promo-fiesta':'img/promos/fiesta-de-sabor.jpg', 'promo-mundo':'img/promos/mundo-de-sabores.jpg',
+  'promo-sinlimites':'img/promos/sabor-sin-limites.jpg', 'promo-tentacion':'img/promos/la-doble-tentacion.jpg', 'promo-placer':'img/promos/doble-placer.jpg',
+  'pizza-americana':'img/products/pizzas/americana.jpg', 'pizza-italiana':'img/products/pizzas/italiana.jpg', 'pizza-supermargarita':'img/products/pizzas/super-margarita.jpg',
+  'pizza-hawaiana':'img/products/pizzas/la-hawaiana.jpg', 'pizza-peperoni':'img/products/pizzas/full-peperoni.jpg', 'pizza-especial':'img/products/pizzas/la-especial.jpg',
+  'pizza-espanola':'img/products/pizzas/espanola.jpg', 'pizza-vegetariana':'img/products/pizzas/vegetariana.jpg', 'pizza-oriental':'img/products/pizzas/oriental.jpg',
+  'pizza-primavera':'img/products/pizzas/primavera.jpg', 'pizza-margarita':'img/products/pizzas/margarita.jpg', 'pizza-adicional':'img/products/pizzas/adicionales.jpg',
+  'pastel-queso':'img/promos/antojo-criollo.jpg', 'pastel-jamonqueso':'img/promos/antojo-criollo.jpg', 'pastel-pizza':'img/promos/antojo-criollo.jpg',
+  'pastel-pollo':'img/promos/antojo-criollo.jpg', 'pastel-carne':'img/promos/antojo-criollo.jpg',
+  limonada:'img/products/bebidas/coca-cola-600ml.jpg', chicha:'img/products/bebidas/coca-cola-600ml.jpg', cocacola:'img/products/bebidas/coca-cola-600ml.jpg',
+  inkakola:'img/products/bebidas/coca-cola-600ml.jpg', pepsi1l:'img/products/bebidas/coca-cola-600ml.jpg', pepsi2l:'img/products/bebidas/coca-cola-600ml.jpg',
+  agua:'img/products/bebidas/coca-cola-600ml.jpg', infusiones:'img/products/bebidas/coca-cola-600ml.jpg', tartara:'img/products/cremas/mayonesa-ajo.jpg'
+};
+const num = (v) => parseFloat(String(v).replace(/[^\d.]/g, '')) || 0;
+const money = (n) => 'S/ ' + n.toFixed(2);
+const fmtTime = (d) => { let h = d.getHours(); const m = d.getMinutes(); const ap = h >= 12 ? 'p. m.' : 'a. m.'; h = h % 12 || 12; return h + ':' + (m < 10 ? '0' + m : m) + ' ' + ap; };
+// Líneas de pedidos anteriores para "Pedir de nuevo"
+const ORDER_LINES = {
+  'RTQ-1987': [{pid:'clasicos', name:'Tequeños de queso', opts:'Mayonesa de ajo', unit:16.00, n:2}, {pid:'limonada', name:'Limonada', opts:'½ litro', unit:8.00, n:1}],
+  'RTQ-1904': [{pid:'promo-solo', name:'Promo Solo para Mí', opts:'Queso · 2 cremas · gaseosa ½ L', unit:19.90, n:1}],
+  'RTQ-2048': [{pid:'combo', name:'Promo Duo', opts:'Queso · Mayonesa de ajo y Mayopalta', unit:35.90, n:1}, {pid:'dulces', name:'Tequeños de chocolate', opts:'', unit:17.00, n:1}]
+};
+
+const RAIL = [
+  ['01','Lanzamiento'],['02','Bienvenida'],['03','Inicio de sesión'],['04','Crear cuenta'],
+  ['05','Recuperar contraseña'],['06','Inicio'],['07','Búsqueda'],['08','Menú'],
+  ['09','Detalle de producto'],['10','Personalizar combo'],['11','Favoritos'],['12','Promociones'],
+  ['13','Carrito'],['14','Direcciones'],['15','Nueva dirección'],['16','Modalidad y horario'],
+  ['17','Resumen de compra'],['18','Método de pago'],['19','Pedido confirmado'],['20','Seguimiento'],
+  ['21','Historial'],['22','Detalle y valoración'],['23','Notificaciones'],['24','Perfil'],
+  ['25','Configuración'],['26','Estados excepcionales']
+];
+
+const TITLES = {
+  '01':['Lote 01 · Pantalla de lanzamiento','Carga inicial, sin controles'],
+  '02':['Lote 02 · Bienvenida','Última pantalla de onboarding'],
+  '03':['Lote 03 · Inicio de sesión','Acceso con correo y proveedores'],
+  '04':['Lote 04 · Creación de cuenta','Formulario de registro'],
+  '05':['Lote 05 · Recuperación de contraseña','Enlace por correo'],
+  '06':['Lote 06 · Inicio principal','Descubrimiento y accesos rápidos'],
+  '07':['Lote 07 · Búsqueda de productos','Escribe para filtrar resultados'],
+  '08':['Lote 08 · Menú por categorías','Catálogo completo'],
+  '09':['Lote 09 · Detalle de producto','Salsa, cantidad y carrito'],
+  '10':['Lote 10 · Personalización','Relleno, 2 salsas y notas'],
+  '11':['Lote 11 · Favoritos','Colección guardada'],
+  '12':['Lote 12 · Promociones y cupones','Cupón copiable y condiciones'],
+  '13':['Lote 13 · Carrito','Dos productos, cupón y desglose'],
+  '14':['Lote 14 · Direcciones guardadas','Selección de entrega'],
+  '15':['Lote 15 · Agregar dirección','Mapa, pin y etiquetas'],
+  '16':['Lote 16 · Modalidad y horario','Delivery o recojo'],
+  '17':['Lote 17 · Resumen de compra','Checkout final'],
+  '18':['Lote 18 · Método de pago','Selección segura'],
+  '19':['Lote 19 · Pedido confirmado','Estado de éxito'],
+  '20':['Lote 20 · Seguimiento','Pedido RTQ-2048 en camino'],
+  '21':['Lote 21 · Historial de pedidos','En curso y anteriores'],
+  '22':['Lote 22 · Detalle y valoración','RTQ-1987 entregado · encuesta y cupón'],
+  '23':['Lote 23 · Notificaciones','Centro de avisos'],
+  '24':['Lote 24 · Perfil del cliente','Accesos de cuenta'],
+  '25':['Lote 25 · Configuración','Preferencias y privacidad'],
+  '26':['Lote 26 · Estados excepcionales','Android: sin conexión · iOS: búsqueda vacía']
+};
+
+const HINTS = {
+  '01':'Avanza automáticamente a la bienvenida.',
+  '02':'“COMENZAR” u “Omitir” llevan al Inicio.',
+  '03':'Los textos cambian entre Android e iOS según el plan.',
+  '04':'Registro con prefijo +51 y medidor de contraseña.',
+  '05':'“ENVIAR ENLACE” muestra la confirmación.',
+  '06':'Toca +, el estado del local, "Repetir" tu último pedido, los chips o el buscador. La barra "Ver carrito" aparece cuando hay productos.',
+  '07':'Escribe o usa los chips de sugerencia. "Más pedidos" ordena por valoración. Toca el corazón.',
+  '08':'Cambia de categoría y abre cualquier producto.',
+  '09':'Muestra el producto que tocaste (foto real). Elige 10 o 20 unidades, salsa, extras y cantidad.',
+  '10':'Máximo 2 salsas: la tercera selección se bloquea.',
+  '11':'Quita un favorito con el corazón.',
+  '12':'Copia el cupón y abre las condiciones.',
+  '13':'Aplica o quita el cupón, ajusta cantidades o vacía el carrito (estado vacío). Continuar lleva a la modalidad.',
+  '14':'Solo aparece si elegiste delivery. Elige Casa o Trabajo, o agrega una nueva.',
+  '15':'Cambia la etiqueta y el switch de dirección principal.',
+  '16':'Delivery pide dirección; Recojo salta directo al resumen y el delivery cuesta S/ 0.',
+  '17':'Muestra las líneas y totales reales del carrito. Escribe instrucciones; Confirmar genera el pedido.',
+  '18':'Sin pasarela: efectivo, Yape/Plin o transferencia con captura por WhatsApp.',
+  '19':'Número de pedido, hora estimada y montos salen del pedido que acabas de confirmar.',
+  '20':'La moto recorre la ruta; el timeline marca el estado actual.',
+  '21':'Cambia entre “En curso” y “Anteriores”.',
+  '22':'Califica, marca qué mejorar y dónde nos viste; 4-5★ invita a Google Reviews. Enviar da el cupón ENCUESTA3.',
+  '23':'“Marcar todo como leído” apaga los puntos.',
+  '24':'Los accesos llevan a favoritos, promociones y configuración.',
+  '25':'Los switches y la acción destructiva son funcionales.',
+  '26':'Cambia de plataforma: Android muestra sin conexión, iOS búsqueda vacía.'
+};
+
+// Carta oficial Retequeños 2026 (precios en soles). Tequeños: precio de 10 unid.; el de 20 unid. va en la descripción.
+const CATALOG = [
+  {id:'clasicos', name:'Tequeños de queso', qty:'10 unidades', price:'S/ 16.00', cat:'Clásicos', desc:'Queso fundido · 20 unid. S/ 27.00', rating:'4.8'},
+  {id:'combo', name:'Promo Duo', qty:'20 unid. + 2 gaseosas', price:'S/ 35.90', cat:'Combos', desc:'20 tequeños (2 sabores) + 2 cremas + 2 gaseosas ½ L', rating:'4.9'},
+  {id:'jamon', name:'Tequeños de jamón y queso', qty:'10 unidades', price:'S/ 16.00', cat:'Clásicos', desc:'Jamón y queso · 20 unid. S/ 28.00', rating:'4.7'},
+  {id:'dulces', name:'Tequeños de chocolate', qty:'10 unidades', price:'S/ 17.00', cat:'Especiales', desc:'Chocolate · 20 unid. S/ 31.00', rating:'4.6'},
+  {id:'tocino', name:'Tequeños de tocino y queso', qty:'10 unidades', price:'S/ 17.00', cat:'Clásicos', desc:'Tocino y queso · 20 unid. S/ 29.00', rating:'4.7'},
+  {id:'hotdog', name:'Tequeños de hotdog y queso', qty:'10 unidades', price:'S/ 16.00', cat:'Clásicos', desc:'Hotdog y queso · 20 unid. S/ 28.00', rating:'4.6'},
+  {id:'tresquesos', name:'Tequeños tres quesos', qty:'10 unidades', price:'S/ 17.00', cat:'Clásicos', desc:'Tres quesos · 20 unid. S/ 28.00', rating:'4.7'},
+  {id:'ajigallina', name:'Tequeños de ají de gallina', qty:'10 unidades', price:'S/ 17.00', cat:'Especiales', desc:'Ají de gallina · 20 unid. S/ 29.00', rating:'4.8'},
+  {id:'oregano', name:'Tequeños de queso con masa de orégano', qty:'10 unidades', price:'S/ 16.00', cat:'Especiales', desc:'Masa especial de orégano · 20 unid. S/ 27.00', rating:'4.6'},
+  {id:'cheddar', name:'Tequeños de queso cheddar', qty:'10 unidades', price:'S/ 18.00', cat:'Especiales', desc:'Queso cheddar · 20 unid. S/ 34.00', rating:'4.7'},
+  {id:'jamoncheddar', name:'Tequeños de jamón y cheddar', qty:'10 unidades', price:'S/ 19.00', cat:'Especiales', desc:'Jamón y cheddar · 20 unid. S/ 36.00', rating:'4.7'},
+  {id:'promo-solo', name:'Promo Solo para Mí', qty:'10 unid. + 1 gaseosa', price:'S/ 19.90', cat:'Combos', desc:'10 tequeños de queso + 2 cremas + 1 gaseosa ½ L', rating:'4.8'},
+  {id:'promo-extra', name:'Promo Extra', qty:'20 unid. + 1 gaseosa', price:'S/ 32.90', cat:'Combos', desc:'20 tequeños (2 sabores) + 2 cremas + 1 gaseosa ½ L', rating:'4.8'},
+  {id:'promo-familiar', name:'Promo Familiar', qty:'40 unid. + 1 gaseosa 2 L', price:'S/ 63.90', cat:'Combos', desc:'40 tequeños (4 sabores) + 4 cremas + 1 gaseosa 2 L', rating:'4.9'},
+  {id:'promo-tequepizza', name:'Promo Tequepizza', qty:'1 pizza + 5 tequeños', price:'S/ 43.90', cat:'Combos', desc:'1 pizza familiar + 5 tequeños de queso + 1 crema + 1 gaseosa 1 L', rating:'4.8'},
+  {id:'promo-antojo', name:'Promo Antojo Criollo', qty:'10 mini empanaditas', price:'S/ 19.90', cat:'Combos', desc:'Ají de gallina, lomo saltado y queso + 1 Coca Cola 600 ml + 2 cremas', rating:'4.7'},
+  {id:'promo-sazon', name:'Promo Sazón & Antojo', qty:'20 mini tequeños + 20 mini empanaditas', price:'S/ 47.90', cat:'Combos', desc:'Mini tequeños de queso + mini empanaditas + 1 Pepsi 1 L + 4 cremas', rating:'4.8'},
+  {id:'promo-bocados', name:'Promo Bocados de Felicidad', qty:'20 mini tequeños + 20 mini empanaditas', price:'S/ 36.90', cat:'Combos', desc:'Mini tequeños de queso + mini empanaditas (carne, pollo, queso/jamón) + 3 cremas', rating:'4.7'},
+  {id:'promo-fiesta', name:'Promo Fiesta de Sabor', qty:'20 tequeños + 20 mini empanaditas', price:'S/ 43.90', cat:'Combos', desc:'Tequeños de queso + mini empanaditas (carne, pollo, queso/jamón) + 3 cremas', rating:'4.8'},
+  {id:'promo-mundo', name:'Promo Mundo de Sabores', qty:'1 pizza + 20 mini tequeños', price:'S/ 51.90', cat:'Combos', desc:'1 pizza familiar + 20 mini tequeños de queso + 1 Pepsi 1 L + 2 cremas', rating:'4.8'},
+  {id:'promo-sinlimites', name:'Promo Sabor sin Límites', qty:'1 pizza + 20 mini empanaditas', price:'S/ 54.90', cat:'Combos', desc:'1 pizza familiar + 20 mini empanaditas mixtas + 1 Pepsi 1 L + 3 cremas', rating:'4.8'},
+  {id:'promo-tentacion', name:'Promo La Doble Tentación', qty:'1 pizza + 20 tequeños', price:'S/ 53.90', cat:'Combos', desc:'1 pizza hawaiana familiar + 20 tequeños de jamón/queso + 2 cremas', rating:'4.9'},
+  {id:'promo-placer', name:'Promo Doble Placer', qty:'2 pizzas + 1 gaseosa', price:'S/ 64.90', cat:'Combos', desc:'2 pizzas familiares (elige sabor) + 1 Pepsi 1 L + 2 cremas', rating:'4.9'},
+  {id:'pizza-americana', name:'Pizza Americana', qty:'Familiar 35 cm', price:'S/ 35.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella y jamón', rating:'4.7'},
+  {id:'pizza-italiana', name:'Pizza Italiana', qty:'Familiar 35 cm', price:'S/ 38.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, jamón, aceituna negra, pollo y pimentón', rating:'4.8'},
+  {id:'pizza-supermargarita', name:'Pizza Super Margarita', qty:'Familiar 35 cm', price:'S/ 36.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, jamón, pimentón y aceituna verde', rating:'4.7'},
+  {id:'pizza-hawaiana', name:'Pizza La Hawaiana', qty:'Familiar 35 cm', price:'S/ 37.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, jamón y piña', rating:'4.8'},
+  {id:'pizza-peperoni', name:'Pizza Full Peperoni', qty:'Familiar 35 cm', price:'S/ 38.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, peperoni y jamón', rating:'4.8'},
+  {id:'pizza-especial', name:'Pizza La Especial', qty:'Familiar 35 cm', price:'S/ 39.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, pimentón, tocino ahumado, champiñones y queso parmesano', rating:'4.9'},
+  {id:'pizza-espanola', name:'Pizza Española', qty:'Familiar 35 cm', price:'S/ 38.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, chorizo, pimentón y aceituna verde', rating:'4.7'},
+  {id:'pizza-vegetariana', name:'Pizza Vegetariana', qty:'Familiar 35 cm', price:'S/ 36.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, aceituna verde y negra, pimentón y champiñón', rating:'4.6'},
+  {id:'pizza-oriental', name:'Pizza Oriental', qty:'Familiar 35 cm', price:'S/ 37.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, piña y pollo', rating:'4.7'},
+  {id:'pizza-primavera', name:'Pizza Primavera', qty:'Familiar 35 cm', price:'S/ 35.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, jamón y maíz', rating:'4.6'},
+  {id:'pizza-margarita', name:'Pizza Margarita', qty:'Familiar 35 cm', price:'S/ 34.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, tomate y aceite de oliva', rating:'4.6'},
+  {id:'pizza-adicional', name:'Adicional para pizza', qty:'1 ingrediente', price:'S/ 3.00', cat:'Pizzas', desc:'Maíz, champiñones, jamón, queso parmesano, tocino o aceituna verde', rating:'4.5'},
+  {id:'pastel-queso', name:'Pastelito de queso', qty:'1 unidad', price:'S/ 3.50', cat:'Pastelitos', desc:'Pastelito relleno de queso', rating:'4.6'},
+  {id:'pastel-jamonqueso', name:'Pastelito de jamón y queso', qty:'1 unidad', price:'S/ 4.00', cat:'Pastelitos', desc:'Pastelito relleno de jamón y queso', rating:'4.6'},
+  {id:'pastel-pizza', name:'Pastelito de pizza', qty:'1 unidad', price:'S/ 4.50', cat:'Pastelitos', desc:'Pastelito relleno sabor pizza', rating:'4.6'},
+  {id:'pastel-pollo', name:'Pastelito de pollo deshilachado', qty:'1 unidad', price:'S/ 4.50', cat:'Pastelitos', desc:'Pastelito relleno de pollo deshilachado', rating:'4.7'},
+  {id:'pastel-carne', name:'Pastelito de carne deshilachada', qty:'1 unidad', price:'S/ 4.50', cat:'Pastelitos', desc:'Pastelito relleno de carne deshilachada', rating:'4.7'},
+  {id:'limonada', name:'Limonada', qty:'½ litro', price:'S/ 8.00', cat:'Bebidas', desc:'Refresco natural · 1 litro S/ 15.00', rating:'4.5'},
+  {id:'chicha', name:'Chicha morada', qty:'½ litro', price:'S/ 8.00', cat:'Bebidas', desc:'Refresco natural · 1 litro S/ 15.00', rating:'4.6'},
+  {id:'cocacola', name:'Coca Cola', qty:'600 ml', price:'S/ 5.00', cat:'Bebidas', desc:'Gaseosa personal', rating:'4.5'},
+  {id:'inkakola', name:'Inka Kola', qty:'600 ml', price:'S/ 5.00', cat:'Bebidas', desc:'Gaseosa personal', rating:'4.5'},
+  {id:'pepsi1l', name:'Pepsi', qty:'1 litro', price:'S/ 6.00', cat:'Bebidas', desc:'Gaseosa para compartir', rating:'4.4'},
+  {id:'pepsi2l', name:'Pepsi', qty:'2 litros', price:'S/ 8.00', cat:'Bebidas', desc:'Gaseosa familiar', rating:'4.4'},
+  {id:'agua', name:'Agua', qty:'Botella', price:'S/ 4.50', cat:'Bebidas', desc:'Agua mineral', rating:'4.3'},
+  {id:'infusiones', name:'Infusiones', qty:'1 taza', price:'S/ 3.50', cat:'Bebidas', desc:'Infusión caliente', rating:'4.3'},
+  {id:'tartara', name:'Crema adicional', qty:'2 oz', price:'S/ 2.00', cat:'Salsas', desc:'Mayonesa de ajo, salsa tocino, mayopalta o ají especial', rating:'4.6'}
+];
+
+class Component extends DCLogic {
+  state = {
+    plat: 'android', screen: '01', cart: 0, favs: ['clasicos'], cat: 'Todos', homeChip: 'Clásicos',
+    query: '', sortTop: false, qty: 1, sauce: 'Mayonesa de ajo', relleno: 'Queso', sauces: ['Mayonesa de ajo', 'Mayopalta'],
+    extraCheese: false, extraSauce: false, sel: 'clasicos', pres: 10,
+    toast: '', toastGo: false, copied: false, terms: false,
+    lines: [{id:'l1', pid:'clasicos', name:'Tequeños de queso', opts:'Mayonesa de ajo · Queso', unit:16.00, n:1, img: IMG.clasicos},
+            {id:'l2', pid:'combo', name:'Promo Duo', opts:'Queso · Mayonesa de ajo y Mayopalta', unit:35.90, n:1, img: IMG.combo}],
+    applied: true, addr: 'Casa', addrTag: 'Casa', mainAddr: true,
+    mode: 'delivery', timing: 'Lo antes posible', pay: 'Pago contraentrega (Efectivo)',
+    comboNotes: '', driverNotes: '', lastOrder: null,
+    hist: 'En curso', rating: 0, unread: true,
+    improve: [], source: '', surveySent: false,
+    swOrders: true, swPromos: true, swLoc: false, zoom: 1
+  };
+
+  componentDidMount() {
+    this._t = setTimeout(() => { if (this.state.screen === '01') this.setState({screen:'02'}); }, 2100);
+    this._fit = () => {
+      const z = Math.min(1, Math.max(0.42, (window.innerHeight - 150) / 862));
+      if (z !== this.state.zoom) this.setState({zoom: z});
+    };
+    this._fit();
+    window.addEventListener('resize', this._fit);
+  }
+  componentWillUnmount() {
+    clearTimeout(this._t); clearTimeout(this._tt);
+    window.removeEventListener('resize', this._fit);
+  }
+
+  go = (s) => () => this.setState({screen: s, terms: false});
+
+  flash = (msg, toCart) => {
+    clearTimeout(this._tt);
+    this.setState({toast: msg, toastGo: !!toCart});
+    this._tt = setTimeout(() => this.setState({toast: '', toastGo: false}), 2400);
+  };
+
+  // "+" agrega una línea real al carrito (o suma 1 si ya estaba sin opciones)
+  add = (id) => () => {
+    const p = CATALOG.filter(x => x.id === id)[0];
+    if (!p) return;
+    this.setState(s => {
+      const idx = s.lines.findIndex(l => l.pid === p.id && !l.opts);
+      if (idx > -1) return {lines: s.lines.map((l, j) => j === idx ? Object.assign({}, l, {n: Math.min(20, l.n + 1)}) : l)};
+      return {lines: s.lines.concat([{id: 'l-' + Date.now(), pid: p.id, name: p.name, opts: '', unit: num(p.price), n: 1, img: IMG[p.id] || IMG_DEFAULT}])};
+    });
+    this.flash('Agregado al carrito · ' + p.name, true);
+  };
+
+  // Vuelve a pedir un pedido anterior con sus líneas reales
+  reorder = (oid) => () => {
+    const lo = this.state.lastOrder;
+    const src = ORDER_LINES[oid] || (lo && lo.id === oid ? lo.lines : []);
+    if (!src.length) { this.flash('No encontramos ese pedido'); return; }
+    const t = Date.now();
+    this.setState(s => ({lines: s.lines.concat(src.map((l, i) => Object.assign({}, l, {id: 'r' + t + i, img: IMG[l.pid] || IMG_DEFAULT}))), screen: '13'}));
+    this.flash('Pedido ' + oid + ' agregado al carrito', true);
+  };
+
+  toggleExtraCheese = () => this.setState(s => ({extraCheese: !s.extraCheese}));
+  toggleExtraSauce = () => this.setState(s => ({extraSauce: !s.extraSauce}));
+
+  addDetail = () => {
+    const st = this.state;
+    const dp = CATALOG.filter(x => x.id === st.sel)[0] || CATALOG[0];
+    const m = /20 unid\. S\/ ([\d.]+)/.exec(dp.desc || '');
+    const p20 = m ? parseFloat(m[1]) : null;
+    const hasSauce = ['Clásicos','Especiales','Pastelitos'].indexOf(dp.cat) > -1;
+    const base = st.pres === 20 && p20 ? p20 : num(dp.price);
+    const parts = [];
+    if (hasSauce) parts.push(st.sauce || 'Mayonesa de ajo');
+    if (st.pres === 20 && p20) parts.push('20 unid.');
+    if (st.extraCheese) parts.push('Extra queso');
+    if (st.extraSauce) parts.push('Crema extra');
+    const opts = parts.join(' · ');
+    const unit = base + (st.extraCheese ? 3.00 : 0) + (st.extraSauce ? 2.00 : 0);
+    const qty = st.qty;
+    this.setState(s => ({
+      lines: s.lines.concat([{id: 'd-' + Date.now(), pid: dp.id, name: dp.name, opts: opts, unit: unit, n: qty, img: IMG[dp.id] || IMG_DEFAULT}]),
+      screen: '13', qty: 1
+    }));
+    this.flash('Agregado · ' + qty + '× ' + dp.name + (opts ? ' (' + opts + ')' : ''));
+  };
+
+  addCombo = () => {
+    const st = this.state;
+    const sStr = st.sauces.length ? st.sauces.join(' y ') : 'Sin cremas';
+    const opts = (st.relleno || 'Queso') + ' · ' + sStr + (st.comboNotes ? ' · Nota: ' + st.comboNotes : '');
+    this.setState(s => ({
+      lines: s.lines.concat([{id: 'c-' + Date.now(), pid: 'combo', name: 'Promo Duo', opts: opts, unit: 35.90, n: 1, img: IMG.combo}]),
+      screen: '13'
+    }));
+    this.flash('Agregado · Promo Duo (' + opts + ')');
+  };
+
+  toggleFav = (id) => () => this.setState(s => ({
+    favs: s.favs.indexOf(id) > -1 ? s.favs.filter(x => x !== id) : s.favs.concat([id])
+  }));
+
+  chip = (label, active, onPick) => ({
+    label, pick: onPick,
+    bg: active ? P.coral : '#fff', fg: active ? '#fff' : P.char, bd: active ? P.coral : '#DCD2C1'
+  });
+
+  prod = (p) => {
+    let bText = '🧀 Queso fundido';
+    let bBg = '#FFF8E7';
+    let bFg = '#B7791F';
+    if (p.id === 'combo') { bText = '🧀 2 sabores + 🥣 2 cremas'; bBg = '#FFF0F0'; bFg = '#D91F2A'; }
+    else if (p.id === 'jamon' || p.id === 'jamoncheddar') { bText = '🥓 Jamón + 🧀 Queso'; bBg = '#FFF5F5'; bFg = '#C53030'; }
+    else if (p.id === 'dulces') { bText = '🍫 Chocolate'; bBg = '#FAF5FF'; bFg = '#6B46C1'; }
+    else if (p.id === 'tartara') { bText = '🥣 Crema casera'; bBg = '#F0FFF4'; bFg = '#276749'; }
+    else if (p.id === 'limonada' || p.id === 'chicha') { bText = '🍋 Natural'; bBg = '#FFFFF0'; bFg = '#744210'; }
+    else if (p.cat === 'Combos') { bText = '🏷️ Promo'; bBg = '#FFF0F0'; bFg = '#D91F2A'; }
+    else if (p.cat === 'Pizzas') { bText = '🍕 Familiar 35 cm'; bBg = '#FFF5F5'; bFg = '#C53030'; }
+    else if (p.cat === 'Pastelitos') { bText = '🥧 1 unidad'; bBg = '#FFF8E7'; bFg = '#B7791F'; }
+    else if (p.cat === 'Bebidas') { bText = '🥤 Bebida'; bBg = '#FFFFF0'; bFg = '#744210'; }
+    return {
+      name: p.name, qty: p.qty, price: p.price, desc: p.desc, rating: p.rating,
+      badgeText: bText, badgeBg: bBg, badgeFg: bFg,
+      img: IMG[p.id] || IMG_DEFAULT,
+      add: this.add(p.id),
+      open: () => this.setState({screen: p.id === 'combo' ? '10' : '09', sel: p.id, pres: 10, qty: 1, extraCheese: false, extraSauce: false}),
+      fav: this.toggleFav(p.id),
+      heartFill: this.state.favs.indexOf(p.id) > -1 ? P.coral : 'none',
+      heartStroke: this.state.favs.indexOf(p.id) > -1 ? P.coral : '#7A736B'
+    };
+  };
+
+  pickSauce = (label) => () => this.setState(s => {
+    const has = s.sauces.indexOf(label) > -1;
+    if (has) return {sauces: s.sauces.filter(x => x !== label)};
+    if (s.sauces.length >= 2) { this.flash('Solo 2 salsas'); return {}; }
+    return {sauces: s.sauces.concat([label])};
+  });
+
+  renderVals() {
+    const st = this.state;
+    const ios = st.plat === 'ios';
+    const scr = st.screen;
+    // Producto abierto en el detalle (09)
+    const dp = CATALOG.filter(x => x.id === st.sel)[0] || CATALOG[0];
+    const dm = /20 unid\. S\/ ([\d.]+)/.exec(dp.desc || '');
+    const dPrice20 = dm ? parseFloat(dm[1]) : null;
+    const dHasSauce = ['Clásicos','Especiales','Pastelitos'].indexOf(dp.cat) > -1;
+    const dBase = st.pres === 20 && dPrice20 ? dPrice20 : num(dp.price);
+    const basePrice = dBase + (st.extraCheese ? 3.00 : 0) + (st.extraSauce ? 2.00 : 0);
+    const price = basePrice * st.qty;
+
+    const q = (st.query || '').toLowerCase();
+    const resultsRaw = CATALOG.filter(p => !q || (p.name + ' ' + p.desc + ' ' + p.cat).toLowerCase().indexOf(q) > -1);
+    const results = st.sortTop ? resultsRaw.slice().sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating)) : resultsRaw;
+    const menu = CATALOG.filter(p => st.cat === 'Todos' || p.cat === st.cat);
+    const favs = CATALOG.filter(p => st.favs.indexOf(p.id) > -1);
+
+    const t = TITLES[scr] || ['',''];
+    const sub = st.lines.reduce((a, l) => a + l.unit * l.n, 0);
+    const isPickup = st.mode === 'pickup';
+    const fee = st.lines.length ? (isPickup ? 0 : STORE.fee) : 0;
+    const disc = st.applied && st.lines.length ? 2 : 0;
+    const total = sub + fee - disc;
+    const cartCount = st.lines.reduce((a, l) => a + l.n, 0);
+    const addrLine = st.addr === 'Casa' ? 'Av. Bolognesi 845, Tacna' : 'Calle Zela 320, Tacna';
+    // Último pedido confirmado (o el de ejemplo RTQ-2048 mientras no se confirme ninguno)
+    const lo = st.lastOrder || {id: 'RTQ-2048', lines: ORDER_LINES['RTQ-2048'], sub: 52.90, fee: 5.90, disc: 0, total: 58.80, mode: 'delivery', addr: 'Casa', addrLine: 'Av. Bolognesi 845, Tacna', pay: 'Yape / Plin (captura por WhatsApp)', eta: '7:47 p. m.'};
+    const loSummary = lo.lines.map(l => l.n + ' ' + l.name).join(' + ');
+
+    return {
+      zoom: st.zoom,
+      isAnd: !ios, isIos: ios,
+      ff: ios ? '-apple-system,"Helvetica Neue",sans-serif' : "'Roboto',sans-serif",
+      devW: '390px', devH: '844px', devR: ios ? '54px' : '38px', devPad: ios ? '11px' : '9px',
+      scrR: ios ? '44px' : '30px', pageBg: scr === '01' ? P.coral : P.cream,
+      sbFg: scr === '01' ? '#FFF8EE' : P.char,
+      btnR: ios ? '999px' : '14px', fieldR: ios ? '12px' : '10px', pill: '999px',
+      iconR: ios ? '999px' : '12px', checkR: ios ? '999px' : '4px',
+      navBg: '#FFFFFF', navPad: ios ? '8px 4px 2px' : '10px 4px',
+      h1Size: ios ? '30px' : '22px',
+
+      setAnd: () => this.setState({plat:'android'}), setIos: () => this.setState({plat:'ios'}),
+      bgAnd: !ios ? P.coral : '#333', fgAnd: !ios ? '#fff' : '#A8A29B',
+      bgIos: ios ? P.coral : '#333', fgIos: ios ? '#fff' : '#A8A29B',
+
+      rail: RAIL.map(r => ({
+        id: r[0], label: r[1], go: this.go(r[0]),
+        bg: scr === r[0] ? P.coral : 'transparent',
+        fg: scr === r[0] ? '#fff' : '#E6E1DA',
+        num: scr === r[0] ? '#FFD9B0' : '#7D766E'
+      })),
+
+      title: t[0], subtitle: t[1], hint: HINTS[scr] || '',
+
+      s01: scr==='01', s02: scr==='02', s03: scr==='03', s04: scr==='04', s05: scr==='05',
+      s06: scr==='06', s07: scr==='07', s08: scr==='08', s09: scr==='09', s10: scr==='10',
+      s11: scr==='11', s12: scr==='12',
+      s13: scr==='13', s14: scr==='14', s15: scr==='15', s16: scr==='16', s17: scr==='17',
+      s18: scr==='18', s19: scr==='19', s20: scr==='20', s21: scr==='21', s22: scr==='22',
+      s23: scr==='23', s24: scr==='24', s25: scr==='25', s26: scr==='26',
+      showNav: ['06','07','08','11','12','13','20','21','23','24'].indexOf(scr) > -1,
+      cHome: scr==='06' ? P.coral : '#B5ADA3',
+      cMenu: (scr==='08' || scr==='07') ? P.coral : '#B5ADA3',
+      cOrders: ['20','21','22'].indexOf(scr) > -1 ? P.coral : '#B5ADA3',
+      cProfile: ['24','25'].indexOf(scr) > -1 ? P.coral : '#B5ADA3',
+
+      goHome: this.go('06'), go03: this.go('03'), go04: this.go('04'), go05: this.go('05'),
+      go07: this.go('07'), go08: this.go('08'), go10: this.go('10'), go12: this.go('12'), go23: this.go('23'),
+
+      cart: cartCount, cartCount: cartCount, toast: st.toast,
+      toastTap: () => { if (st.toastGo) this.setState({screen: '13', toast: '', toastGo: false}); },
+      toastCta: st.toastGo ? 'Ver carrito ›' : '',
+      showCartBar: st.lines.length > 0 && ['06','07','08','11','12'].indexOf(scr) > -1,
+      cartBarTotal: money(total),
+      cartEmpty: st.lines.length === 0, cartHas: st.lines.length > 0,
+      continueCart: () => this.setState({screen: st.lines.length ? '16' : '08'}),
+      feeName: isPickup ? 'Recojo en tienda' : 'Delivery', feeLabel: money(fee),
+      openStatus: STORE.hours, storeAddr: STORE.addr,
+      repeatLast: this.reorder('RTQ-1987'),
+      menuSub: (st.cat === 'Todos' ? 'Toda la carta' : st.cat) + ' · ' + menu.length + (menu.length === 1 ? ' producto' : ' productos'),
+      searchChips: [
+        this.chip('Más pedidos', st.sortTop, () => this.setState(s => ({sortTop: !s.sortTop}))),
+        this.chip('Tequeños', q === 'tequeños', () => this.setState({query: 'tequeños'})),
+        this.chip('Promos', q === 'promo', () => this.setState({query: 'promo'})),
+        this.chip('Pizzas', q === 'pizza', () => this.setState({query: 'pizza'})),
+        this.chip('Bebidas', q === 'bebidas', () => this.setState({query: 'bebidas'}))
+      ],
+      dImg: IMG[dp.id] || IMG_DEFAULT, dName: dp.name, dRating: dp.rating, dTag: dp.qty,
+      dSub: dp.qty + ' · ' + dp.desc, dHasSauce: dHasSauce, dHasPres: !!dPrice20,
+      dPres: [{label: '10 unid.', price: num(dp.price), v: 10}, {label: '20 unid.', price: dPrice20 || 0, v: 20}].map(x => ({
+        label: x.label, price: money(x.price), pick: () => this.setState({pres: x.v}),
+        bd: st.pres === x.v ? P.coral : '#EFE6D6', bg: st.pres === x.v ? '#FFF8F6' : '#fff', fg: st.pres === x.v ? P.dark : '#242424'
+      })),
+      confirmMode: () => this.setState({screen: isPickup ? '17' : '14'}),
+      entregaLine: isPickup ? 'Recojo en ' + STORE.addr : st.addr + ' · ' + addrLine,
+      entregaSub: isPickup ? 'Listo en 20–25 min · pagas al retirar o por Yape' : 'Delivery · 35–45 min · ' + money(STORE.fee),
+      driverNotes: st.driverNotes, onDriverNotes: (e) => this.setState({driverNotes: e.target.value}),
+      comboNotes: st.comboNotes, onComboNotes: (e) => this.setState({comboNotes: e.target.value}),
+      payBtn: 'CONFIRMAR PEDIDO · ' + money(total),
+      showYape: /Yape|Plin|Transferencia/.test(st.pay), yapeNumber: STORE.yape,
+      eta: lo.eta, etaTitle: lo.mode === 'pickup' ? 'LISTO PARA RECOGER' : 'LLEGA A LAS',
+      etaSub: lo.mode === 'pickup' ? 'En aprox. 20–25 minutos' : 'En aprox. 35 minutos',
+      notifyLine: lo.mode === 'pickup' ? 'Te avisamos por WhatsApp cuando tu pedido esté listo para recoger' : 'Te avisamos por WhatsApp cuando el motorizado esté cerca',
+      orderId: lo.id, orderSummary: loSummary, orderSubtotal: money(lo.sub), orderTotal: money(lo.total),
+      orderFeeName: lo.mode === 'pickup' ? 'Recojo en ' + STORE.addr : 'Delivery a ' + lo.addrLine, orderFee: money(lo.fee),
+      orderPayShort: /Yape|Plin/.test(lo.pay) ? 'Yape ✓' : (/Transfer/.test(lo.pay) ? 'Transferencia' : (lo.mode === 'pickup' ? 'Pago en tienda' : 'Efectivo')),
+
+      loginTitle: ios ? '¡Qué gusto verte!' : '¡Hola de nuevo!',
+      loginSub: ios ? 'Ingresa para pedir tus Retequeños favoritos' : 'Ingresa y disfruta tus favoritos',
+      loginSignup: ios ? '¿No tienes una cuenta? Regístrate' : '¿Aún no tienes cuenta? Regístrate',
+
+      sendLink: () => this.flash('Te enviamos un enlace a tu correo'),
+
+      chips: ['Clásicos','Combos','Pizzas','Pastelitos','Bebidas','Salsas'].map(c =>
+        this.chip(c, st.homeChip === c, () => this.setState({homeChip: c, cat: c, screen: '08'}))),
+      cats: ['Todos','Clásicos','Especiales','Combos','Pizzas','Pastelitos','Bebidas','Salsas'].map(c =>
+        this.chip(c, st.cat === c, () => this.setState({cat: c}))),
+
+      topProducts: CATALOG.slice(0,4).map(this.prod),
+      menuProducts: menu.map(this.prod),
+      favProducts: favs.map(this.prod),
+      results: results.map(this.prod),
+      resultCount: results.length + (results.length === 1 ? ' resultado' : ' resultados'),
+      noResults: results.length === 0,
+      query: st.query,
+      onQuery: (e) => this.setState({query: e.target.value}),
+      clearQuery: () => this.setState({query: ''}),
+
+      saucePicks: [
+        {label:'Mayonesa de ajo', isTartara:true, iconBg:'#FFFDE7'},
+        {label:'Salsa tocino', isAceituna:true, iconBg:'#EDE7F6'},
+        {label:'Ají especial', isPicante:true, iconBg:'#FBE9E7'},
+        {label:'Mayopalta', isGuacamole:true, iconBg:'#F1F8E9'}
+      ].map(x => {
+        const on = st.sauce === x.label;
+        return Object.assign({}, x, {
+          pick: () => this.setState({sauce: x.label}),
+          bd: on ? P.coral : '#EFE6D6',
+          bg: on ? '#FFF8F6' : '#fff',
+          fg: on ? P.dark : '#242424',
+          shadow: on ? '0 3px 8px rgba(255,48,56,.14)' : 'none',
+          dotBg: on ? P.coral : '#EFE6D6',
+          dotText: on ? '✓' : ''
+        });
+      }),
+      extraCheeseBd: st.extraCheese ? P.coral : '#EFE6D6',
+      extraCheeseBg: st.extraCheese ? '#FFF5F5' : '#fff',
+      extraCheeseDotBg: st.extraCheese ? P.coral : '#DCD2C1',
+      extraCheeseCheck: st.extraCheese ? '✓' : '+',
+      toggleExtraCheese: this.toggleExtraCheese,
+
+      extraSauceBd: st.extraSauce ? P.coral : '#EFE6D6',
+      extraSauceBg: st.extraSauce ? '#FFF5F5' : '#fff',
+      extraSauceDotBg: st.extraSauce ? P.coral : '#DCD2C1',
+      extraSauceCheck: st.extraSauce ? '✓' : '+',
+      toggleExtraSauce: this.toggleExtraSauce,
+
+      qty: st.qty,
+      inc: () => this.setState(s => ({qty: Math.min(20, s.qty + 1)})),
+      dec: () => this.setState(s => ({qty: Math.max(1, s.qty - 1)})),
+      detailTotal: 'S/ ' + price.toFixed(2),
+      addDetail: this.addDetail,
+      favDetail: this.toggleFav('clasicos'),
+      dHeartFill: st.favs.indexOf('clasicos') > -1 ? P.coral : 'none',
+      dHeartStroke: st.favs.indexOf('clasicos') > -1 ? P.coral : '#242424',
+
+      fillings: [
+        {label:'Queso', isCheese:true, iconBg:'#FFFDE7'},
+        {label:'Jamón y queso', isHamCheese:true, iconBg:'#FCE4EC'},
+        {label:'Ají de gallina', isLomo:true, iconBg:'#EFEBE9'},
+        {label:'Chocolate', isChocolate:true, iconBg:'#EDE7F6'}
+      ].map(f => {
+        const on = st.relleno === f.label || (st.relleno.indexOf('Queso') > -1 && f.isCheese);
+        return Object.assign({}, f, {
+          pick: () => this.setState({relleno: f.label}),
+          ring: on ? P.coral : '#CFC5B4',
+          dot: on ? P.coral : 'transparent',
+          cardBg: on ? '#FFF8F6' : '#fff'
+        });
+      }),
+
+      sauceRows: [
+        {label:'Mayonesa de ajo', isTartara:true, iconBg:'#FFFDE7'},
+        {label:'Salsa tocino', isAceituna:true, iconBg:'#EDE7F6'},
+        {label:'Ají especial', isPicante:true, iconBg:'#FBE9E7'},
+        {label:'Mayopalta', isGuacamole:true, iconBg:'#F1F8E9'}
+      ].map(x => {
+        const on = st.sauces.indexOf(x.label) > -1;
+        return Object.assign({}, x, {
+          pick: this.pickSauce(x.label),
+          ring: on ? P.coral : '#CFC5B4',
+          boxBg: on ? P.coral : '#fff',
+          tick: on ? '#fff' : 'transparent',
+          cardBg: on ? '#FFF8F6' : '#fff'
+        });
+      }),
+
+      sauceCount: st.sauces.length + ' / 2',
+      sauceCountColor: st.sauces.length === 2 ? '#1F9D62' : P.gray,
+      previewRellenoIcon: st.relleno.indexOf('Jamón') > -1 ? '🥓🧀' : (st.relleno.indexOf('Ají') > -1 ? '🍗' : (st.relleno.indexOf('Chocolate') > -1 ? '🍫' : '🧀')),
+      previewRellenoText: st.relleno,
+      previewSauces: st.sauces.map(s => ({
+        name: s,
+        icon: s === 'Mayonesa de ajo' ? '🧄' : (s === 'Salsa tocino' ? '🥓' : (s === 'Ají especial' ? '🌶️' : '🥑'))
+      })),
+      comboStatusColor: st.sauces.length === 2 ? '#1F9D62' : '#D91F2A',
+      comboStatusText: st.sauces.length === 2 ? '✓ 2 salsas listas' : (st.sauces.length === 1 ? 'Falta 1 salsa' : 'Elige 2 salsas'),
+      addCombo: this.addCombo,
+
+      copyCoupon: () => { this.setState({copied: true}); this.flash('Cupón RETE10 copiado'); },
+      copyLabel: st.copied ? 'Copiado' : 'Copiar',
+      copyBg: st.copied ? P.coral : '#fff',
+      copyFg: st.copied ? '#fff' : P.dark,
+      terms: st.terms,
+      showTerms: () => this.setState(s => ({terms: !s.terms})),
+
+      go13: this.go('13'), go14: this.go('14'), go15: this.go('15'), go16: this.go('16'),
+      go17: this.go('17'), go18: this.go('18'), go20: this.go('20'), go21: this.go('21'),
+      go22: this.go('22'), go24: this.go('24'), go25: this.go('25'),
+
+      cartItems: st.lines.map((l, i) => { const cp = CATALOG.filter(x => x.id === l.pid)[0]; const bp = cp ? this.prod(cp) : {badgeText: '🥟 Artesanal', badgeBg: '#FFF8E7', badgeFg: '#B7791F'}; return {
+        name: l.name, opts: l.opts, n: l.n, img: l.img || IMG_DEFAULT, badgeText: bp.badgeText, badgeBg: bp.badgeBg, badgeFg: bp.badgeFg, total: 'S/ ' + (l.unit * l.n).toFixed(2),
+        inc: () => this.setState(s => ({lines: s.lines.map((x,j) => j===i ? Object.assign({}, x, {n: Math.min(20, x.n+1)}) : x)})),
+        dec: () => this.setState(s => ({lines: s.lines.map((x,j) => j===i ? Object.assign({}, x, {n: Math.max(1, x.n-1)}) : x)})),
+        remove: () => { this.setState(s => ({lines: s.lines.filter((x,j) => j!==i)})); this.flash('Producto eliminado del carrito'); },
+        edit: () => this.setState({screen: l.pid === 'combo' ? '10' : '09', sel: l.pid || 'clasicos'})
+      }; }),
+      subtotalLabel: 'S/ ' + sub.toFixed(2),
+      discount: st.applied ? '− S/ 2.00' : 'S/ 0.00',
+      cartTotal: 'S/ ' + total.toFixed(2),
+      continueLabel: 'CONTINUAR • S/ ' + total.toFixed(2),
+      applyCoupon: () => { const on = !st.applied; this.setState({applied: on}); this.flash(on ? 'Cupón RETE10 aplicado' : 'Cupón quitado'); },
+      applyLabel: st.applied ? 'Quitar' : 'Aplicar',
+      applyBg: st.applied ? '#1F9D62' : P.char,
+      applyFg: '#fff',
+
+      addresses: [['Casa','Av. Bolognesi 845, Tacna'],['Trabajo','Calle Zela 320, Tacna']].map(a => ({
+        label: a[0], line: a[1], pick: () => this.setState({addr: a[0]}),
+        bd: st.addr === a[0] ? P.coral : '#EFE6D6',
+        ring: st.addr === a[0] ? P.coral : '#CFC5B4',
+        dot: st.addr === a[0] ? P.coral : 'transparent'
+      })),
+      addrTags: ['Casa','Trabajo','Otro'].map(t =>
+        this.chip(t, st.addrTag === t, () => this.setState({addrTag: t}))),
+      toggleMain: () => this.setState(s => ({mainAddr: !s.mainAddr})),
+      mainTrack: st.mainAddr ? P.coral : '#DCD2C1',
+      mainJustify: st.mainAddr ? 'flex-end' : 'flex-start',
+      saveAddr: () => { this.flash('Dirección guardada'); this.setState({screen: '14'}); },
+
+      pickDelivery: () => this.setState({mode: 'delivery'}),
+      pickPickup: () => this.setState({mode: 'pickup'}),
+      delBd: st.mode === 'delivery' ? P.coral : '#EFE6D6',
+      delBg: st.mode === 'delivery' ? '#FFF1F1' : '#fff',
+      delRing: st.mode === 'delivery' ? P.coral : '#CFC5B4',
+      delDot: st.mode === 'delivery' ? P.coral : 'transparent',
+      pickBd: st.mode === 'pickup' ? P.coral : '#EFE6D6',
+      pickBg: st.mode === 'pickup' ? '#FFF1F1' : '#fff',
+      pickRing: st.mode === 'pickup' ? P.coral : '#CFC5B4',
+      pickDot: st.mode === 'pickup' ? P.coral : 'transparent',
+      timings: ['Lo antes posible','Programar pedido'].map(t => ({
+        label: t, pick: () => this.setState({timing: t}),
+        ring: st.timing === t ? P.coral : '#CFC5B4',
+        dot: st.timing === t ? P.coral : 'transparent'
+      })),
+      schedOpacity: st.timing === 'Programar pedido' ? '1' : '.42',
+      schedDate: st.timing === 'Programar pedido' ? 'Hoy · 28 ago.' : 'Fecha',
+      schedTime: st.timing === 'Programar pedido' ? '7:00 – 7:30 p. m.' : 'Franja horaria',
+
+      payLabel: st.pay,
+      payBadge: /Yape|Plin|Transferencia/.test(lo.pay) ? 'PAGO POR VERIFICAR' : ((lo.pay.indexOf('Recojo') > -1 || lo.mode === 'pickup') ? 'PAGAS EN TIENDA' : 'EFECTIVO · CONTRAENTREGA'),
+      payBadgeBg: /Yape|Plin|Transferencia/.test(lo.pay) ? '#FFF3DF' : '#E7F6EE',
+      payBadgeFg: /Yape|Plin|Transferencia/.test(lo.pay) ? '#B7791F' : '#1F9D62',
+      payNote: /Yape|Plin|Transferencia/.test(lo.pay)
+        ? '📲 Envía la captura de tu pago por WhatsApp (' + STORE.yape + '). Confirmamos en minutos y empezamos a preparar.'
+        : ((lo.pay.indexOf('Recojo') > -1 || lo.mode === 'pickup') ? '🏪 Pagas al retirar en ' + STORE.addr + '.' : '💵 Ten listo el efectivo: el motorizado lleva sencillo.'),
+      payMethods: [
+        ['Pago contraentrega (Efectivo)','Pagas en efectivo al repartidor al recibir · lleva sencillo','EFEC'],
+        ['Yape / Plin (captura por WhatsApp)','Yapeas ahora y nos envías la captura; verificamos y preparamos','YAPE'],
+        ['Transferencia BCP / Banco de la Nación','Transfieres y envías el comprobante por WhatsApp','TRANSF'],
+        ['Recojo en local (Efectivo/Yape)','Pagas en tienda al retirar tus tequeños','LOCAL']
+      ].map(m => ({
+        label: m[0], note: m[1], tag: m[2],
+        pick: () => this.setState({pay: m[0]}),
+        ring: st.pay === m[0] ? P.coral : '#CFC5B4',
+        dot: st.pay === m[0] ? P.coral : 'transparent'
+      })),
+      pay: () => {
+        const ordId = 'RTQ-' + (2050 + Math.floor(Math.random() * 200));
+        const etaDate = new Date(Date.now() + (isPickup ? 22 : 35) * 60000);
+        const order = {id: ordId, lines: st.lines.slice(), sub: sub, fee: fee, disc: disc, total: total, mode: st.mode, addr: st.addr, addrLine: addrLine, pay: st.pay, eta: fmtTime(etaDate), notes: st.driverNotes};
+        this.flash(/Yape|Plin|Transferencia/.test(st.pay) ? '¡Pedido enviado! Envíanos la captura del pago' : (isPickup ? '¡Pedido enviado! Te avisamos cuando esté listo' : '¡Pedido enviado! Pagarás al recibir'));
+        this.setState({screen: '19', lastOrder: order, lines: [], applied: false, driverNotes: '', hist: 'En curso'});
+        try {
+          fetch('/api/pedidos', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              id: ordId,
+              customer: 'Milton Flores (App)',
+              phone: '952741852',
+              address: isPickup ? 'Recojo en tienda · ' + STORE.addr : addrLine,
+              items: st.lines.map(l => ({name: l.name + (l.opts ? ' (' + l.opts + ')' : ''), qty: l.n, price: l.unit, sauces: l.opts})),
+              subtotal: sub, deliveryFee: fee, discount: disc, total: total,
+              payMethod: st.pay || 'Pago contraentrega (Efectivo)',
+              notes: (st.driverNotes ? st.driverNotes + ' · ' : '') + 'Pedido enviado desde la app.' + (isPickup ? ' Recojo en tienda.' : '')
+            })
+          }).catch(function(){});
+        } catch(e) {}
+      },
+
+      trackSteps: ['Pedido confirmado','En preparación','En camino','Entregado'].map((l, i) => ({
+        label: l,
+        dotBg: i < 2 ? '#1F9D62' : (i === 2 ? P.coral : '#fff'),
+        dotBd: i < 2 ? '#1F9D62' : (i === 2 ? P.coral : '#DCD2C1'),
+        lineBg: i < 2 ? '#1F9D62' : '#EFE6D6',
+        fg: i <= 2 ? P.char : '#A69E93',
+        font: i === 2 ? '700 13.5px' : '400 13px'
+      })),
+
+      histTabs: ['En curso','Anteriores'].map(t =>
+        this.chip(t, st.hist === t, () => this.setState({hist: t}))),
+      orders: (st.hist === 'En curso'
+        ? [[lo.id, 'En camino', 'Hoy · llega ' + lo.eta, money(lo.total), P.coral, '#FFE9E9']]
+        : [['RTQ-1987','Entregado','12 ago. 2026','S/ 45.90','#1F9D62','#E4F4EC'],
+           ['RTQ-1904','Entregado','29 jul. 2026','S/ 21.90','#1F9D62','#E4F4EC']]
+      ).map(o => ({
+        id: o[0], status: o[1], date: o[2], total: o[3], stFg: o[4], stBg: o[5],
+        detail: () => this.setState({screen: o[1] === 'En camino' ? '20' : '22'}),
+        again: this.reorder(o[0])
+      })),
+
+      stars: [1,2,3,4,5].map(n => ({
+        pick: () => { this.setState({rating: n}); this.flash(n >= 4 ? '¡Gracias! Te invitamos a dejar tu reseña en Google' : 'Gracias por calificar'); },
+        fill: n <= st.rating ? P.gold : 'none',
+        stroke: n <= st.rating ? P.gold : '#CFC5B4'
+      })),
+      // Encuesta post-pedido (feedback entrevista): qué mejorar + dónde nos viste → cupón; 4-5★ → Google Reviews
+      improveChips: ['Cremas','Atención','Tiempo de entrega','Temperatura','Empaque'].map(c =>
+        this.chip(c, st.improve.indexOf(c) > -1, () => this.setState(s => ({
+          improve: s.improve.indexOf(c) > -1 ? s.improve.filter(x => x !== c) : s.improve.concat([c])
+        })))),
+      sourceChips: ['TikTok','Facebook / Instagram','Recomendación','Pasé por el local','Google'].map(c =>
+        this.chip(c, st.source === c, () => this.setState({source: c}))),
+      showGoogle: st.rating >= 4,
+      goGoogle: () => this.flash('Abriendo Google Reviews de Retequeños…'),
+      sendSurvey: () => {
+        if (!st.rating) { this.flash('Primero elige tu calificación'); return; }
+        if (st.surveySent) { this.flash('Ya recibimos tu encuesta · cupón ENCUESTA3 activo'); return; }
+        this.setState({surveySent: true});
+        this.flash('¡Gracias! Cupón ENCUESTA3 (S/ 3.00) agregado a tu cuenta');
+      },
+      surveyLabel: st.surveySent ? '✓ ENCUESTA ENVIADA · CUPÓN ENCUESTA3' : 'ENVIAR Y GANAR S/ 3.00',
+      surveyBg: st.surveySent ? '#1F9D62' : P.coral,
+      orderAgain: this.reorder('RTQ-1987'),
+
+      notifs: [
+        {isHeader:true, isItem:false, label:'Hoy'},
+        {isHeader:false, isItem:true, title:'Tu pedido está en camino', time:'Hace 2 min',
+         bg: st.unread ? '#FFF3DF' : '#fff', iconBg:'#FFE9E9', iconFg: P.coral,
+         dot: st.unread ? P.coral : 'transparent', open: this.go('20')},
+        {isHeader:false, isItem:true, title:'Promo del día: Promo Duo a S/ 35.90 🥟🥤 Toca y agrégala', time:'Hace 40 min',
+         bg: st.unread ? '#FFF3DF' : '#fff', iconBg:'#FFE9E9', iconFg: P.coral,
+         dot: st.unread ? P.coral : 'transparent', open: this.go('10')},
+        {isHeader:false, isItem:true, title:'¡Martes de Retequeños!', time:'Hace 3 h',
+         bg: st.unread ? '#FFF3DF' : '#fff', iconBg:'#FFF3DF', iconFg:'#D9891A',
+         dot: st.unread ? P.gold : 'transparent', open: this.go('12')},
+        {isHeader:true, isItem:false, label:'Ayer'},
+        {isHeader:false, isItem:true, title:'Pedido entregado', time:'Ayer · 8:04 p. m.',
+         bg:'#fff', iconBg:'#E4F4EC', iconFg:'#1F9D62', dot:'transparent', open: this.go('22')}
+      ],
+      readAll: () => { this.setState({unread: false}); this.flash('Notificaciones marcadas como leídas'); },
+
+      profileRows: [
+        ['Mis direcciones','◎', this.go('14')],
+        ['Métodos de pago','▤', this.go('18')],
+        ['Favoritos','♡', this.go('11')],
+        ['Promociones','%', this.go('12')],
+        ['Notificaciones','!', this.go('23')],
+        ['Ayuda','?', () => this.flash('Centro de ayuda')],
+        ['Configuración','⚙', this.go('25')]
+      ].map(r => ({label: r[0], mark: r[1], go: r[2]})),
+      logout: () => { this.flash('Sesión cerrada'); this.setState({screen: '03'}); },
+
+      switches: [
+        ['Notificaciones de pedidos','swOrders'],
+        ['Promociones y novedades','swPromos'],
+        ['Usar ubicación','swLoc']
+      ].map(w => ({
+        label: w[0],
+        toggle: () => this.setState(s => { const o = {}; o[w[1]] = !s[w[1]]; return o; }),
+        track: st[w[1]] ? P.coral : '#DCD2C1',
+        justify: st[w[1]] ? 'flex-end' : 'flex-start'
+      })),
+      deleteAcct: () => this.flash('Esta acción pedirá confirmación'),
+
+      retry: () => { this.flash('Reintentando conexión…'); this.setState({screen: '06'}); },
+      clearAndSearch: () => this.setState({query: '', screen: '07'})
+    };
+  }
+}
+
+</script>
+</body>
+</html>

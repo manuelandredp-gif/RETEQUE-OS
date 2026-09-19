@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-red: #D31728;
+  --brand-red-dark: #B30F1E;
+  --brand-red-light: #FFF0F1;
+  --brand-yellow: #F5A623;
+  --brand-yellow-light: #FEF7E7;
+  --brand-orange: #F47B20;
+  --brand-cream: #FFF9F2;
+  --brand-cream-2: #FFF2DE;
+  --brand-cream-card: #FFFDF9;
+  --brand-white: #FFFFFF;
+  --text-main: #151820;
+  --text-muted: #667085;
+  --line: #EAEAEA;
+  --whatsapp: #16B959;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #FFFDF9;
+  color: var(--text-main);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scroll horizontal sin barra para las pestañas de categorías */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.font-script {
+  font-family: 'Caveat', cursive;
+}
+
+/* Foco visible para teclado (no aparece al hacer clic con el mouse) */
+:focus-visible {
+  outline: 3px solid #F5A623;
+  outline-offset: 2px;
+}
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Área segura inferior en celulares con barra de gestos */
+.pb-safe {
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+}
+
+/* Animaciones de paneles y avisos */
+@keyframes rq-slide-in-right {
+  from { transform: translateX(100%); }
+  to { transform: none; }
+}
+@keyframes rq-slide-in-left {
+  from { transform: translateX(-100%); }
+  to { transform: none; }
+}
+@keyframes rq-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes rq-toast-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.drawer-in { animation: rq-slide-in-right 0.28s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.drawer-in-left { animation: rq-slide-in-left 0.28s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.fade-in { animation: rq-fade-in 0.2s ease-out; }
+.toast-in { animation: rq-toast-in 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer-in, .drawer-in-left, .fade-in, .toast-in { animation: none; }
+}

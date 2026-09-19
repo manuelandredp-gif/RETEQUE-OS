@@ -1,0 +1,12 @@
+# Dependencias y compilados (se regeneran con Compilar web.cmd)
+web/node_modules/
+web/dist/
+web/tsconfig.tsbuildinfo
+
+# Registros de compilación y parches
+tools/*.log
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store

@@ -1,0 +1,13 @@
+{
+  "name": "Retequeños · Expertos en tequeños",
+  "short_name": "Retequeños",
+  "description": "Tequeños, pizzas, pastelitos y promociones en Tacna. Pide por WhatsApp.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFDF9",
+  "theme_color": "#C5161D",
+  "lang": "es",
+  "icons": [
+    { "src": "/assets/brand/logo-retequenos.png", "sizes": "any", "type": "image/png", "purpose": "any" }
+  ]
+}
