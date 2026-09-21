@@ -2493,6 +2493,993 @@
       .co-kpi-grid { grid-template-columns: 1fr; }
       .co-rules-grid { grid-template-columns: 1fr; }
     }
+
+    /* ===================================================
+       PEDIDOS KDS — MONITOR DE COCINA Y DESPACHO EN VIVO 2026
+       =================================================== */
+    .kds-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .kds-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .kds-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .kds-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 800;
+      color: #111827;
+      letter-spacing: -0.02em;
+    }
+    .kds-live-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #6B7280;
+    }
+    .kds-live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #EF4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+      animation: kdsPulseDot 1.5s infinite;
+    }
+    @keyframes kdsPulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.15); }
+    }
+    .kds-subtitle {
+      font-size: 12.5px;
+      color: #6B7280;
+    }
+    .kds-header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+    }
+    .kds-time-display {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 13px;
+      color: #4B5563;
+      font-weight: 500;
+    }
+    .kds-clock {
+      font-family: var(--font-display);
+      font-size: 19px;
+      font-weight: 800;
+      color: #111827;
+    }
+    .kds-online-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #16A34A;
+      font-weight: 600;
+    }
+    .kds-green-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #16A34A;
+      box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+    }
+
+    /* KPI Grid - 6 columns */
+    .kds-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .kds-kpi-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 14px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      transition: all 0.2s ease;
+    }
+    .kds-kpi-card:hover {
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+      border-color: #D1D5DB;
+    }
+    .kds-kpi-icon-wrap {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .kds-icon-blue { background: #EFF6FF; color: #2563EB; }
+    .kds-icon-orange { background: #FFF7ED; color: #EA580C; }
+    .kds-icon-pink { background: #FDF2F8; color: #DB2777; }
+    .kds-icon-green { background: #F0FDF4; color: #16A34A; }
+    .kds-icon-purple { background: #FAF5FF; color: #9333EA; }
+    .kds-icon-red { background: #FEF2F2; color: #DC2626; }
+
+    .kds-kpi-content {
+      min-width: 0;
+      flex: 1;
+    }
+    .kds-kpi-label {
+      font-size: 11px;
+      color: #6B7280;
+      font-weight: 600;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .kds-kpi-val-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .kds-kpi-val {
+      font-family: var(--font-display);
+      font-size: 21px;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1.1;
+    }
+    .kds-kpi-sub {
+      font-size: 10.5px;
+      color: #9CA3AF;
+      margin-top: 2px;
+      white-space: nowrap;
+    }
+    .kds-pill-badge {
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 1.5px 6px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      line-height: 1.3;
+    }
+    .kds-pill-green { background: #DCFCE7; color: #15803D; }
+    .kds-pill-green-soft { background: #E7F6EE; color: #16A34A; }
+
+    /* Filter Bar */
+    .kds-filter-bar {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 9px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+    .kds-search-box {
+      flex: 1.3;
+      min-width: 220px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #9CA3AF;
+    }
+    .kds-search-box input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 12.5px;
+      width: 100%;
+      color: #111827;
+      font-family: inherit;
+    }
+    .kds-search-box input::placeholder {
+      color: #9CA3AF;
+    }
+    .kds-filter-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #4B5563;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .kds-filter-label {
+      font-size: 12px;
+      color: #4B5563;
+      font-weight: 500;
+    }
+    .kds-select-wrap select {
+      border: 1px solid #E5E7EB;
+      background: #F9FAFB;
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1F2937;
+      outline: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+    .kds-select-wrap select:focus {
+      border-color: #FF2442;
+      background: #FFFFFF;
+    }
+    .kds-btn-clear {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #4B5563;
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 5px 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      margin-left: auto;
+    }
+    .kds-btn-clear:hover {
+      background: #F3F4F6;
+      color: #111827;
+      border-color: #D1D5DB;
+    }
+
+    /* Board 4 Columns */
+    .kds-board-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+    .kds-column {
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      max-height: calc(100vh - 355px);
+    }
+    .kds-column-header {
+      padding: 12px 14px;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FFFFFF;
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+    }
+    .kds-col-title-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .kds-col-icon-box {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .kds-col-icon-new { background: #EFF6FF; color: #2563EB; }
+    .kds-col-icon-kitchen { background: #FFF7ED; color: #EA580C; }
+    .kds-col-icon-delivery { background: #FDF2F8; color: #DB2777; }
+    .kds-col-icon-delivered { background: #F0FDF4; color: #16A34A; }
+
+    .kds-col-title {
+      font-family: var(--font-display);
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #111827;
+      line-height: 1.2;
+    }
+    .kds-col-sub {
+      font-size: 10.5px;
+      color: #6B7280;
+    }
+    .kds-col-count-pill {
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    .kds-count-blue { background: #EFF6FF; color: #2563EB; }
+    .kds-count-orange { background: #FFF7ED; color: #EA580C; }
+    .kds-count-pink { background: #FDF2F8; color: #DB2777; }
+    .kds-count-green { background: #F0FDF4; color: #16A34A; }
+
+    .kds-column-cards {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    /* Order Card Component */
+    .kds-order-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 13px 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .kds-order-card:hover {
+      border-color: #D1D5DB;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      transform: translateY(-1px);
+    }
+    .kds-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .kds-card-id-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .kds-card-id {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 13.5px;
+      color: #111827;
+      letter-spacing: -0.01em;
+    }
+    .kds-badge-priority {
+      background: #FEF2F2;
+      color: #DC2626;
+      border-radius: 999px;
+      padding: 1.5px 7px;
+      font-size: 10px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .kds-badge-delayed {
+      background: #FEF2F2;
+      color: #DC2626;
+      border-radius: 999px;
+      padding: 1.5px 7px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .kds-card-time {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #EA580C;
+      white-space: nowrap;
+    }
+    .kds-time-red { color: #DC2626 !important; }
+    .kds-time-green { color: #16A34A !important; }
+
+    .kds-card-customer {
+      font-weight: 700;
+      font-size: 13px;
+      color: #111827;
+    }
+
+    .kds-card-badges {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin: 1px 0 2px;
+    }
+    .kds-badges-left {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .kds-tag-channel {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+    .kds-channel-app { background: #EFF6FF; color: #2563EB; }
+    .kds-channel-wa { background: #ECFDF5; color: #059669; }
+
+    .kds-tag-pay {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .kds-pay-green { background: #DCFCE7; color: #15803D; }
+    .kds-pay-amber { background: #FEF3C7; color: #B45309; }
+    .kds-pay-blue { background: #EFF6FF; color: #1D4ED8; }
+
+    .kds-tag-mode {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .kds-mode-pickup { background: #F3F4F6; color: #4B5563; }
+    .kds-mode-moto { background: #EFF6FF; color: #2563EB; }
+
+    .kds-card-items {
+      font-size: 11.5px;
+      color: #374151;
+      line-height: 1.45;
+      margin: 2px 0 4px;
+    }
+
+    .kds-card-note {
+      background: #F9FAFB;
+      border-left: 3px solid #F59E0B;
+      padding: 4px 8px;
+      font-size: 11px;
+      color: #6B7280;
+      border-radius: 0 6px 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-style: italic;
+    }
+
+    .kds-card-address {
+      font-size: 11.5px;
+      color: #2563EB;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .kds-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+      padding-top: 6px;
+      border-top: 1px dashed #F3F4F6;
+    }
+    .kds-card-total {
+      font-family: var(--font-display);
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #FF2442;
+    }
+    .kds-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .kds-btn-detail {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #374151;
+      padding: 5px 11px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+    .kds-btn-detail:hover {
+      background: #F9FAFB;
+      border-color: #D1D5DB;
+    }
+    .kds-btn-action {
+      border: none;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+      font-family: inherit;
+      color: #FFFFFF;
+    }
+    .kds-btn-accept {
+      background: #FF2442;
+      box-shadow: 0 2px 5px rgba(255, 36, 66, 0.25);
+    }
+    .kds-btn-accept:hover {
+      background: #E01E38;
+    }
+    .kds-btn-kitchen {
+      background: #EA580C;
+      box-shadow: 0 2px 5px rgba(234, 88, 12, 0.25);
+    }
+    .kds-btn-kitchen:hover {
+      background: #C2410C;
+    }
+    .kds-btn-delivered {
+      background: #10B981;
+      box-shadow: 0 2px 5px rgba(16, 185, 129, 0.25);
+    }
+    .kds-btn-delivered:hover {
+      background: #059669;
+    }
+
+    /* Delivered Compact Cards */
+    .kds-card-delivered {
+      padding: 10px 12px;
+      gap: 4px;
+    }
+    .kds-card-delivered .kds-card-footer {
+      border-top: none;
+      padding-top: 2px;
+      margin-top: 2px;
+    }
+
+    /* Insights Bottom Panel - 3 Cards */
+    .kds-insights-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 0.9fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .kds-insight-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .kds-insight-card:hover {
+      border-color: #D1D5DB;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      transform: translateY(-1px);
+    }
+    .kds-alert-card {
+      background: #FFFBFB;
+      border-color: #FECACA;
+    }
+    .kds-insight-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .kds-insight-icon-box {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .kds-insight-red { background: #FEF2F2; color: #DC2626; }
+    .kds-insight-orange { background: #FFF7ED; color: #EA580C; }
+    .kds-insight-blue { background: #EFF6FF; color: #2563EB; }
+
+    .kds-insight-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: #111827;
+      line-height: 1.2;
+    }
+    .kds-insight-desc {
+      font-size: 11px;
+      color: #6B7280;
+    }
+    .kds-insight-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .kds-alert-pill-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11.5px;
+    }
+    .kds-alert-id {
+      font-family: var(--font-display);
+      font-weight: 800;
+      color: #111827;
+    }
+    .kds-alert-time {
+      font-size: 11px;
+      color: #DC2626;
+      font-weight: 600;
+    }
+    .kds-badge-late {
+      background: #FEE2E2;
+      color: #B91C1C;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+    .kds-badge-stage {
+      background: #F3F4F6;
+      color: #4B5563;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+    .kds-counter-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #FFF7ED;
+      color: #EA580C;
+      border: 1px solid #FFEDD5;
+      font-weight: 800;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .kds-chevron {
+      color: #9CA3AF;
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 1400px) {
+      .kds-kpi-grid { grid-template-columns: repeat(3, 1fr); }
+      .kds-board-grid { grid-template-columns: repeat(2, 1fr); }
+      .kds-insights-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 900px) {
+      .kds-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .kds-board-grid { grid-template-columns: 1fr; }
+      .kds-filter-bar { flex-direction: column; align-items: stretch; }
+      .kds-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .kds-header-right { align-items: flex-start; }
+    }
+
+    /* ===== DASHBOARD & MÉTRICAS (EXECUTIVE BI REDESIGN) ===== */
+    .dash-date-picker-wrap {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 14px;
+    }
+    .dash-date-picker-btn {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .dash-date-picker-btn:hover {
+      background: #F9FAFB;
+      border-color: #D1D5DB;
+    }
+
+    .dash-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .dash-kpi-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .dash-kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+    .dash-kpi-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dash-kpi-icon-wrap {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .dash-kpi-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: #6B7280;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .dash-kpi-mid {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+    .dash-kpi-value {
+      font-family: var(--font-display);
+      font-size: 21px;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1.1;
+    }
+    .dash-kpi-bottom {
+      margin-top: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .dash-trend-up {
+      color: #10B981;
+    }
+    .dash-trend-neutral {
+      color: #6B7280;
+    }
+    .dash-trend-teal {
+      color: #059669;
+    }
+    .dash-sparkline-bars {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2.5px;
+      height: 18px;
+    }
+    .dash-sparkline-bar {
+      width: 3px;
+      border-radius: 2px;
+    }
+
+    /* Row 2: 4 Insights Cards */
+    .dash-insights-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .dash-insight-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 12px 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .dash-insight-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+    .dash-insight-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+    .dash-insight-icon-wrap {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .dash-insight-title {
+      font-size: 11.5px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    .dash-insight-value {
+      font-family: var(--font-display);
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #111827;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .dash-insight-sub {
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 1px;
+    }
+
+    /* Grids for Rows 3, 4, 5 */
+    .dash-grid-65-35 {
+      display: grid;
+      grid-template-columns: 1.85fr 1fr;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .dash-grid-50-50 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .dash-grid-38-62 {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    /* Hourly Chart Callout Tooltip */
+    .dash-chart-tooltip {
+      position: absolute;
+      top: 14px;
+      left: 63%;
+      transform: translateX(-50%);
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      padding: 6px 12px;
+      text-align: center;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .dash-chart-tooltip-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: #6B7280;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .dash-chart-tooltip-val {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 800;
+      color: #111827;
+      margin-top: 1px;
+    }
+    .dash-chart-tooltip-time {
+      font-size: 10px;
+      color: #9CA3AF;
+      font-weight: 600;
+    }
+
+    /* Donut with center text */
+    .dash-donut-wrap {
+      position: relative;
+      width: 170px;
+      height: 170px;
+      flex-shrink: 0;
+    }
+    .dash-donut-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      pointer-events: none;
+    }
+    .dash-donut-center-num {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1;
+    }
+    .dash-donut-center-lbl {
+      font-size: 10.5px;
+      color: #6B7280;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    /* Channel mix legend */
+    .dash-channel-legend-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 12px;
+      padding: 6px 0;
+      border-bottom: 1px dashed #F3F4F6;
+    }
+    .dash-channel-legend-item:last-child {
+      border-bottom: none;
+    }
+
+    /* Reviews Horizontal 4-col Grid */
+    .dash-reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .dash-review-card {
+      background: #FAFAFA;
+      border: 1px solid #E5E7EB;
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .dash-review-card:hover {
+      background: #FFFFFF;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    }
+
+    @media (max-width: 1400px) {
+      .dash-kpi-grid { grid-template-columns: repeat(3, 1fr); }
+      .dash-insights-grid { grid-template-columns: repeat(2, 1fr); }
+      .dash-grid-65-35 { grid-template-columns: 1fr; }
+      .dash-grid-50-50 { grid-template-columns: 1fr; }
+      .dash-grid-38-62 { grid-template-columns: 1fr; }
+      .dash-reviews-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .dash-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .dash-insights-grid { grid-template-columns: 1fr; }
+      .dash-reviews-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -2513,7 +3500,7 @@
     <div class="nav-section" style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#6E6864; font-weight:800; padding:18px 20px 8px;">OPERACIÓN PRINCIPAL</div>
     <ul class="nav-list">
       <li class="nav-item">
-        <button class="nav-btn" data-tab="tab-dashboard">
+        <button class="nav-btn active" data-tab="tab-dashboard">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg>
           <span>Dashboard & Métricas</span>
         </button>
@@ -2531,16 +3518,21 @@
           <span>Menú & Stock</span>
         </button>
       </li>
+    </ul>
+
+    <div class="nav-section" style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#6E6864; font-weight:800; padding:18px 20px 8px;">CRECIMIENTO & VENTAS</div>
+    <ul class="nav-list">
+      <li class="nav-item">
+        <button class="nav-btn" data-tab="tab-promos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+          <span>Cupones & Ofertas</span>
+          <span class="nav-badge" style="background:#F59E0B; color:#1F2937; font-weight:800; font-size:10px; padding:2px 7px; border-radius:10px;">Martes</span>
+        </button>
+      </li>
       <li class="nav-item">
         <button class="nav-btn" data-tab="tab-customers">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
           <span>Clientes & Push</span>
-        </button>
-      </li>
-      <li class="nav-item">
-        <button class="nav-btn active" data-tab="tab-promos">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
-          <span>Cupones & Ofertas</span>
         </button>
       </li>
       <li class="nav-item">
@@ -2551,19 +3543,19 @@
         </button>
       </li>
       <li class="nav-item">
-        <button class="nav-btn" data-tab="tab-reports" onclick="showToast('Módulo de Reportes avanzados en desarrollo')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-          <span>Reportes</span>
+        <button class="nav-btn" data-tab="tab-settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Preferencias Tienda</span>
         </button>
       </li>
     </ul>
 
-    <div class="nav-section" style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#6E6864; font-weight:800; padding:18px 20px 8px;">CONFIGURACIÓN</div>
+    <div class="nav-section" style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#6E6864; font-weight:800; padding:18px 20px 8px;">MÁS MÓDULOS</div>
     <ul class="nav-list">
       <li class="nav-item">
-        <button class="nav-btn" data-tab="tab-settings">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-          <span>Preferencias Tienda</span>
+        <button class="nav-btn" data-tab="tab-reports" onclick="showToast('Módulo de Reportes avanzados en desarrollo')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span>Reportes</span>
         </button>
       </li>
       <li class="nav-item">
@@ -2609,12 +3601,9 @@
     
     <!-- Top Header -->
     <header style="height:64px; background:#FFFFFF; border-bottom:1px solid #E5E7EB; display:flex; align-items:center; justify-content:space-between; padding:0 28px; position:sticky; top:0; z-index:30;">
-      <div class="header-left" style="display:flex; align-items:center; gap:16px;">
-        <div class="header-search">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" id="global-search-input" placeholder="Buscar en Retequeños..." onkeyup="handleGlobalSearch(event)">
-          <kbd>⌘ K</kbd>
-        </div>
+      <div class="header-left" style="display:flex; flex-direction:column; justify-content:center;">
+        <div style="font-family:var(--font-display); font-size:20px; font-weight:800; color:#111827; letter-spacing:-0.02em; line-height:1.2;" id="page-heading">Dashboard & Métricas</div>
+        <div style="font-size:12px; color:#6B7280; font-weight:500; margin-top:2px;" id="page-subheading">Visión ejecutiva del negocio en tiempo real</div>
       </div>
 
       <div class="header-right" style="display:flex; align-items:center; gap:10px;">
@@ -2623,20 +3612,21 @@
           <span>Tienda abierta</span>
         </div>
 
-        <button class="btn btn-outline btn-sm" id="btn-sound-toggle" style="background:#FFFFFF; border:1px solid #E5E7EB; border-radius:8px; font-weight:600; font-size:12px; color:#374151; padding:6px 12px; display:inline-flex; align-items:center; gap:6px;" title="Alerta Sonora KDS">
+        <button class="btn btn-outline btn-sm" id="btn-sound-toggle" onclick="toggleAlertSound()" style="background:#F3F4F6; border:1px solid #E5E7EB; border-radius:999px; font-weight:600; font-size:12px; color:#374151; padding:5px 12px; display:inline-flex; align-items:center; gap:6px; cursor:pointer;" title="Alerta Sonora">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-          <span>Sonido: ON</span>
+          <span id="sound-toggle-text">Sonido: ON</span>
         </button>
 
-        <a href="/" target="_blank" class="btn btn-outline btn-sm" style="background:#FFFBF0; border:1px solid #FDE68A; border-radius:8px; font-weight:600; font-size:12px; color:#D97706; padding:6px 12px; display:inline-flex; align-items:center; gap:6px; text-decoration:none;" title="Abrir Prototipo App Móvil en pestaña nueva">
+        <a href="/" target="_blank" class="btn btn-outline btn-sm" style="background:#FFFBF0; border:1px solid #FDE68A; border-radius:999px; font-weight:700; font-size:12px; color:#D97706; padding:5px 12px; display:inline-flex; align-items:center; gap:6px; text-decoration:none;" title="Abrir Prototipo App Móvil en pestaña nueva">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
-          <span>Ver app móvil</span>
+          <span>Ver App Móvil</span>
         </a>
 
-        <button class="btn btn-primary" onclick="focusNewCouponForm()" style="background:#FF2442; border:none; border-radius:8px; color:#FFFFFF; font-weight:700; font-size:12.5px; padding:7px 16px; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 6px rgba(255,36,66,0.25); cursor:pointer;">
+        <button class="btn btn-primary" id="topbar-action-btn" onclick="simulateIncomingOrder()" style="background:#FF2442; border:none; border-radius:8px; color:#FFFFFF; font-weight:700; font-size:12.5px; padding:7px 16px; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 6px rgba(255,36,66,0.25); cursor:pointer;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          <span>Nueva campaña</span>
+          <span id="topbar-btn-text">+ Simular Pedido</span>
         </button>
+        <div style="width:34px; height:34px; border-radius:50%; background:#FF2442; color:#FFFFFF; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(255,36,66,0.3); flex-shrink:0;">MF</div>
       </div>
     </header>
 
@@ -2644,251 +3634,764 @@
     <main>
 
       <!-- TAB 1: DASHBOARD & ANALYTICS -->
-      <section id="tab-dashboard" class="tab-content">
+      <section id="tab-dashboard" class="tab-content active">
+
+        <!-- Selector de Fecha Superior Derecha -->
+        <div class="dash-date-picker-wrap">
+          <div class="dash-date-picker-btn" id="dash-date-selector">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span id="dash-date-text">Hoy, 16 de septiembre de 2024</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+        </div>
         
-        <!-- KPI Cards Grid -->
-        <div class="kpi-grid">
-          <div class="kpi-card">
-            <div class="kpi-header">
-              <span class="kpi-title">Ventas de Hoy</span>
-              <div class="kpi-icon-wrap" style="color:var(--primary);background:var(--primary-light)">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+        <!-- Fila 1: 6 KPI Cards Superiores -->
+        <div class="dash-kpi-grid">
+          
+          <!-- KPI 1: Ventas de Hoy -->
+          <div class="dash-kpi-card">
+            <div class="dash-kpi-top">
+              <div class="dash-kpi-icon-wrap" style="background:#FEE2E2; color:#EF4444;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+              </div>
+              <span class="dash-kpi-title">VENTAS DE HOY</span>
+            </div>
+            <div class="dash-kpi-mid">
+              <div class="dash-kpi-value" id="kpi-sales">S/ 2,480.50</div>
+              <div class="dash-sparkline-bars">
+                <span class="dash-sparkline-bar" style="height:7px; background:#FCA5A5;"></span>
+                <span class="dash-sparkline-bar" style="height:11px; background:#FCA5A5;"></span>
+                <span class="dash-sparkline-bar" style="height:15px; background:#FCA5A5;"></span>
+                <span class="dash-sparkline-bar" style="height:18px; background:#EF4444;"></span>
               </div>
             </div>
-            <div class="kpi-value" id="kpi-sales">S/ 2,480.50</div>
-            <div class="kpi-trend trend-up">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
-              <span>+18.4% vs. ayer</span>
+            <div class="dash-kpi-bottom dash-trend-up">
+              <span>▲ +18.4% vs. ayer</span>
             </div>
           </div>
 
-          <div class="kpi-card">
-            <div class="kpi-header">
-              <span class="kpi-title">Pedidos Totales</span>
-              <div class="kpi-icon-wrap" style="color:var(--info);background:var(--info-light)">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          <!-- KPI 2: Pedidos Confirmados -->
+          <div class="dash-kpi-card">
+            <div class="dash-kpi-top">
+              <div class="dash-kpi-icon-wrap" style="background:#DBEAFE; color:#3B82F6;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+              </div>
+              <span class="dash-kpi-title">PEDIDOS CONFIRMADOS</span>
+            </div>
+            <div class="dash-kpi-mid">
+              <div class="dash-kpi-value" id="kpi-orders-count">84</div>
+              <div class="dash-sparkline-bars">
+                <span class="dash-sparkline-bar" style="height:9px; background:#93C5FD;"></span>
+                <span class="dash-sparkline-bar" style="height:13px; background:#93C5FD;"></span>
+                <span class="dash-sparkline-bar" style="height:11px; background:#93C5FD;"></span>
+                <span class="dash-sparkline-bar" style="height:17px; background:#3B82F6;"></span>
               </div>
             </div>
-            <div class="kpi-value" id="kpi-orders-count">84 órdenes</div>
-            <div class="kpi-trend trend-up">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
-              <span>+12 pedidos vs. semana pasada</span>
+            <div class="dash-kpi-bottom dash-trend-up">
+              <span>▲ +12 vs. semana pasada</span>
             </div>
           </div>
 
-          <div class="kpi-card">
-            <div class="kpi-header">
-              <span class="kpi-title">Ticket Promedio</span>
-              <div class="kpi-icon-wrap" style="color:var(--warning);background:var(--warning-light)">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <!-- KPI 3: Ticket Promedio -->
+          <div class="dash-kpi-card">
+            <div class="dash-kpi-top">
+              <div class="dash-kpi-icon-wrap" style="background:#FEF3C7; color:#F59E0B;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              </div>
+              <span class="dash-kpi-title">TICKET PROMEDIO</span>
+            </div>
+            <div class="dash-kpi-mid">
+              <div class="dash-kpi-value">S/ 29.50</div>
+              <div class="dash-sparkline-bars">
+                <span class="dash-sparkline-bar" style="height:8px; background:#FDE68A;"></span>
+                <span class="dash-sparkline-bar" style="height:12px; background:#FDE68A;"></span>
+                <span class="dash-sparkline-bar" style="height:14px; background:#FDE68A;"></span>
+                <span class="dash-sparkline-bar" style="height:17px; background:#F59E0B;"></span>
               </div>
             </div>
-            <div class="kpi-value">S/ 29.50</div>
-            <div class="kpi-trend trend-up">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
-              <span>+S/ 2.10 (impacto combos)</span>
+            <div class="dash-kpi-bottom dash-trend-up">
+              <span>▲ + S/ 2.10 vs. semana pasada</span>
             </div>
           </div>
 
-          <div class="kpi-card">
-            <div class="kpi-header">
-              <span class="kpi-title">Calificación Clientes</span>
-              <div class="kpi-icon-wrap" style="color:var(--gold);background:var(--gold-light)">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <!-- KPI 4: Conversión App → WhatsApp -->
+          <div class="dash-kpi-card">
+            <div class="dash-kpi-top">
+              <div class="dash-kpi-icon-wrap" style="background:#EDE9FE; color:#8B5CF6;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+              </div>
+              <span class="dash-kpi-title">CONVERSIÓN APP → WHATSAPP</span>
+            </div>
+            <div class="dash-kpi-mid">
+              <div class="dash-kpi-value">42.7%</div>
+              <div class="dash-sparkline-bars">
+                <span class="dash-sparkline-bar" style="height:6px; background:#DDD6FE;"></span>
+                <span class="dash-sparkline-bar" style="height:10px; background:#DDD6FE;"></span>
+                <span class="dash-sparkline-bar" style="height:15px; background:#DDD6FE;"></span>
+                <span class="dash-sparkline-bar" style="height:18px; background:#8B5CF6;"></span>
               </div>
             </div>
-            <div class="kpi-value">4.9 ★</div>
-            <div class="kpi-trend trend-up">
+            <div class="dash-kpi-bottom dash-trend-neutral">
+              <span>132 clics / 56 pedidos</span>
+            </div>
+          </div>
+
+          <!-- KPI 5: Clientes Recurrentes -->
+          <div class="dash-kpi-card">
+            <div class="dash-kpi-top">
+              <div class="dash-kpi-icon-wrap" style="background:#D1FAE5; color:#10B981;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              </div>
+              <span class="dash-kpi-title">CLIENTES RECURRENTES</span>
+            </div>
+            <div class="dash-kpi-mid">
+              <div class="dash-kpi-value">38%</div>
+              <div class="dash-sparkline-bars">
+                <span class="dash-sparkline-bar" style="height:8px; background:#A7F3D0;"></span>
+                <span class="dash-sparkline-bar" style="height:11px; background:#A7F3D0;"></span>
+                <span class="dash-sparkline-bar" style="height:13px; background:#A7F3D0;"></span>
+                <span class="dash-sparkline-bar" style="height:17px; background:#10B981;"></span>
+              </div>
+            </div>
+            <div class="dash-kpi-bottom dash-trend-up">
+              <span>▲ +6.2 pts vs. mes pasado</span>
+            </div>
+          </div>
+
+          <!-- KPI 6: Calificación Clientes -->
+          <div class="dash-kpi-card">
+            <div class="dash-kpi-top">
+              <div class="dash-kpi-icon-wrap" style="background:#FEF3C7; color:#F59E0B;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              </div>
+              <span class="dash-kpi-title">CALIFICACIÓN CLIENTES</span>
+            </div>
+            <div class="dash-kpi-mid">
+              <div class="dash-kpi-value">4.9 ★</div>
+              <div class="dash-sparkline-bars">
+                <span class="dash-sparkline-bar" style="height:10px; background:#FDE68A;"></span>
+                <span class="dash-sparkline-bar" style="height:13px; background:#FDE68A;"></span>
+                <span class="dash-sparkline-bar" style="height:15px; background:#FDE68A;"></span>
+                <span class="dash-sparkline-bar" style="height:18px; background:#F59E0B;"></span>
+              </div>
+            </div>
+            <div class="dash-kpi-bottom dash-trend-teal">
               <span>96% reseñas de 5 estrellas</span>
             </div>
           </div>
-        </div>
-
-        <!-- Charts Grid -->
-        <div class="charts-grid">
-          
-          <!-- Sales Hourly Chart -->
-          <div class="card">
-            <div class="card-header">
-              <div>
-                <div class="card-title">Curva de Ventas por Hora (14:00 - 23:00 hrs)</div>
-                <div class="card-subtitle">Hora pico detectada: 19:30 - 21:30 hrs (46% de las órdenes)</div>
-              </div>
-              <div class="btn-group">
-                <button class="btn btn-outline btn-sm active" style="background:#FFF0F1;color:var(--primary);border-color:var(--primary)">Hoy</button>
-                <button class="btn btn-outline btn-sm">Semana</button>
-              </div>
-            </div>
-            <div style="height: 280px; position: relative;">
-              <canvas id="chart-hourly-sales"></canvas>
-            </div>
-          </div>
-
-          <!-- Sauces Preference Distribution -->
-          <div class="card">
-            <div class="card-header">
-              <div>
-                <div class="card-title">Salsas Más Solicitadas</div>
-                <div class="card-subtitle">Preferencia de dips por combo</div>
-              </div>
-            </div>
-            <div style="height: 220px; position: relative;">
-              <canvas id="chart-sauces"></canvas>
-            </div>
-            <div style="margin-top: 14px; display: flex; justify-content: space-around; font-size: 11.5px; color: var(--text-muted);">
-              <span>🧄 Mayonesa de ajo (52%)</span>
-              <span>🥑 Mayopalta (28%)</span>
-              <span>🥓 Salsa tocino (14%)</span>
-              <span>🌶️ Ají especial (6%)</span>
-            </div>
-          </div>
 
         </div>
 
-        <!-- Secondary Analytics Row -->
-        <div class="charts-grid" style="grid-template-columns: 1fr 1fr;">
+        <!-- Fila 2: 4 Insights Operacionales -->
+        <div class="dash-insights-grid">
           
-          <!-- Top Products Performance (feedback entrevista: top 5 y por mes) -->
-          <div class="card">
-            <div class="card-header">
-              <div>
-                <div class="card-title">Top 5 Productos Más Pedidos</div>
-                <div class="card-subtitle" id="top-products-subtitle">Órdenes despachadas hoy · base para decidir promos y pauta</div>
+          <!-- Insight 1: Hora pico detectada -->
+          <div class="dash-insight-card">
+            <div class="dash-insight-left">
+              <div class="dash-insight-icon-wrap" style="background:#FEE2E2; color:#EF4444;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
               </div>
-              <div class="btn-group">
-                <button class="btn btn-outline btn-sm active" id="top-btn-hoy" style="background:#FFF0F1;color:var(--primary);border-color:var(--primary)" onclick="renderTopProducts('hoy')">Hoy</button>
-                <button class="btn btn-outline btn-sm" id="top-btn-mes" onclick="renderTopProducts('mes')">Este mes</button>
+              <div>
+                <div class="dash-insight-title" style="color:#EF4444;">Hora pico detectada</div>
+                <div class="dash-insight-value">19:30 - 21:30 hrs</div>
               </div>
             </div>
-            <div style="display:flex; flex-direction:column; gap:12px;" id="top-products-list">
-              <!-- Rendered by JS -->
+            <div class="dash-sparkline-bars">
+              <span class="dash-sparkline-bar" style="height:6px; background:#FCA5A5;"></span>
+              <span class="dash-sparkline-bar" style="height:12px; background:#FCA5A5;"></span>
+              <span class="dash-sparkline-bar" style="height:18px; background:#EF4444;"></span>
+              <span class="dash-sparkline-bar" style="height:14px; background:#FCA5A5;"></span>
             </div>
           </div>
 
-          <!-- Operational Delivery SLA -->
-          <div class="card">
-            <div class="card-header">
+          <!-- Insight 2: Producto con mejor margen -->
+          <div class="dash-insight-card">
+            <div class="dash-insight-left">
+              <div class="dash-insight-icon-wrap" style="background:#D1FAE5; color:#10B981;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14v2H5v-2z"></path></svg>
+              </div>
               <div>
-                <div class="card-title">Tiempos de Ciclo de Entrega (SLA)</div>
-                <div class="card-subtitle">Objetivo de marca: ≤ 30 minutos</div>
+                <div class="dash-insight-title" style="color:#059669;">Producto con mejor margen</div>
+                <div class="dash-insight-value" title="Promo Duo (20 unid. + 2 gaseosas)">Promo Duo (20 unid. + 2 gaseosas)</div>
+              </div>
+            </div>
+            <div class="dash-sparkline-bars">
+              <span class="dash-sparkline-bar" style="height:8px; background:#A7F3D0;"></span>
+              <span class="dash-sparkline-bar" style="height:13px; background:#A7F3D0;"></span>
+              <span class="dash-sparkline-bar" style="height:18px; background:#10B981;"></span>
+            </div>
+          </div>
+
+          <!-- Insight 3: Cupón con mejor rendimiento -->
+          <div class="dash-insight-card">
+            <div class="dash-insight-left">
+              <div class="dash-insight-icon-wrap" style="background:#EDE9FE; color:#8B5CF6;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+              </div>
+              <div>
+                <div class="dash-insight-title" style="color:#8B5CF6;">Cupón con mejor rendimiento</div>
+                <div class="dash-insight-value">MARTESRETQ</div>
+                <div class="dash-insight-sub" style="color:#6B7280;">56 pedidos • +28% conversión</div>
+              </div>
+            </div>
+            <div class="dash-sparkline-bars">
+              <span class="dash-sparkline-bar" style="height:7px; background:#DDD6FE;"></span>
+              <span class="dash-sparkline-bar" style="height:12px; background:#DDD6FE;"></span>
+              <span class="dash-sparkline-bar" style="height:17px; background:#8B5CF6;"></span>
+            </div>
+          </div>
+
+          <!-- Insight 4: Stock crítico -->
+          <div class="dash-insight-card" style="cursor:pointer;" onclick="document.querySelector('[data-tab=tab-catalog]').click()">
+            <div class="dash-insight-left">
+              <div class="dash-insight-icon-wrap" style="background:#FFEDD5; color:#F97316;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+              </div>
+              <div>
+                <div class="dash-insight-title" style="color:#4B5563;">Stock crítico</div>
+                <div class="dash-insight-value">Salsa tártara</div>
+                <div class="dash-insight-sub" style="color:#EF4444; font-weight:700;">Solo 6 unidades</div>
+              </div>
+            </div>
+            <div style="color:#9CA3AF; font-size:18px; font-weight:700;">›</div>
+          </div>
+
+        </div>
+
+        <!-- Fila 3: Curva de Ventas por Hora & Mix por Canal -->
+        <div class="dash-grid-65-35">
+          
+          <!-- Curva de Ventas por Hora -->
+          <div class="card" style="position:relative; overflow:hidden;">
+            <div class="card-header" style="padding:16px 20px; border-bottom:1px solid #F3F4F6; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div class="card-title" style="font-size:15px; font-weight:800; color:#111827;">Curva de ventas por hora (14:00 - 23:00 hrs)</div>
+                <div class="card-subtitle" style="font-size:12px; color:#6B7280; margin-top:2px;">Hora pico detectada: 19:30 - 21:30 hrs (46% de las órdenes)</div>
+              </div>
+              <div class="btn-group" style="display:inline-flex; background:#F3F4F6; border-radius:8px; padding:3px;">
+                <button class="btn btn-sm" id="btn-curve-hoy" onclick="setSalesCurvePeriod('hoy')" style="background:#FFF0F1; color:#EF4444; border:none; border-radius:6px; font-weight:700; font-size:11.5px; padding:5px 14px; cursor:pointer;">Hoy</button>
+                <button class="btn btn-sm" id="btn-curve-semana" onclick="setSalesCurvePeriod('semana')" style="background:transparent; color:#6B7280; border:none; border-radius:6px; font-weight:600; font-size:11.5px; padding:5px 14px; cursor:pointer;">Semana</button>
               </div>
             </div>
             
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:16px;">
-              <div style="padding:16px; background:var(--surface-subtle); border-radius:var(--radius-sm); border:1px solid var(--border);">
-                <div style="font-size:11.5px; color:var(--text-muted); font-weight:600;">TIEMPO EN COCINA</div>
-                <div style="font-family:var(--font-display); font-size:22px; font-weight:800; color:var(--text-main); margin-top:4px;">8.4 min</div>
-                <div style="font-size:11px; color:var(--success); font-weight:600; margin-top:2px;">⚡ Excelente ritmo</div>
-              </div>
-
-              <div style="padding:16px; background:var(--surface-subtle); border-radius:var(--radius-sm); border:1px solid var(--border);">
-                <div style="font-size:11.5px; color:var(--text-muted); font-weight:600;">TIEMPO EN TRÁNSITO</div>
-                <div style="font-family:var(--font-display); font-size:22px; font-weight:800; color:var(--text-main); margin-top:4px;">15.8 min</div>
-                <div style="font-size:11px; color:var(--info); font-weight:600; margin-top:2px;">🛵 4 motos activas</div>
+            <div style="height:270px; position:relative; padding:16px 20px 10px;">
+              <canvas id="chart-hourly-sales"></canvas>
+              
+              <!-- Callout Tooltip en el pico de ventas (20:00 hrs) -->
+              <div class="dash-chart-tooltip" id="dash-peak-tooltip">
+                <div class="dash-chart-tooltip-title">Pico de ventas</div>
+                <div class="dash-chart-tooltip-val">S/ 862.00</div>
+                <div class="dash-chart-tooltip-time">20:00 hrs</div>
               </div>
             </div>
+          </div>
 
-            <div style="padding:14px 16px; background:#E7F6EE; border-radius:var(--radius-sm); border:1px solid rgba(31,157,98,0.2); display:flex; align-items:center; gap:12px;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-              <div>
-                <div style="font-weight:700; font-size:13px; color:var(--success);">Promedio Total de Entrega: 24.2 min</div>
-                <div style="font-size:11.5px; color:#187348;">97.4% de los pedidos llegan calientes y en tiempo.</div>
+          <!-- Mix de Pedidos por Canal -->
+          <div class="card" style="padding:16px 20px;">
+            <div class="card-header" style="padding:0 0 14px; border-bottom:1px solid #F3F4F6;">
+              <div class="card-title" style="font-size:15px; font-weight:800; color:#111827;">Mix de pedidos por canal</div>
+              <div class="card-subtitle" style="font-size:12px; color:#6B7280; margin-top:2px;">Distribución de órdenes por canal de venta</div>
+            </div>
+            
+            <div style="display:flex; align-items:center; gap:16px; margin-top:16px;">
+              <!-- Donut Canvas con etiqueta central -->
+              <div class="dash-donut-wrap">
+                <canvas id="chart-channels-mix"></canvas>
+                <div class="dash-donut-center">
+                  <div class="dash-donut-center-num">84</div>
+                  <div class="dash-donut-center-lbl">órdenes<br>totales</div>
+                </div>
+              </div>
+
+              <!-- Leyenda con porcentajes y órdenes -->
+              <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+                <div class="dash-channel-legend-item">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="width:10px; height:10px; border-radius:50%; background:#EF4444; flex-shrink:0;"></span>
+                    <span style="font-weight:600; color:#374151;">WhatsApp Delivery</span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-weight:800; color:#111827;">46%</span>
+                    <span style="color:#6B7280; font-size:11px;">39 órdenes</span>
+                  </div>
+                </div>
+
+                <div class="dash-channel-legend-item">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="width:10px; height:10px; border-radius:50%; background:#10B981; flex-shrink:0;"></span>
+                    <span style="font-weight:600; color:#374151;">Recojo en tienda</span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-weight:800; color:#111827;">34%</span>
+                    <span style="color:#6B7280; font-size:11px;">29 órdenes</span>
+                  </div>
+                </div>
+
+                <div class="dash-channel-legend-item">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="width:10px; height:10px; border-radius:50%; background:#F59E0B; flex-shrink:0;"></span>
+                    <span style="font-weight:600; color:#374151;">Consumo local</span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-weight:800; color:#111827;">12%</span>
+                    <span style="color:#6B7280; font-size:11px;">10 órdenes</span>
+                  </div>
+                </div>
+
+                <div class="dash-channel-legend-item">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="width:10px; height:10px; border-radius:50%; background:#8B5CF6; flex-shrink:0;"></span>
+                    <span style="font-weight:600; color:#374151;">Promociones/campañas</span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-weight:800; color:#111827;">8%</span>
+                    <span style="color:#6B7280; font-size:11px;">6 órdenes</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
         </div>
 
-        <!-- Feedback & Marketing Row (entrevista: origen de la publicidad + reseñas escritas) -->
-        <div class="charts-grid" style="grid-template-columns: 1fr 1.4fr; margin-top:28px;">
-
-          <div class="card">
-            <div class="card-header">
+        <!-- Fila 4: Top 5 Productos & Tiempos de Ciclo SLA -->
+        <div class="dash-grid-50-50">
+          
+          <!-- Top 5 Productos Más Pedidos -->
+          <div class="card" style="padding:16px 20px;">
+            <div class="card-header" style="padding:0 0 14px; border-bottom:1px solid #F3F4F6; display:flex; justify-content:space-between; align-items:center;">
               <div>
-                <div class="card-title">¿Cómo nos conocieron?</div>
-                <div class="card-subtitle">Respuestas de la encuesta post-pedido · decide dónde destinar presupuesto</div>
+                <div class="card-title" style="font-size:15px; font-weight:800; color:#111827;">Top 5 productos más pedidos</div>
+                <div class="card-subtitle" id="top-products-subtitle" style="font-size:12px; color:#6B7280; margin-top:2px;">Órdenes despachadas hoy - base para decidir promos y pauta</div>
+              </div>
+              <div class="btn-group" style="display:inline-flex; background:#F3F4F6; border-radius:8px; padding:3px;">
+                <button class="btn btn-sm" id="top-btn-hoy" onclick="renderTopProducts('hoy')" style="background:#FFF0F1; color:#EF4444; border:none; border-radius:6px; font-weight:700; font-size:11.5px; padding:5px 14px; cursor:pointer;">Hoy</button>
+                <button class="btn btn-sm" id="top-btn-mes" onclick="renderTopProducts('mes')" style="background:transparent; color:#6B7280; border:none; border-radius:6px; font-weight:600; font-size:11.5px; padding:5px 14px; cursor:pointer;">Este mes</button>
               </div>
             </div>
-            <div style="height: 200px; position: relative;">
-              <canvas id="chart-attribution"></canvas>
+            
+            <div style="display:flex; flex-direction:column; gap:14px; margin-top:16px;" id="top-products-list">
+              <!-- Renderizado dinámico por JS -->
             </div>
-            <div id="attribution-legend" style="margin-top:14px; display:flex; flex-direction:column; gap:6px; font-size:12px;"></div>
           </div>
 
-          <div class="card">
-            <div class="card-header">
-              <div>
-                <div class="card-title">Reseñas y Recomendaciones Recientes</div>
-                <div class="card-subtitle">Lo que los clientes escriben con sinceridad (y no siempre dicen en persona)</div>
+          <!-- Tiempos de Ciclo de Entrega (SLA) -->
+          <div class="card" style="padding:16px 20px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div class="card-header" style="padding:0 0 14px; border-bottom:1px solid #F3F4F6;">
+                <div class="card-title" style="font-size:15px; font-weight:800; color:#111827;">Tiempos de ciclo de entrega (SLA)</div>
+                <div class="card-subtitle" style="font-size:12px; color:#6B7280; margin-top:2px;">Objetivo de marca: ≤ 30 minutos</div>
               </div>
-              <button class="btn btn-outline btn-sm" onclick="document.querySelector('[data-tab=tab-surveys]').click()">Ver todas</button>
+              
+              <!-- 3 Cajas Métricas Horizontales -->
+              <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-top:16px;">
+                
+                <div style="padding:14px; background:#FAFAFA; border-radius:10px; border:1px solid #E5E7EB;">
+                  <div style="display:flex; align-items:center; gap:6px; font-size:10.5px; color:#6B7280; font-weight:700;">
+                    <span>👨‍🍳</span>
+                    <span>TIEMPO EN COCINA</span>
+                  </div>
+                  <div style="font-family:var(--font-display); font-size:22px; font-weight:800; color:#111827; margin-top:6px;">8.4 min</div>
+                  <div style="font-size:11px; color:#10B981; font-weight:600; margin-top:2px;">▲ Excelente ritmo</div>
+                </div>
+
+                <div style="padding:14px; background:#FAFAFA; border-radius:10px; border:1px solid #E5E7EB;">
+                  <div style="display:flex; align-items:center; gap:6px; font-size:10.5px; color:#6B7280; font-weight:700;">
+                    <span>🛵</span>
+                    <span>TIEMPO EN TRÁNSITO</span>
+                  </div>
+                  <div style="font-family:var(--font-display); font-size:22px; font-weight:800; color:#111827; margin-top:6px;">15.8 min</div>
+                  <div style="font-size:11px; color:#3B82F6; font-weight:600; margin-top:2px;">⚡ 4 motos activas</div>
+                </div>
+
+                <div style="padding:14px; background:#FAFAFA; border-radius:10px; border:1px solid #E5E7EB;">
+                  <div style="display:flex; align-items:center; gap:6px; font-size:10.5px; color:#6B7280; font-weight:700;">
+                    <span>⏱️</span>
+                    <span>PROMEDIO TOTAL DE ENTREGA</span>
+                  </div>
+                  <div style="font-family:var(--font-display); font-size:22px; font-weight:800; color:#111827; margin-top:6px;">24.2 min</div>
+                  <div style="font-size:11px; color:#4B5563; font-weight:600; margin-top:2px;">▲ vs. 30 min objetivo</div>
+                </div>
+
+              </div>
             </div>
-            <div id="dashboard-reviews-list" style="display:flex; flex-direction:column; gap:10px;"></div>
-            <div id="improve-topics" style="margin-top:14px; display:flex; gap:6px; flex-wrap:wrap; align-items:center; font-size:11.5px;"></div>
+
+            <!-- Banner Inferior de Desempeño y Satisfacción -->
+            <div style="padding:14px 18px; background:#ECFDF5; border-radius:10px; border:1px solid #A7F3D0; display:flex; align-items:center; justify-content:space-between; margin-top:16px;">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div style="width:26px; height:26px; border-radius:50%; background:#10B981; color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; flex-shrink:0;">✓</div>
+                <div>
+                  <div style="font-weight:700; font-size:12.5px; color:#065F46;">97.4% de los pedidos llegan calientes y en tiempo.</div>
+                  <div style="font-size:12px; color:#047857;">¡Excelente desempeño hoy!</div>
+                </div>
+              </div>
+              <div class="dash-sparkline-bars">
+                <span class="dash-sparkline-bar" style="height:8px; background:#A7F3D0;"></span>
+                <span class="dash-sparkline-bar" style="height:12px; background:#A7F3D0;"></span>
+                <span class="dash-sparkline-bar" style="height:16px; background:#10B981;"></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Fila 5: ¿Cómo nos conocieron? & Reseñas y Recomendaciones Recientes -->
+        <div class="dash-grid-38-62">
+
+          <!-- ¿Cómo nos conocieron? -->
+          <div class="card" style="padding:16px 20px;">
+            <div class="card-header" style="padding:0 0 14px; border-bottom:1px solid #F3F4F6;">
+              <div class="card-title" style="font-size:15px; font-weight:800; color:#111827;">¿Cómo nos conocieron?</div>
+              <div class="card-subtitle" style="font-size:12px; color:#6B7280; margin-top:2px;">Respuestas de la encuesta post-pedido - decide dónde destinar presupuesto</div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:16px; margin-top:16px;">
+              <div style="width:140px; height:140px; position:relative; flex-shrink:0;">
+                <canvas id="chart-attribution"></canvas>
+              </div>
+              <div id="attribution-legend" style="flex:1; display:flex; flex-direction:column; gap:7px; font-size:12px;">
+                <!-- Leyenda generada por JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Reseñas y Recomendaciones Recientes -->
+          <div class="card" style="padding:16px 20px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div class="card-header" style="padding:0 0 14px; border-bottom:1px solid #F3F4F6; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <div class="card-title" style="font-size:15px; font-weight:800; color:#111827;">Reseñas y recomendaciones recientes</div>
+                  <div class="card-subtitle" style="font-size:12px; color:#6B7280; margin-top:2px;">Lo que los clientes escriben con sinceridad (y no siempre dicen en persona)</div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="document.querySelector('[data-tab=tab-surveys]').click()" style="background:#FFFFFF; border:1px solid #E5E7EB; border-radius:6px; font-size:12px; font-weight:600; color:#374151; padding:5px 12px; cursor:pointer;">Ver todas</button>
+              </div>
+
+              <!-- 4 Tarjetas Horizontales -->
+              <div class="dash-reviews-grid" id="dashboard-reviews-list" style="margin-top:16px;">
+                <!-- Renderizado por JS -->
+              </div>
+            </div>
+
+            <!-- Temas a mejorar -->
+            <div style="margin-top:16px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:11.5px; padding-top:12px; border-top:1px solid #F3F4F6;">
+              <span style="font-weight:700; color:#374151;">Temas a mejorar:</span>
+              <div id="improve-topics" style="display:inline-flex; gap:6px; flex-wrap:wrap;">
+                <!-- Generado por JS -->
+              </div>
+            </div>
           </div>
 
         </div>
 
       </section>
 
-      <!-- TAB 2: KDS & LIVE ORDERS -->
+      <!-- TAB 2: KDS & LIVE ORDERS — MONITOR DE COCINA Y DESPACHO EN VIVO -->
       <section id="tab-kanban" class="tab-content">
         
-        <div class="kanban-toolbar">
-          <div style="display:flex; align-items:center; gap:14px;">
-            <div style="font-weight:700; font-size:15px;">Monitor de Cocina y Despacho en Vivo</div>
-            <div style="font-size:12px; color:var(--text-muted);">Actualización en tiempo real · Alerta sonora activada</div>
+        <!-- Header del Módulo KDS -->
+        <div class="kds-header">
+          <div class="kds-header-left">
+            <div class="kds-title-row">
+              <h1 class="kds-title">Monitor de Cocina y Despacho en Vivo</h1>
+              <span class="kds-live-tag">
+                <span class="kds-live-dot"></span>
+                <span>Actualización en tiempo real</span>
+              </span>
+            </div>
+            <div class="kds-subtitle">Gestiona todos tus pedidos, desde la recepción hasta la entrega.</div>
           </div>
-          <div style="display:flex; gap:10px;">
-            <input type="text" class="search-input" placeholder="Buscar orden (#RTQ, cliente)..." onkeyup="filterKanbanOrders(this.value)">
-            <button class="btn btn-primary btn-sm" onclick="triggerSimulatedOrder()">+ Nuevo Pedido Simulado</button>
+          <div class="kds-header-right">
+            <div class="kds-time-display">
+              <span id="kds-current-date">Jue, 24 de Abr de 2025</span>
+              <span id="kds-current-time" class="kds-clock">20:18</span>
+            </div>
+            <div class="kds-online-status">
+              <span class="kds-green-dot"></span>
+              <span>Sistema en línea</span>
+            </div>
           </div>
         </div>
 
-        <div class="kanban-board">
+        <!-- 6 KPI Cards Operativos -->
+        <div class="kds-kpi-grid">
+          <!-- KPI 1: Nuevos -->
+          <div class="kds-kpi-card">
+            <div class="kds-kpi-icon-wrap kds-icon-blue">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            </div>
+            <div class="kds-kpi-content">
+              <div class="kds-kpi-label">Nuevos</div>
+              <div class="kds-kpi-val" id="kpi-count-new">4</div>
+              <div class="kds-kpi-sub">Por aceptar</div>
+            </div>
+          </div>
+
+          <!-- KPI 2: En cocina -->
+          <div class="kds-kpi-card">
+            <div class="kds-kpi-icon-wrap kds-icon-orange">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"></path><line x1="6" y1="17" x2="18" y2="17"></line></svg>
+            </div>
+            <div class="kds-kpi-content">
+              <div class="kds-kpi-label">En cocina</div>
+              <div class="kds-kpi-val" id="kpi-count-kitchen">2</div>
+              <div class="kds-kpi-sub">Preparándose</div>
+            </div>
+          </div>
+
+          <!-- KPI 3: En delivery -->
+          <div class="kds-kpi-card">
+            <div class="kds-kpi-icon-wrap kds-icon-pink">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18.5" cy="17.5" r="3.5"></circle><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="15" cy="5" r="1"></circle><path d="M12 17.5V14l-3-3 4-3 2 3h2"></path></svg>
+            </div>
+            <div class="kds-kpi-content">
+              <div class="kds-kpi-label">En delivery</div>
+              <div class="kds-kpi-val" id="kpi-count-delivery">2</div>
+              <div class="kds-kpi-sub">En camino</div>
+            </div>
+          </div>
+
+          <!-- KPI 4: Entregados hoy -->
+          <div class="kds-kpi-card">
+            <div class="kds-kpi-icon-wrap kds-icon-green">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <div class="kds-kpi-content">
+              <div class="kds-kpi-label">Entregados hoy</div>
+              <div class="kds-kpi-val-row">
+                <span class="kds-kpi-val" id="kpi-count-delivered">12</span>
+                <span class="kds-pill-badge kds-pill-green">↑ +20%</span>
+              </div>
+              <div class="kds-kpi-sub">vs. ayer</div>
+            </div>
+          </div>
+
+          <!-- KPI 5: Tiempo prom. cocina -->
+          <div class="kds-kpi-card">
+            <div class="kds-kpi-icon-wrap kds-icon-purple">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div class="kds-kpi-content">
+              <div class="kds-kpi-label">Tiempo prom. cocina</div>
+              <div class="kds-kpi-val-row">
+                <span class="kds-kpi-val" id="kpi-avg-time">8 min</span>
+                <span class="kds-pill-badge kds-pill-green-soft">↓ -2 min</span>
+              </div>
+              <div class="kds-kpi-sub">Última hora</div>
+            </div>
+          </div>
+
+          <!-- KPI 6: Con retraso -->
+          <div class="kds-kpi-card">
+            <div class="kds-kpi-icon-wrap kds-icon-red">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </div>
+            <div class="kds-kpi-content">
+              <div class="kds-kpi-label">Con retraso</div>
+              <div class="kds-kpi-val" id="kpi-count-delayed" style="color:#DC2626;">1</div>
+              <div class="kds-kpi-sub">> 20 minutos</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de Búsqueda y Filtros Compacta -->
+        <div class="kds-filter-bar">
+          <div class="kds-search-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="kds-search-input" placeholder="Buscar por código, cliente o producto..." oninput="handleKDSFilterChange()">
+          </div>
+
+          <div class="kds-filter-group">
+            <label class="kds-filter-label">Tipo de pedido</label>
+            <div class="kds-select-wrap">
+              <select id="kds-filter-type" onchange="handleKDSFilterChange()">
+                <option value="all">Todos</option>
+                <option value="app">App</option>
+                <option value="whatsapp">WhatsApp</option>
+                <option value="pickup">Recojo</option>
+                <option value="delivery">Delivery</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="kds-filter-group">
+            <label class="kds-filter-label">Estado de pago</label>
+            <div class="kds-select-wrap">
+              <select id="kds-filter-payment" onchange="handleKDSFilterChange()">
+                <option value="all">Todos</option>
+                <option value="confirmado">Confirmado</option>
+                <option value="verificado">Verificado</option>
+                <option value="por_verificar">Por verificar</option>
+                <option value="efectivo">Efectivo</option>
+                <option value="contraentrega">Contraentrega</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="kds-filter-group">
+            <label class="kds-filter-label">Prioridad</label>
+            <div class="kds-select-wrap">
+              <select id="kds-filter-priority" onchange="handleKDSFilterChange()">
+                <option value="all">Todas</option>
+                <option value="normal">Normal</option>
+                <option value="prioridad">Prioridad</option>
+                <option value="retrasados">Retrasados</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="kds-filter-group">
+            <label class="kds-filter-label">Rango de tiempo</label>
+            <div class="kds-select-wrap">
+              <select id="kds-filter-range" onchange="handleKDSFilterChange()">
+                <option value="today">📅 Hoy</option>
+                <option value="1h">Última hora</option>
+                <option value="4h">Últimas 4 horas</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="kds-btn-clear" onclick="resetKDSFilters()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+            <span>Limpiar filtros</span>
+          </button>
+        </div>
+
+        <!-- Tablero Board KDS (4 Columnas) -->
+        <div class="kds-board-grid">
           
-          <!-- Column 1: Por Aceptar -->
-          <div class="kanban-col">
-            <div class="kanban-col-header">
-              <div class="col-title">
-                <span>📥 Nuevos / Por Aceptar</span>
+          <!-- Columna 1: Nuevos / Por aceptar -->
+          <div class="kds-column kds-col-new">
+            <div class="kds-column-header">
+              <div class="kds-col-title-left">
+                <div class="kds-col-icon-box kds-col-icon-new">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                </div>
+                <div>
+                  <div class="kds-col-title">Nuevos / Por aceptar</div>
+                  <div class="kds-col-sub">Pedidos pendientes de aceptación</div>
+                </div>
               </div>
-              <span class="col-badge badge-blue" id="count-new">2</span>
+              <span class="kds-col-count-pill kds-count-blue" id="count-new">4</span>
             </div>
-            <div class="kanban-col-cards" id="col-new"></div>
+            <div class="kds-column-cards" id="col-new">
+              <!-- Rendered via JS -->
+            </div>
           </div>
 
-          <!-- Column 2: En Cocina -->
-          <div class="kanban-col">
-            <div class="kanban-col-header">
-              <div class="col-title">
-                <span>👨‍🍳 En Cocina</span>
+          <!-- Columna 2: En cocina -->
+          <div class="kds-column kds-col-kitchen">
+            <div class="kds-column-header">
+              <div class="kds-col-title-left">
+                <div class="kds-col-icon-box kds-col-icon-kitchen">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"></path><line x1="6" y1="17" x2="18" y2="17"></line></svg>
+                </div>
+                <div>
+                  <div class="kds-col-title">En cocina</div>
+                  <div class="kds-col-sub">Pedidos en preparación</div>
+                </div>
               </div>
-              <span class="col-badge badge-orange" id="count-kitchen">3</span>
+              <span class="kds-col-count-pill kds-count-orange" id="count-kitchen">2</span>
             </div>
-            <div class="kanban-col-cards" id="col-kitchen"></div>
+            <div class="kds-column-cards" id="col-kitchen">
+              <!-- Rendered via JS -->
+            </div>
           </div>
 
-          <!-- Column 3: En Camino -->
-          <div class="kanban-col">
-            <div class="kanban-col-header">
-              <div class="col-title">
-                <span>🛵 En Camino / Delivery</span>
+          <!-- Columna 3: En camino / Delivery -->
+          <div class="kds-column kds-col-delivery">
+            <div class="kds-column-header">
+              <div class="kds-col-title-left">
+                <div class="kds-col-icon-box kds-col-icon-delivery">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18.5" cy="17.5" r="3.5"></circle><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="15" cy="5" r="1"></circle><path d="M12 17.5V14l-3-3 4-3 2 3h2"></path></svg>
+                </div>
+                <div>
+                  <div class="kds-col-title">En camino / Delivery</div>
+                  <div class="kds-col-sub">Pedidos en ruta de entrega</div>
+                </div>
               </div>
-              <span class="col-badge badge-purple" id="count-delivery">3</span>
+              <span class="kds-col-count-pill kds-count-pink" id="count-delivery">2</span>
             </div>
-            <div class="kanban-col-cards" id="col-delivery"></div>
+            <div class="kds-column-cards" id="col-delivery">
+              <!-- Rendered via JS -->
+            </div>
           </div>
 
-          <!-- Column 4: Entregados -->
-          <div class="kanban-col">
-            <div class="kanban-col-header">
-              <div class="col-title">
-                <span>✅ Entregados (Hoy)</span>
+          <!-- Columna 4: Entregados hoy -->
+          <div class="kds-column kds-col-delivered">
+            <div class="kds-column-header">
+              <div class="kds-col-title-left">
+                <div class="kds-col-icon-box kds-col-icon-delivered">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <div>
+                  <div class="kds-col-title">Entregados hoy</div>
+                  <div class="kds-col-sub">Pedidos completados</div>
+                </div>
               </div>
-              <span class="col-badge badge-green" id="count-delivered">3</span>
+              <span class="kds-col-count-pill kds-count-green" id="count-delivered">12</span>
             </div>
-            <div class="kanban-col-cards" id="col-delivered"></div>
+            <div class="kds-column-cards" id="col-delivered">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Panel Inferior: Alertas / Notas / Rendimiento (3 Cards) -->
+        <div class="kds-insights-grid">
+          
+          <!-- Card 1: Pedidos que requieren atención -->
+          <div class="kds-insight-card kds-alert-card" onclick="openDelayedOrderModal()">
+            <div class="kds-insight-left">
+              <div class="kds-insight-icon-box kds-insight-red">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              </div>
+              <div>
+                <div class="kds-insight-title" style="color:#DC2626;">Pedidos que requieren atención</div>
+                <div class="kds-insight-desc">1 pedido con mayor tiempo del esperado</div>
+              </div>
+            </div>
+            <div class="kds-alert-pill-box">
+              <span class="kds-alert-id">RTQ-2038</span>
+              <span class="kds-alert-time">🕒 Hace 25 min</span>
+              <span class="kds-badge-late">Retrasado</span>
+              <span class="kds-badge-stage">En cocina</span>
+              <span class="kds-chevron">›</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Notas de cocina -->
+          <div class="kds-insight-card" onclick="filterBySpecialNotes()">
+            <div class="kds-insight-left">
+              <div class="kds-insight-icon-box kds-insight-orange">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              </div>
+              <div>
+                <div class="kds-insight-title">Notas de cocina</div>
+                <div class="kds-insight-desc">Revisa las solicitudes especiales de los pedidos en preparación.</div>
+              </div>
+            </div>
+            <div class="kds-insight-right">
+              <span class="kds-counter-circle" id="kds-notes-count">2</span>
+              <span class="kds-chevron">›</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Rendimiento de hoy -->
+          <div class="kds-insight-card" onclick="showToast('Rendimiento: 12 pedidos entregados con 98% a tiempo')">
+            <div class="kds-insight-left">
+              <div class="kds-insight-icon-box kds-insight-blue">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              </div>
+              <div>
+                <div class="kds-insight-title">Rendimiento de hoy</div>
+                <div class="kds-insight-desc" id="kds-delivered-today-desc">12 pedidos entregados</div>
+              </div>
+            </div>
+            <div class="kds-insight-right">
+              <span class="kds-pill-badge kds-pill-green">↑ +20%</span>
+              <span class="kds-chevron">›</span>
+            </div>
           </div>
 
         </div>
@@ -2935,7 +4438,7 @@
       </section>
 
       <!-- TAB 4: CUPONES & OFERTAS (REDISEÑO FIDEDIGNO) -->
-      <section id="tab-promos" class="tab-content active">
+      <section id="tab-promos" class="tab-content">
         
         <!-- Header del Módulo -->
         <div class="co-page-header">
@@ -4072,27 +5575,27 @@
     // Feedback entrevista: top 5 por periodo, origen de la publicidad, encuestas y reseñas escritas
     const TOP_PRODUCTS = {
       hoy: [
-        { icon: '🍱', name: 'Promo Duo (20 unid. + 2 gaseosas)', orders: 48, sales: 1723.20 },
-        { icon: '🥟', name: 'Tequeños de Queso (10 unid.)', orders: 32, sales: 512.00 },
-        { icon: '🧀', name: 'Tequeños Jamón y Queso (10 unid.)', orders: 19, sales: 304.00 },
+        { icon: '🏷️', name: 'Promo Duo (20 unid. + 2 gaseosas)', orders: 48, sales: 1723.20 },
+        { icon: '🧀', name: 'Tequeños de Queso (10 unid.)', orders: 32, sales: 512.00 },
+        { icon: '🥓', name: 'Tequeños Jamón y Queso (10 unid.)', orders: 19, sales: 304.00 },
         { icon: '🍫', name: 'Tequeños de Chocolate (10 unid.)', orders: 14, sales: 238.00 },
         { icon: '🍕', name: 'Pizza La Hawaiana (35 cm)', orders: 9, sales: 333.00 }
       ],
       mes: [
-        { icon: '🍱', name: 'Promo Duo (20 unid. + 2 gaseosas)', orders: 612, sales: 21970.80 },
-        { icon: '🥟', name: 'Tequeños de Queso (10 unid.)', orders: 498, sales: 7968.00 },
+        { icon: '🏷️', name: 'Promo Duo (20 unid. + 2 gaseosas)', orders: 612, sales: 21970.80 },
+        { icon: '🧀', name: 'Tequeños de Queso (10 unid.)', orders: 498, sales: 7968.00 },
         { icon: '🍱', name: 'Promo Familiar (40 unid. + gaseosa 2 L)', orders: 231, sales: 14760.90 },
         { icon: '🍕', name: 'Promo Tequepizza (pizza + 5 tequeños)', orders: 187, sales: 8209.30 },
-        { icon: '🧀', name: 'Tequeños Jamón y Queso (10 unid.)', orders: 176, sales: 2816.00 }
+        { icon: '🥓', name: 'Tequeños Jamón y Queso (10 unid.)', orders: 176, sales: 2816.00 }
       ]
     };
 
     const ATTRIBUTION = [
-      { source: 'Facebook / Instagram', pct: 41, color: '#FF3038' },
-      { source: 'TikTok', pct: 27, color: '#242424' },
-      { source: 'Recomendación', pct: 17, color: '#1F9D62' },
-      { source: 'Pasé por el local', pct: 10, color: '#F5A623' },
-      { source: 'Google', pct: 5, color: '#7C3AED' }
+      { source: 'Facebook / Instagram', pct: 41, color: '#EF4444' },
+      { source: 'TikTok', pct: 27, color: '#111827' },
+      { source: 'Recomendación', pct: 17, color: '#10B981' },
+      { source: 'Pasó por el local', pct: 10, color: '#F59E0B' },
+      { source: 'Google', pct: 5, color: '#3B82F6' }
     ];
 
     let SURVEYS = [
@@ -4111,120 +5614,186 @@
 
     let ORDERS = [
       {
+        id: 'RTQ-2064',
+        customer: 'Milton Flores',
+        phone: '+51 952 000 111',
+        channel: 'app',
+        payMethod: 'Pago confirmado',
+        payVerified: true,
+        mode: 'pickup',
+        status: 'new',
+        priority: false,
+        time: 'Recién recibido',
+        elapsedMinutes: 0,
+        address: '',
+        reference: 'Recojo en tienda',
+        items: [
+          { name: 'Tequeños de queso (Mayonesa de ajo)', qty: 1, price: 50.00 },
+          { name: 'Promo Duo (Queso + Mayopalta)', qty: 1, price: 70.70 }
+        ],
+        subtotal: 120.70,
+        deliveryFee: 0,
+        discount: 0,
+        total: 120.70,
+        notes: ''
+      },
+      {
+        id: 'RTQ-2181',
+        customer: 'Milton Flores',
+        phone: '+51 952 000 111',
+        channel: 'app',
+        payMethod: 'Pago contraentrega',
+        payVerified: false,
+        mode: 'pickup',
+        status: 'new',
+        priority: false,
+        time: 'Recién recibido',
+        elapsedMinutes: 1,
+        address: '',
+        reference: 'Recojo en tienda',
+        items: [
+          { name: 'Tequeños de queso (Mayonesa de ajo)', qty: 1, price: 16.00 },
+          { name: 'Promo Duo (Queso + Mayopalta)', qty: 1, price: 33.90 }
+        ],
+        subtotal: 49.90,
+        deliveryFee: 0,
+        discount: 0,
+        total: 49.90,
+        notes: ''
+      },
+      {
         id: 'RTQ-2052',
         customer: 'Alejandro Vargas',
         phone: '+51 952 112 433',
-        address: 'Calle San Martín 420, Dpto 302, Tacna',
+        channel: 'whatsapp',
+        payMethod: 'Por verificar',
+        payVerified: false,
+        mode: 'pickup',
         status: 'new',
+        priority: false,
+        time: 'Hace 2 min',
+        elapsedMinutes: 2,
+        address: 'Calle San Martín 420, Tacna',
+        reference: 'Edificio azul, timbre 302',
         items: [
-          { name: 'Promo Duo (20 unid. + 2 gaseosas)', qty: 1, sauces: 'Mayonesa de ajo + Mayopalta', price: 35.90 },
-          { name: 'Crema adicional 2 oz (Salsa tocino)', qty: 1, price: 2.00 }
+          { name: 'Promo Duo (20 unid. + 2 salsas)', qty: 1, sauces: 'Mayonesa de ajo + Mayopalta', price: 35.90 },
+          { name: 'Crema adicional (Salsa tocino)', qty: 1, price: 2.00 }
         ],
         subtotal: 37.90,
         deliveryFee: 5.90,
         discount: 0,
         total: 43.80,
-        payMethod: 'Yape',
-        payVerified: false,
-        reference: 'Edificio azul, timbre 302, frente a la farmacia',
-        gps: 'https://maps.google.com/?q=-18.0146,-70.2536',
-        source: 'TikTok',
-        time: 'Hace 2 min',
         notes: 'Por favor tequeños bien doraditos y mayonesa de ajo bien fría.'
       },
       {
         id: 'RTQ-2051',
         customer: 'Luciana Gómez',
         phone: '+51 989 334 112',
-        address: 'Av. Bolognesi 890, Tacna',
+        channel: 'app',
+        payMethod: 'Transferencia verificado',
+        payVerified: true,
+        mode: 'delivery',
         status: 'new',
-        items: [
-          { name: 'Tequeños de queso (10 unid.)', qty: 2, sauces: 'Mayonesa de ajo x2', price: 32.00 }
-        ],
-        subtotal: 32.00,
-        deliveryFee: 5.90,
-        discount: 2.00,
-        total: 35.90,
-        payMethod: 'Plin',
-        payVerified: false,
-        reference: 'Casa de dos pisos, portón negro',
-        gps: 'https://maps.google.com/?q=-18.0089,-70.2482',
-        source: 'Facebook / Instagram',
+        priority: false,
         time: 'Hace 4 min',
+        elapsedMinutes: 4,
+        address: 'Av. Bolognesi 890, Tacna',
+        reference: 'Casa de dos pisos, portón negro',
+        items: [
+          { name: 'Tequeños de queso (10 unid.)', qty: 2, sauces: 'Mayonesa de ajo x2', price: 15.00 }
+        ],
+        subtotal: 30.00,
+        deliveryFee: 5.90,
+        discount: 0,
+        total: 35.90,
         notes: ''
       },
       {
         id: 'RTQ-2050',
         customer: 'Carlos Mendizábal',
         phone: '+51 953 881 290',
-        address: 'Urb. Vigil Mz B Lte 14, Tacna',
+        channel: 'app',
+        payMethod: 'Transferencia verificado',
+        payVerified: true,
+        mode: 'delivery',
         status: 'kitchen',
+        priority: true,
+        time: 'En cocina hace 6 min',
+        elapsedMinutes: 6,
+        address: 'Urb. Vigil Mz B Lte 14, Tacna',
+        reference: 'Mz B Lote 14, casa esquina con reja verde',
         items: [
           { name: 'Promo Extra (20 unid. + 1 gaseosa)', qty: 1, sauces: 'Mayonesa de ajo + Salsa tocino', price: 32.90 },
-          { name: 'Limonada ½ litro', qty: 1, price: 8.00 }
+          { name: 'Limonada 1/2 litro', qty: 1, price: 8.00 }
         ],
         subtotal: 40.90,
         deliveryFee: 5.90,
         discount: 0,
         total: 46.80,
-        payMethod: 'Transferencia BCP',
-        payVerified: true,
-        reference: 'Mz B Lote 14, casa esquina con reja verde',
-        gps: 'https://maps.google.com/?q=-18.0211,-70.2418',
-        source: 'Recomendación',
-        time: 'En cocina hace 6 min',
-        notes: 'Timbre no funciona, llamar al llegar.'
+        notes: 'Sin cebolla, por favor.'
       },
       {
         id: 'RTQ-2049',
         customer: 'Valeria Ramos',
         phone: '+51 974 556 123',
-        address: 'Av. Pinto 1240, Tacna',
+        channel: 'app',
+        payMethod: 'PIN verificado',
+        payVerified: true,
+        mode: 'pickup',
         status: 'kitchen',
+        priority: false,
+        time: 'En cocina hace 9 min',
+        elapsedMinutes: 9,
+        address: 'Av. Pinto 1240, Tacna',
+        reference: 'Al costado del grifo, puerta blanca',
         items: [
-          { name: 'Tequeños de chocolate (10 unid.)', qty: 2, sauces: 'Chocolate', price: 34.00 }
+          { name: 'Tequeños de chocolate (10 unid.)', qty: 2, sauces: 'Chocolate', price: 17.00 }
         ],
         subtotal: 34.00,
-        deliveryFee: 5.90,
-        discount: 5.00,
+        deliveryFee: 0.90,
+        discount: 0,
         total: 34.90,
-        payMethod: 'Plin',
-        payVerified: true,
-        reference: 'Al costado del grifo, puerta blanca',
-        gps: 'https://maps.google.com/?q=-18.0173,-70.2601',
-        source: 'TikTok',
-        time: 'En cocina hace 9 min',
-        notes: ''
+        notes: 'Agregar salsa extra de chocolate.'
       },
       {
         id: 'RTQ-2048',
         customer: 'Milton Flores',
         phone: '+51 952 000 111',
-        address: 'Calle Arias y Aragüez 550, Tacna',
+        channel: 'whatsapp',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'delivery',
         status: 'delivery',
+        priority: false,
+        time: 'Salió hace 8 min',
+        elapsedMinutes: 8,
+        address: 'Av. Primavera 123, Surco',
+        reference: 'Dejar en recepción con el portero',
         items: [
           { name: 'Promo Duo', qty: 1, sauces: 'Mayonesa de ajo + Mayopalta', price: 35.90 },
-          { name: 'Tequeños de chocolate', qty: 1, price: 17.00 }
+          { name: 'Tequeños de chocolate', qty: 1, price: 15.00 }
         ],
-        subtotal: 52.90,
+        subtotal: 50.90,
         deliveryFee: 5.90,
-        discount: 2.00,
+        discount: 0,
         total: 56.80,
-        payMethod: 'Yape',
-        payVerified: true,
-        reference: 'Dejar en recepción con el portero',
-        gps: 'https://maps.google.com/?q=-18.0132,-70.2509',
-        source: 'Facebook / Instagram',
         driver: 'Luis Alberto (Moto Honda Roja)',
-        time: 'Salió hace 8 min',
         notes: 'Dejar en recepción con portero.'
       },
       {
         id: 'RTQ-2047',
         customer: 'Daniela Castro',
         phone: '+51 981 776 223',
-        address: 'Residencial Los Sauces Torre B-401',
+        channel: 'app',
+        payMethod: 'Efectivo',
+        payVerified: true,
+        mode: 'delivery',
         status: 'delivery',
+        priority: false,
+        time: 'Salió hace 12 min',
+        elapsedMinutes: 12,
+        address: 'Calle Los Robles 456, San Borja',
+        reference: 'Torre B, piso 4, dpto 401',
         items: [
           { name: 'Tequeños de queso (10 unid.)', qty: 1, sauces: 'Mayopalta', price: 16.00 }
         ],
@@ -4232,21 +5801,23 @@
         deliveryFee: 5.90,
         discount: 0,
         total: 21.90,
-        payMethod: 'Efectivo',
         cashWith: 50,
-        reference: 'Torre B, piso 4, dpto 401 · timbre no funciona',
-        gps: 'https://maps.google.com/?q=-18.0058,-70.2377',
-        source: 'Pasé por el local',
         driver: 'Jorge Ramos (Moto Azul)',
-        time: 'Salió hace 12 min',
         notes: 'Llevar sencillo de S/ 28.10.'
       },
       {
         id: 'RTQ-2046',
         customer: 'Gonzalo Peñaloza',
         phone: '+51 950 443 112',
-        address: 'Av. Leguía 1430, Tacna',
+        channel: 'app',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'delivery',
         status: 'delivered',
+        priority: false,
+        time: 'Entregado a las 20:15',
+        elapsedMinutes: 20,
+        address: 'Av. Leguía 1430, Tacna',
         items: [
           { name: 'Promo Duo', qty: 1, sauces: 'Mayonesa de ajo x2', price: 35.90 }
         ],
@@ -4254,14 +5825,203 @@
         deliveryFee: 5.90,
         discount: 0,
         total: 41.80,
-        payMethod: 'Yape',
-        payVerified: true,
-        reference: 'Casa amarilla frente al parque',
-        gps: 'https://maps.google.com/?q=-18.0097,-70.2455',
-        source: 'Google',
-        rating: 5,
-        time: 'Entregado a las 20:15',
         notes: ''
+      },
+      {
+        id: 'RTQ-2045',
+        customer: 'María Fernanda López',
+        phone: '+51 952 778 991',
+        channel: 'whatsapp',
+        payMethod: 'Transferencia verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        priority: false,
+        time: 'Entregado a las 19:56',
+        elapsedMinutes: 35,
+        address: 'Calle Zela 312, Tacna',
+        items: [
+          { name: 'Tequeños de queso (10 unid.)', qty: 2, price: 28.05 }
+        ],
+        subtotal: 56.10,
+        deliveryFee: 5.90,
+        discount: 0,
+        total: 62.00,
+        notes: ''
+      },
+      {
+        id: 'RTQ-2044',
+        customer: 'Jorge Ramírez',
+        phone: '+51 953 221 445',
+        channel: 'app',
+        payMethod: 'Efectivo',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        priority: false,
+        time: 'Entregado a las 19:42',
+        elapsedMinutes: 48,
+        address: 'Av. Bolognesi 410, Tacna',
+        items: [
+          { name: 'Promo Familia (30 unid.)', qty: 1, price: 73.60 }
+        ],
+        subtotal: 73.60,
+        deliveryFee: 5.90,
+        discount: 0,
+        total: 79.50,
+        notes: ''
+      },
+      {
+        id: 'RTQ-2043',
+        customer: 'Carla Mendoza',
+        phone: '+51 952 667 890',
+        channel: 'app',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        time: 'Entregado a las 19:20',
+        elapsedMinutes: 65,
+        items: [{ name: 'Promo Duo', qty: 1, price: 35.90 }],
+        subtotal: 35.90, deliveryFee: 5.90, discount: 0, total: 41.80, notes: ''
+      },
+      {
+        id: 'RTQ-2042',
+        customer: 'Pedro Sotomayor',
+        phone: '+51 951 334 556',
+        channel: 'whatsapp',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'pickup',
+        status: 'delivered',
+        time: 'Entregado a las 18:55',
+        elapsedMinutes: 90,
+        items: [{ name: 'Tequeños de queso (10 unid.)', qty: 2, price: 32.00 }],
+        subtotal: 32.00, deliveryFee: 0, discount: 0, total: 32.00, notes: ''
+      },
+      {
+        id: 'RTQ-2041',
+        customer: 'Diana Albarracín',
+        phone: '+51 952 998 776',
+        channel: 'app',
+        payMethod: 'Transferencia verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        time: 'Entregado a las 18:30',
+        elapsedMinutes: 115,
+        items: [{ name: 'Promo Trío (30 unid.)', qty: 1, price: 49.90 }],
+        subtotal: 49.90, deliveryFee: 5.90, discount: 0, total: 55.80, notes: ''
+      },
+      {
+        id: 'RTQ-2040',
+        customer: 'Eduardo Quispe',
+        phone: '+51 953 445 667',
+        channel: 'app',
+        payMethod: 'Efectivo',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        time: 'Entregado a las 18:05',
+        elapsedMinutes: 140,
+        items: [{ name: 'Promo Duo', qty: 1, price: 35.90 }],
+        subtotal: 35.90, deliveryFee: 5.90, discount: 0, total: 41.80, notes: ''
+      },
+      {
+        id: 'RTQ-2039',
+        customer: 'Fiorella Beltrán',
+        phone: '+51 952 119 228',
+        channel: 'whatsapp',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        time: 'Entregado a las 17:40',
+        elapsedMinutes: 165,
+        items: [{ name: 'Tequeños de queso (10 unid.)', qty: 1, price: 16.00 }],
+        subtotal: 16.00, deliveryFee: 5.90, discount: 0, total: 21.90, notes: ''
+      },
+      {
+        id: 'RTQ-2037',
+        customer: 'Santiago Morales',
+        phone: '+51 952 338 449',
+        channel: 'app',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        time: 'Entregado a las 17:15',
+        elapsedMinutes: 190,
+        items: [{ name: 'Promo Duo', qty: 1, price: 35.90 }],
+        subtotal: 35.90, deliveryFee: 5.90, discount: 0, total: 41.80, notes: ''
+      },
+      {
+        id: 'RTQ-2036',
+        customer: 'Ana Paula Vega',
+        phone: '+51 951 887 990',
+        channel: 'app',
+        payMethod: 'Transferencia verificado',
+        payVerified: true,
+        mode: 'pickup',
+        status: 'delivered',
+        time: 'Entregado a las 16:50',
+        elapsedMinutes: 215,
+        items: [{ name: 'Tequeños de chocolate', qty: 2, price: 34.00 }],
+        subtotal: 34.00, deliveryFee: 0, discount: 0, total: 34.00, notes: ''
+      },
+      {
+        id: 'RTQ-2035',
+        customer: 'Rodrigo Bustamante',
+        phone: '+51 953 776 554',
+        channel: 'whatsapp',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        time: 'Entregado a las 16:20',
+        elapsedMinutes: 245,
+        items: [{ name: 'Promo Extra (20 unid. + 1 gaseosa)', qty: 1, price: 32.90 }],
+        subtotal: 32.90, deliveryFee: 5.90, discount: 0, total: 38.80, notes: ''
+      },
+      {
+        id: 'RTQ-2034',
+        customer: 'Vanessa Herrera',
+        phone: '+51 952 443 221',
+        channel: 'app',
+        payMethod: 'Efectivo',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        time: 'Entregado a las 15:45',
+        elapsedMinutes: 280,
+        items: [{ name: 'Promo Duo', qty: 1, price: 35.90 }],
+        subtotal: 35.90, deliveryFee: 5.90, discount: 0, total: 41.80, notes: ''
+      },
+      {
+        id: 'RTQ-2038',
+        customer: 'Ricardo Salinas',
+        phone: '+51 952 888 123',
+        channel: 'app',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'kitchen',
+        priority: false,
+        time: 'Hace 25 min',
+        elapsedMinutes: 25,
+        isDelayed: true,
+        isAlertOnly: true,
+        address: 'Av. Billinghurst 120, Tacna',
+        reference: 'Frente a plaza Bolognesi',
+        items: [
+          { name: 'Promo Duo (Queso + Mayopalta)', qty: 1, price: 35.90 },
+          { name: 'Limonada 1/2 litro', qty: 1, price: 8.00 }
+        ],
+        subtotal: 43.90,
+        deliveryFee: 5.90,
+        discount: 0,
+        total: 49.80,
+        notes: 'Retraso de preparación por alta demanda en freidora'
       }
     ];
 
@@ -4273,12 +6033,13 @@
         
         btn.classList.add('active');
         const tabId = btn.getAttribute('data-tab');
-        document.getElementById(tabId).classList.add('active');
+        const tabEl = document.getElementById(tabId);
+        if (tabEl) tabEl.classList.add('active');
 
         // Update page headings
         const headings = {
           'tab-dashboard': ['Dashboard & Métricas', 'Visión ejecutiva del negocio en tiempo real'],
-          'tab-kanban': ['Gestión de Pedidos KDS', 'Control de comandas, cocina y despacho en vivo'],
+          'tab-kanban': ['Monitor de Cocina y Despacho en Vivo', 'Gestiona todos tus pedidos, desde la recepción hasta la entrega'],
           'tab-catalog': ['Menú & Control de Stock', 'Administración de productos, precios y disponibilidad'],
           'tab-promos': ['Cupones & Ofertas', 'Motor de promociones y planificador de días especiales'],
           'tab-customers': ['Clientes & Notificaciones Push', 'CRM de fidelización y campañas directas'],
@@ -4287,13 +6048,104 @@
         };
 
         if (headings[tabId]) {
-          document.getElementById('page-heading').textContent = headings[tabId][0];
-          document.getElementById('page-subheading').textContent = headings[tabId][1];
+          const ph = document.getElementById('page-heading');
+          const ps = document.getElementById('page-subheading');
+          if (ph) ph.textContent = headings[tabId][0];
+          if (ps) ps.textContent = headings[tabId][1];
+        }
+
+        if (tabId === 'tab-dashboard') {
+          setTimeout(() => {
+            initCharts();
+            renderTopProducts('hoy');
+            renderDashboardFeedback();
+          }, 50);
+          const actBtn = document.getElementById('topbar-action-btn');
+          const actTxt = document.getElementById('topbar-btn-text');
+          if (actTxt) actTxt.textContent = '+ Simular Pedido';
+          if (actBtn) actBtn.onclick = simulateIncomingOrder;
+        } else if (tabId === 'tab-kanban') {
+          renderKanban();
+          const actBtn = document.getElementById('topbar-action-btn');
+          const actTxt = document.getElementById('topbar-btn-text');
+          if (actTxt) actTxt.textContent = '+ Simular Pedido';
+          if (actBtn) actBtn.onclick = simulateIncomingOrder;
+        } else if (tabId === 'tab-promos') {
+          const actBtn = document.getElementById('topbar-action-btn');
+          const actTxt = document.getElementById('topbar-btn-text');
+          if (actTxt) actTxt.textContent = '+ Nueva campaña';
+          if (actBtn) actBtn.onclick = focusNewCouponForm;
         }
       });
     });
 
-    // Render KDS Kanban
+    // Clock in Live Header
+    function updateKDSClock() {
+      const now = new Date();
+      const optionsDate = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
+      let dateStr = now.toLocaleDateString('es-PE', optionsDate);
+      dateStr = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+      // Clean up punctuation if needed
+      dateStr = dateStr.replace('.', '');
+      
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const timeStr = `${hours}:${minutes}`;
+
+      const dateEl = document.getElementById('kds-current-date');
+      const timeEl = document.getElementById('kds-current-time');
+      if (dateEl) dateEl.textContent = dateStr;
+      if (timeEl) timeEl.textContent = timeStr;
+    }
+    setInterval(updateKDSClock, 1000);
+    updateKDSClock();
+
+    // Filters for KDS
+    let kdsSpecialFilter = null; // e.g. 'notes', 'delayed'
+
+    function handleKDSFilterChange() {
+      kdsSpecialFilter = null;
+      renderKanban();
+    }
+
+    function resetKDSFilters() {
+      kdsSpecialFilter = null;
+      const s = document.getElementById('kds-search-input');
+      const t = document.getElementById('kds-filter-type');
+      const p = document.getElementById('kds-filter-payment');
+      const pr = document.getElementById('kds-filter-priority');
+      const r = document.getElementById('kds-filter-range');
+
+      if (s) s.value = '';
+      if (t) t.value = 'all';
+      if (p) p.value = 'all';
+      if (pr) pr.value = 'all';
+      if (r) r.value = 'today';
+
+      renderKanban();
+      showToast('↻ Filtros restablecidos');
+    }
+
+    function openDelayedOrderModal() {
+      const delayedOrd = ORDERS.find(o => o.id === 'RTQ-2038' || o.isDelayed || (o.elapsedMinutes && o.elapsedMinutes >= 20));
+      if (delayedOrd) {
+        openOrderDetailModal(delayedOrd.id);
+      } else {
+        showToast('No hay pedidos retrasados en este momento');
+      }
+    }
+
+    function filterBySpecialNotes() {
+      const search = document.getElementById('kds-search-input');
+      if (search) search.value = '';
+      const type = document.getElementById('kds-filter-type');
+      if (type) type.value = 'all';
+      kdsSpecialFilter = 'notes';
+      renderKanban();
+      showToast('🔍 Mostrando pedidos con notas de cocina especiales');
+    }
+
+    // Render KDS Kanban & Cards
     function renderKanban() {
       const cols = {
         new: document.getElementById('col-new'),
@@ -4302,41 +6154,176 @@
         delivered: document.getElementById('col-delivered')
       };
 
-      Object.values(cols).forEach(col => col.innerHTML = '');
+      if (!cols.new) return; // Tab not in DOM yet
+      Object.values(cols).forEach(col => { if (col) col.innerHTML = ''; });
+
+      // Read filter values
+      const query = (document.getElementById('kds-search-input')?.value || '').toLowerCase().trim();
+      const typeFilter = document.getElementById('kds-filter-type')?.value || 'all';
+      const payFilter = document.getElementById('kds-filter-payment')?.value || 'all';
+      const prioFilter = document.getElementById('kds-filter-priority')?.value || 'all';
+      const rangeFilter = document.getElementById('kds-filter-range')?.value || 'today';
 
       const counts = { new: 0, kitchen: 0, delivery: 0, delivered: 0 };
+      const totalActiveCounts = { new: 0, kitchen: 0, delivery: 0, delivered: 0, delayed: 0 };
 
+      // Compute total active counts irrespective of search filter for KPI top cards
       ORDERS.forEach(ord => {
-        counts[ord.status] = (counts[ord.status] || 0) + 1;
-        const card = document.createElement('div');
-        card.className = 'order-card';
-        card.onclick = () => openOrderDetailModal(ord.id);
+        if (!ord.isAlertOnly && totalActiveCounts[ord.status] !== undefined) {
+          totalActiveCounts[ord.status]++;
+        }
+        if (ord.isDelayed || ((ord.status === 'new' || ord.status === 'kitchen') && ord.elapsedMinutes && ord.elapsedMinutes >= 20)) {
+          totalActiveCounts.delayed++;
+        }
+      });
 
-        let actionBtn = '';
-        const motoBtn = `<button class="btn btn-outline btn-sm" title="Enviar comanda y liquidación al motorizado" style="padding:4px 7px;font-size:11.5px;" onclick="event.stopPropagation(); dispatchToDriverWhatsApp('${ord.id}')">📲 Moto</button>`;
+      // Filter orders
+      const filteredOrders = ORDERS.filter(ord => {
+        if (ord.isAlertOnly) return false;
 
-        if (ord.status === 'new') {
-          actionBtn = `<button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); moveOrderStatus('${ord.id}', 'kitchen')">✓ Cocina</button> ${motoBtn}`;
-        } else if (ord.status === 'kitchen') {
-          actionBtn = `<button class="btn btn-gold btn-sm" onclick="event.stopPropagation(); moveOrderStatus('${ord.id}', 'delivery')">🛵 Despachar</button> ${motoBtn}`;
-        } else if (ord.status === 'delivery') {
-          actionBtn = `<button class="btn btn-outline btn-sm" style="color:var(--success);border-color:var(--success)" onclick="event.stopPropagation(); moveOrderStatus('${ord.id}', 'delivered')">✅ Entregado</button> ${motoBtn}`;
+        // Special filters
+        if (kdsSpecialFilter === 'notes') {
+          if (!ord.notes || !ord.notes.trim()) return false;
         }
 
-        const itemsSummary = ord.items.map(i => `${i.qty}x ${i.name}`).join('<br>');
+        // Search text
+        if (query) {
+          const matchId = ord.id.toLowerCase().includes(query);
+          const matchCust = ord.customer.toLowerCase().includes(query);
+          const matchItems = ord.items.some(i => i.name.toLowerCase().includes(query));
+          if (!matchId && !matchCust && !matchItems) return false;
+        }
+
+        // Type filter
+        if (typeFilter !== 'all') {
+          if (typeFilter === 'app' && ord.channel !== 'app') return false;
+          if (typeFilter === 'whatsapp' && ord.channel !== 'whatsapp') return false;
+          if (typeFilter === 'pickup' && ord.mode !== 'pickup') return false;
+          if (typeFilter === 'delivery' && ord.mode !== 'delivery') return false;
+        }
+
+        // Payment filter
+        if (payFilter !== 'all') {
+          const pm = (ord.payMethod || '').toLowerCase();
+          if (payFilter === 'confirmado' && !pm.includes('confirmado')) return false;
+          if (payFilter === 'verificado' && (!ord.payVerified && !pm.includes('verificado'))) return false;
+          if (payFilter === 'por_verificar' && (ord.payVerified && !pm.includes('verificar'))) return false;
+          if (payFilter === 'efectivo' && !pm.includes('efectivo')) return false;
+          if (payFilter === 'contraentrega' && !pm.includes('contraentrega')) return false;
+        }
+
+        // Priority filter
+        if (prioFilter !== 'all') {
+          const isDelayed = (ord.status === 'new' || ord.status === 'kitchen') && (ord.isDelayed || (ord.elapsedMinutes && ord.elapsedMinutes >= 20));
+          if (prioFilter === 'prioridad' && !ord.priority) return false;
+          if (prioFilter === 'retrasados' && !isDelayed) return false;
+          if (prioFilter === 'normal' && (ord.priority || isDelayed)) return false;
+        }
+
+        // Range filter
+        if (rangeFilter === '1h' && ord.elapsedMinutes && ord.elapsedMinutes > 60) return false;
+        if (rangeFilter === '4h' && ord.elapsedMinutes && ord.elapsedMinutes > 240) return false;
+
+        return true;
+      });
+
+      // Render filtered cards into columns
+      filteredOrders.forEach(ord => {
+        if (counts[ord.status] !== undefined) {
+          counts[ord.status]++;
+        }
+
+        const isDelayed = (ord.status === 'new' || ord.status === 'kitchen') && (ord.isDelayed || (ord.elapsedMinutes && ord.elapsedMinutes >= 20));
+        const card = document.createElement('div');
+        const isDeliveredCol = ord.status === 'delivered';
+        card.className = `kds-order-card ${isDeliveredCol ? 'kds-card-delivered' : ''}`;
+        card.onclick = () => openOrderDetailModal(ord.id);
+
+        // Time presentation
+        let timeHtml = `<span class="kds-card-time ${ord.time === 'Recién recibido' || isDelayed ? 'kds-time-red' : ''}">${ord.time.startsWith('🕒') ? ord.time : '🕒 ' + ord.time}</span>`;
+        if (isDeliveredCol) {
+          timeHtml = `<span class="kds-card-time kds-time-green">🕒 ${ord.time.replace(/^🕒\s*/, '')}</span>`;
+        }
+
+        // Badges: Channel & Payment & Mode
+        const channelBadge = ord.channel === 'whatsapp'
+          ? `<span class="kds-tag-channel kds-channel-wa">WhatsApp</span>`
+          : `<span class="kds-tag-channel kds-channel-app">App</span>`;
+
+        let payBadge = '';
+        const pm = ord.payMethod || '';
+        if (pm.toLowerCase().includes('confirmado')) {
+          payBadge = `<span class="kds-tag-pay kds-pay-green"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Pago confirmado</span>`;
+        } else if (pm.toLowerCase().includes('transferencia')) {
+          payBadge = `<span class="kds-tag-pay kds-pay-green"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Transferencia verificado</span>`;
+        } else if (pm.toLowerCase().includes('yape')) {
+          payBadge = `<span class="kds-tag-pay kds-pay-green"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Yape verificado</span>`;
+        } else if (pm.toLowerCase().includes('pin')) {
+          payBadge = `<span class="kds-tag-pay kds-pay-green"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> PIN verificado</span>`;
+        } else if (pm.toLowerCase().includes('contraentrega')) {
+          payBadge = `<span class="kds-tag-pay kds-pay-blue">Pago contraentrega</span>`;
+        } else if (pm.toLowerCase().includes('efectivo')) {
+          payBadge = `<span class="kds-tag-pay kds-pay-blue">Efectivo</span>`;
+        } else {
+          payBadge = `<span class="kds-tag-pay kds-pay-amber">Por verificar</span>`;
+        }
+
+        const modeBadge = ord.mode === 'pickup'
+          ? `<span class="kds-tag-mode kds-mode-pickup"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg> Recojo</span>`
+          : `<span class="kds-tag-mode kds-mode-moto"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18.5" cy="17.5" r="3.5"></circle><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="15" cy="5" r="1"></circle><path d="M12 17.5V14l-3-3 4-3 2 3h2"></path></svg> Moto</span>`;
+
+        // Items preview
+        const itemsHtml = ord.items.map(i => {
+          const sauceStr = i.sauces ? ` (${i.sauces})` : '';
+          return `<div>${i.qty}x ${i.name}${sauceStr}</div>`;
+        }).join('');
+
+        // Notes banner
+        const noteHtml = ord.notes && !isDeliveredCol
+          ? `<div class="kds-card-note"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${ord.notes}</div>`
+          : '';
+
+        // Address line (only for delivery with address)
+        const addressHtml = (ord.address && ord.mode === 'delivery' && !isDeliveredCol)
+          ? `<div class="kds-card-address"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> <span>${ord.address}</span></div>`
+          : '';
+
+        // Action Buttons
+        let actionButtonsHtml = `<button class="kds-btn-detail" onclick="event.stopPropagation(); openOrderDetailModal('${ord.id}')">Ver detalle</button>`;
+        if (ord.status === 'new') {
+          actionButtonsHtml += `<button class="kds-btn-action kds-btn-accept" onclick="event.stopPropagation(); moveOrderStatus('${ord.id}', 'kitchen')">✓ Aceptar</button>`;
+        } else if (ord.status === 'kitchen') {
+          const actionText = ord.mode === 'pickup' ? 'Marcar listo' : 'Pasar a delivery';
+          const nextStatus = ord.mode === 'pickup' ? 'delivered' : 'delivery';
+          actionButtonsHtml += `<button class="kds-btn-action kds-btn-kitchen" onclick="event.stopPropagation(); moveOrderStatus('${ord.id}', '${nextStatus}')">${ord.mode === 'pickup' ? '✓ ' + actionText : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> ' + actionText}</button>`;
+        } else if (ord.status === 'delivery') {
+          actionButtonsHtml += `<button class="kds-btn-action kds-btn-delivered" onclick="event.stopPropagation(); moveOrderStatus('${ord.id}', 'delivered')">✓ Marcar entregado</button>`;
+        }
 
         card.innerHTML = `
-          <div class="order-card-header">
-            <span class="order-id">${ord.id}</span>
-            <span class="order-timer">⏱ ${ord.time}</span>
+          <div class="kds-card-top">
+            <div class="kds-card-id-group">
+              <span class="kds-card-id">${ord.id}</span>
+              ${ord.priority ? `<span class="kds-badge-priority">🔥 Prioridad</span>` : ''}
+              ${isDelayed ? `<span class="kds-badge-delayed">⚠️ Retrasado</span>` : ''}
+            </div>
+            ${timeHtml}
           </div>
-          <div class="order-customer">${ord.customer}</div>
-          <div style="margin:4px 0 6px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">${payBadgeHtml(ord)}</div>
-          <div class="order-items-preview">${itemsSummary}</div>
-          <div class="order-footer">
-            <span class="order-total">S/ ${ord.total.toFixed(2)}</span>
-            <div class="order-actions">
-              ${actionBtn}
+          <div class="kds-card-customer">${ord.customer}</div>
+          <div class="kds-card-badges">
+            <div class="kds-badges-left">
+              ${channelBadge}
+              ${payBadge}
+            </div>
+            ${!isDeliveredCol ? modeBadge : ''}
+          </div>
+          <div class="kds-card-items">${itemsHtml}</div>
+          ${noteHtml}
+          ${addressHtml}
+          <div class="kds-card-footer">
+            <span class="kds-card-total">S/ ${ord.total.toFixed(2)}</span>
+            <div class="kds-card-actions">
+              ${actionButtonsHtml}
             </div>
           </div>
         `;
@@ -4346,11 +6333,45 @@
         }
       });
 
-      document.getElementById('count-new').textContent = counts.new;
-      document.getElementById('count-kitchen').textContent = counts.kitchen;
-      document.getElementById('count-delivery').textContent = counts.delivery;
-      document.getElementById('count-delivered').textContent = counts.delivered;
-      document.getElementById('badge-live-orders').textContent = counts.new + counts.kitchen + counts.delivery;
+      // Handle empty states for filtered columns
+      ['new', 'kitchen', 'delivery', 'delivered'].forEach(key => {
+        if (cols[key] && cols[key].children.length === 0) {
+          cols[key].innerHTML = `<div style="padding:24px 16px; text-align:center; color:#9CA3AF; font-size:12px; font-style:italic;">No hay pedidos en esta etapa.</div>`;
+        }
+      });
+
+      // Update Column Header Count Badges
+      const countNewEl = document.getElementById('count-new');
+      const countKitEl = document.getElementById('count-kitchen');
+      const countDelEl = document.getElementById('count-delivery');
+      const countDoneEl = document.getElementById('count-delivered');
+
+      if (countNewEl) countNewEl.textContent = counts.new;
+      if (countKitEl) countKitEl.textContent = counts.kitchen;
+      if (countDelEl) countDelEl.textContent = counts.delivery;
+      if (countDoneEl) countDoneEl.textContent = counts.delivered;
+
+      // Update KPIs at Top
+      const kpiNewEl = document.getElementById('kpi-count-new');
+      const kpiKitEl = document.getElementById('kpi-count-kitchen');
+      const kpiDelEl = document.getElementById('kpi-count-delivery');
+      const kpiDoneEl = document.getElementById('kpi-count-delivered');
+      const kpiLateEl = document.getElementById('kpi-count-delayed');
+      const badgeLive = document.getElementById('badge-live-orders');
+
+      if (kpiNewEl) kpiNewEl.textContent = totalActiveCounts.new;
+      if (kpiKitEl) kpiKitEl.textContent = totalActiveCounts.kitchen;
+      if (kpiDelEl) kpiDelEl.textContent = totalActiveCounts.delivery;
+      if (kpiDoneEl) kpiDoneEl.textContent = totalActiveCounts.delivered;
+      if (kpiLateEl) kpiLateEl.textContent = totalActiveCounts.delayed;
+      if (badgeLive) badgeLive.textContent = totalActiveCounts.new + totalActiveCounts.kitchen + totalActiveCounts.delivery;
+
+      // Update Bottom Panel
+      const notesCountEl = document.getElementById('kds-notes-count');
+      const deliveredDescEl = document.getElementById('kds-delivered-today-desc');
+      const activeNotesCount = ORDERS.filter(o => o.status === 'kitchen' && o.notes && o.notes.trim().length > 0).length;
+      if (notesCountEl) notesCountEl.textContent = activeNotesCount || 2;
+      if (deliveredDescEl) deliveredDescEl.textContent = `${totalActiveCounts.delivered} pedidos entregados`;
     }
 
     // Pagos sin pasarela (feedback entrevista): Yape / Plin / transferencia se confirman a mano con la captura
@@ -4398,17 +6419,28 @@
           return;
         }
         ord.status = newStatus;
-        if (newStatus === 'kitchen') ord.time = 'Cocinando ahora';
-        if (newStatus === 'delivery') ord.time = 'Salió recién';
-        if (newStatus === 'delivered') ord.time = 'Entregado';
+        if (newStatus === 'kitchen') {
+          ord.time = 'En cocina hace 1 min';
+          ord.elapsedMinutes = 1;
+        }
+        if (newStatus === 'delivery') {
+          ord.time = 'Salió hace 1 min';
+          ord.elapsedMinutes = 1;
+        }
+        if (newStatus === 'delivered') {
+          const now = new Date();
+          const hh = String(now.getHours()).padStart(2, '0');
+          const mm = String(now.getMinutes()).padStart(2, '0');
+          ord.time = `Entregado a las ${hh}:${mm}`;
+        }
         renderKanban();
         playAlertSound();
-        showToast(`Pedido ${id} actualizado a ${newStatus.toUpperCase()}`);
+        showToast(`Pedido ${id} actualizado a ${newStatus === 'kitchen' ? 'COCINA' : newStatus === 'delivery' ? 'DELIVERY' : 'ENTREGADO'}`);
       }
     }
 
     function triggerSimulatedOrder() {
-      const newId = 'RTQ-' + (2050 + ORDERS.length + 1);
+      const newId = 'RTQ-' + (2065 + Math.floor(Math.random() * 50));
       const names = ['Martín Carpio', 'Paola Vizcarra', 'Renato Benavides', 'Claudia Zegarra', 'Diego Monroy'];
       const pickName = names[Math.floor(Math.random() * names.length)];
       
@@ -4418,6 +6450,9 @@
         phone: '+51 952 ' + Math.floor(100000 + Math.random() * 900000),
         address: 'Av. San Martín 820, Tacna',
         status: 'new',
+        channel: Math.random() > 0.5 ? 'app' : 'whatsapp',
+        mode: Math.random() > 0.3 ? 'delivery' : 'pickup',
+        priority: Math.random() > 0.8,
         items: [
           { name: 'Promo Duo (20 unid. + 2 gaseosas)', qty: 1, sauces: 'Mayonesa de ajo + Mayopalta', price: 35.90 }
         ],
@@ -4429,9 +6464,10 @@
         payVerified: false,
         reference: 'Referencia enviada por WhatsApp',
         gps: 'https://maps.google.com/?q=-18.0120,-70.2500',
-        source: 'Facebook / Instagram',
-        time: 'Hace unos segundos',
-        notes: 'Por favor cremas bien frías.'
+        source: 'App Móvil',
+        time: 'Recién recibido',
+        elapsedMinutes: 0,
+        notes: Math.random() > 0.5 ? 'Por favor cremas bien frías.' : ''
       };
 
       ORDERS.unshift(newOrd);
@@ -5439,63 +7475,108 @@ ${cobro}`;
     }
 
     // Charts Initialization
+    let chartHourlyInstance = null;
+    let chartChannelsInstance = null;
+    let chartAttributionInstance = null;
+
     function initCharts() {
       const ctxHourly = document.getElementById('chart-hourly-sales');
       if (ctxHourly) {
-        new Chart(ctxHourly, {
+        if (chartHourlyInstance) chartHourlyInstance.destroy();
+        chartHourlyInstance = new Chart(ctxHourly, {
           type: 'line',
           data: {
             labels: ['14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'],
             datasets: [{
               label: 'Ventas (Soles)',
-              data: [80, 120, 190, 240, 380, 620, 890, 740, 480, 160],
-              borderColor: '#FF3038',
-              backgroundColor: 'rgba(255, 48, 56, 0.08)',
-              borderWidth: 3,
+              data: [70, 110, 180, 230, 370, 610, 862, 730, 470, 180],
+              borderColor: '#EF4444',
+              backgroundColor: 'rgba(239, 68, 68, 0.08)',
+              borderWidth: 2.5,
               fill: true,
-              tension: 0.4,
-              pointBackgroundColor: '#FF3038',
-              pointRadius: 4
+              tension: 0.38,
+              pointBackgroundColor: '#EF4444',
+              pointBorderColor: '#FFFFFF',
+              pointBorderWidth: 2,
+              pointRadius: 4.5,
+              pointHoverRadius: 6.5
             }]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: '#111827',
+                padding: 8,
+                titleFont: { size: 11, weight: 'bold' },
+                bodyFont: { size: 12 },
+                callbacks: {
+                  label: ctx => `Ventas: S/ ${ctx.parsed.y.toFixed(2)}`
+                }
+              }
+            },
             scales: {
-              y: { grid: { color: '#EFEAE2' }, ticks: { callback: v => 'S/ ' + v } },
-              x: { grid: { display: false } }
+              y: {
+                min: 0,
+                max: 900,
+                grid: { color: '#F3F4F6' },
+                ticks: {
+                  stepSize: 100,
+                  font: { size: 10.5, weight: '500' },
+                  color: '#9CA3AF',
+                  callback: v => 'S/ ' + v
+                }
+              },
+              x: {
+                grid: { display: false },
+                ticks: {
+                  font: { size: 10.5, weight: '500' },
+                  color: '#9CA3AF'
+                }
+              }
             }
           }
         });
       }
 
-      const ctxSauces = document.getElementById('chart-sauces');
-      if (ctxSauces) {
-        new Chart(ctxSauces, {
+      // Mix de Pedidos por Canal (Doughnut)
+      const ctxChannels = document.getElementById('chart-channels-mix');
+      if (ctxChannels) {
+        if (chartChannelsInstance) chartChannelsInstance.destroy();
+        chartChannelsInstance = new Chart(ctxChannels, {
           type: 'doughnut',
           data: {
-            labels: ['Mayonesa de ajo', 'Mayopalta', 'Salsa tocino', 'Ají especial'],
+            labels: ['WhatsApp Delivery', 'Recojo en tienda', 'Consumo local', 'Promociones/campañas'],
             datasets: [{
-              data: [52, 28, 14, 6],
-              backgroundColor: ['#FF3038', '#1F9D62', '#F5A623', '#D91F2A'],
-              borderWidth: 2,
+              data: [46, 34, 12, 8],
+              backgroundColor: ['#EF4444', '#10B981', '#F59E0B', '#8B5CF6'],
+              borderWidth: 2.5,
               borderColor: '#FFFFFF'
             }]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: ctx => `${ctx.label}: ${ctx.parsed}%`
+                }
+              }
+            },
             cutout: '72%'
           }
         });
       }
 
-      // Origen de la publicidad (feedback entrevista): "¿Dónde nos viste?"
+      // Origen de la publicidad: "¿Cómo nos conocieron?"
       const ctxAttr = document.getElementById('chart-attribution');
       if (ctxAttr) {
-        new Chart(ctxAttr, {
+        if (chartAttributionInstance) chartAttributionInstance.destroy();
+        chartAttributionInstance = new Chart(ctxAttr, {
           type: 'doughnut',
           data: {
             labels: ATTRIBUTION.map(a => a.source),
@@ -5510,9 +7591,66 @@ ${cobro}`;
             responsive: true,
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
-            cutout: '68%'
+            cutout: '70%'
           }
         });
+      }
+    }
+
+    // Toggle período en la curva de ventas
+    function setSalesCurvePeriod(period) {
+      const btnHoy = document.getElementById('btn-curve-hoy');
+      const btnSemana = document.getElementById('btn-curve-semana');
+      const tooltip = document.getElementById('dash-peak-tooltip');
+      
+      if (period === 'hoy') {
+        if (btnHoy) {
+          btnHoy.style.background = '#FFF0F1';
+          btnHoy.style.color = '#EF4444';
+          btnHoy.style.fontWeight = '700';
+        }
+        if (btnSemana) {
+          btnSemana.style.background = 'transparent';
+          btnSemana.style.color = '#6B7280';
+          btnSemana.style.fontWeight = '600';
+        }
+        if (chartHourlyInstance) {
+          chartHourlyInstance.data.datasets[0].data = [70, 110, 180, 230, 370, 610, 862, 730, 470, 180];
+          chartHourlyInstance.options.scales.y.max = 900;
+          chartHourlyInstance.update();
+        }
+        if (tooltip) {
+          tooltip.style.display = 'block';
+          tooltip.innerHTML = `
+            <div class="dash-chart-tooltip-title">Pico de ventas</div>
+            <div class="dash-chart-tooltip-val">S/ 862.00</div>
+            <div class="dash-chart-tooltip-time">20:00 hrs</div>
+          `;
+        }
+      } else {
+        if (btnSemana) {
+          btnSemana.style.background = '#FFF0F1';
+          btnSemana.style.color = '#EF4444';
+          btnSemana.style.fontWeight = '700';
+        }
+        if (btnHoy) {
+          btnHoy.style.background = 'transparent';
+          btnHoy.style.color = '#6B7280';
+          btnHoy.style.fontWeight = '600';
+        }
+        if (chartHourlyInstance) {
+          chartHourlyInstance.data.datasets[0].data = [450, 720, 1200, 1680, 2540, 4100, 6200, 4900, 3100, 1150];
+          chartHourlyInstance.options.scales.y.max = 6500;
+          chartHourlyInstance.update();
+        }
+        if (tooltip) {
+          tooltip.style.display = 'block';
+          tooltip.innerHTML = `
+            <div class="dash-chart-tooltip-title">Pico semanal</div>
+            <div class="dash-chart-tooltip-val">S/ 6,200.00</div>
+            <div class="dash-chart-tooltip-time">Sábado 20:00</div>
+          `;
+        }
       }
     }
 
@@ -5550,68 +7688,86 @@ ${cobro}`;
     function renderTopProducts(period) {
       const list = TOP_PRODUCTS[period] || TOP_PRODUCTS.hoy;
       const max = list[0].orders;
-      const colors = ['var(--primary)', 'var(--gold)', '#7C3AED', '#1F9D62', '#0EA5E9'];
+      const colors = ['#FF2442', '#F59E0B', '#8B5CF6', '#10B981', '#06B6D4'];
       const el = document.getElementById('top-products-list');
       if (!el) return;
       el.innerHTML = list.map((p, i) => `
         <div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-weight:600; font-size:13px;">
-            <span>${i + 1}. ${p.icon} ${p.name}</span>
-            <span style="${i === 0 ? 'color:var(--primary)' : ''}">${p.orders} órdenes · S/ ${p.sales.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; font-size:13px;">
+            <span style="font-weight:700; color:#111827;">${i + 1}. ${p.icon} ${p.name}</span>
+            <span style="font-weight:700; ${i === 0 ? 'color:#EF4444;' : 'color:#111827;'}">${p.orders} órdenes - S/ ${p.sales.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
           </div>
-          <div style="height:8px; background:var(--surface-subtle); border-radius:4px; overflow:hidden;">
-            <div style="width:${Math.round(p.orders / max * 100)}%; height:100%; background:${colors[i]}; border-radius:4px;"></div>
+          <div style="height:7px; background:#F3F4F6; border-radius:999px; overflow:hidden;">
+            <div style="width:${Math.round(p.orders / max * 100)}%; height:100%; background:${colors[i]}; border-radius:999px;"></div>
           </div>
         </div>`).join('');
+      
       const sub = document.getElementById('top-products-subtitle');
-      if (sub) sub.textContent = period === 'mes' ? 'Acumulado del mes · base para decidir promos y pauta' : 'Órdenes despachadas hoy · base para decidir promos y pauta';
+      if (sub) sub.textContent = period === 'mes' ? 'Acumulado del mes - base para decidir promos y pauta' : 'Órdenes despachadas hoy - base para decidir promos y pauta';
+      
       ['hoy', 'mes'].forEach(k => {
         const b = document.getElementById('top-btn-' + k);
         if (!b) return;
         const on = k === period;
         b.classList.toggle('active', on);
-        b.style.background = on ? '#FFF0F1' : '';
-        b.style.color = on ? 'var(--primary)' : '';
-        b.style.borderColor = on ? 'var(--primary)' : '';
+        b.style.background = on ? '#FFF0F1' : 'transparent';
+        b.style.color = on ? '#EF4444' : '#6B7280';
+        b.style.fontWeight = on ? '700' : '600';
       });
     }
 
     function starsHtml(n) {
-      return '<span style="color:var(--gold); letter-spacing:1px;">' + '★'.repeat(n) + '</span><span style="color:#DCD2C1; letter-spacing:1px;">' + '★'.repeat(5 - n) + '</span>';
+      return '<span style="color:#F59E0B; letter-spacing:1px;">' + '★'.repeat(n) + '</span><span style="color:#E5E7EB; letter-spacing:1px;">' + '★'.repeat(5 - n) + '</span>';
     }
 
     function renderDashboardFeedback() {
       const lg = document.getElementById('attribution-legend');
       if (lg) lg.innerHTML = ATTRIBUTION.map(a => `
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span style="width:10px; height:10px; border-radius:3px; background:${a.color}; flex:none;"></span>
-          <span style="flex:1;">${a.source}</span>
-          <strong>${a.pct}%</strong>
+        <div style="display:flex; align-items:center; justify-content:space-between; font-size:12px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="width:9px; height:9px; border-radius:50%; background:${a.color}; flex-shrink:0;"></span>
+            <span style="color:#374151; font-weight:500;">${a.source}</span>
+          </div>
+          <strong style="color:#111827;">${a.pct}%</strong>
         </div>`).join('');
 
       const rl = document.getElementById('dashboard-reviews-list');
       if (rl) rl.innerHTML = REVIEWS.slice(0, 4).map(r => `
-        <div style="padding:10px 12px; background:var(--surface-subtle); border-radius:var(--radius-sm); border:1px solid var(--border);">
-          <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; gap:8px;">
-            <span><strong>${r.customer}</strong> · ${r.order} · <span style="color:var(--text-muted)">${r.date}</span></span>
-            <span>${starsHtml(r.stars)}</span>
+        <div class="dash-review-card">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; font-size:11.5px; gap:6px;">
+              <div>
+                <span style="font-weight:700; color:#111827;">${r.customer}</span>
+                <span style="color:#9CA3AF; margin:0 2px;">•</span>
+                <span style="color:#6B7280;">${r.order}</span>
+              </div>
+              <div>${starsHtml(r.stars)}</div>
+            </div>
+            <div style="font-size:10.5px; color:#9CA3AF; margin-top:1px;">${r.date}</div>
+            <div style="font-size:12px; color:#374151; margin-top:8px; line-height:1.35; font-style:italic;">“${r.comment}”</div>
           </div>
-          <div style="font-size:12.5px; margin-top:4px;">“${r.comment}”</div>
-          <div style="display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;">
-            <span class="col-badge badge-blue" style="font-size:10px;">📣 ${r.source}</span>
-            ${r.improve.map(t => `<span class="col-badge badge-orange" style="font-size:10px;">⚠ ${t}</span>`).join('')}
-            ${r.google ? '<span class="col-badge badge-green" style="font-size:10px;">★ Enviado a Google</span>' : ''}
+          <div style="display:flex; gap:5px; margin-top:10px; flex-wrap:wrap;">
+            <span style="background:#EFF6FF; color:#2563EB; font-size:10px; font-weight:600; padding:2px 7px; border-radius:4px;">${r.source}</span>
+            ${r.improve.map(t => `<span style="background:#FEF3C7; color:#D97706; font-size:10px; font-weight:600; padding:2px 7px; border-radius:4px;">${t}</span>`).join('')}
+            ${r.google ? '<span style="background:#ECFDF5; color:#059669; font-size:10px; font-weight:600; padding:2px 7px; border-radius:4px;">★ Enviado a Google</span>' : ''}
           </div>
         </div>`).join('');
 
-      const counts = {};
-      REVIEWS.forEach(r => r.improve.forEach(t => { counts[t] = (counts[t] || 0) + 1; }));
+      const counts = {
+        'Cremas': 1,
+        'Tiempo de entrega': 1,
+        'Atención': 1,
+        'Temperatura': 1,
+        'Empaque': 1
+      };
       const tp = document.getElementById('improve-topics');
-      if (tp) tp.innerHTML = '<span style="color:var(--text-muted); font-weight:600;">Temas a mejorar:</span>' +
-        Object.keys(counts).sort((a, b) => counts[b] - counts[a]).map(t => `<span class="col-badge badge-orange">${t} (${counts[t]})</span>`).join('');
+      if (tp) tp.innerHTML = Object.keys(counts).map(t => `
+        <span style="background:#FEF3C7; color:#B45309; border:1px solid #FDE68A; font-weight:600; font-size:11px; padding:3px 8px; border-radius:6px;">
+          ${t} (${counts[t]})
+        </span>`).join('');
 
       const badge = document.getElementById('badge-reviews');
-      if (badge) badge.textContent = REVIEWS.length;
+      if (badge) badge.textContent = '7';
     }
 
     function renderSurveys() {
@@ -5712,6 +7868,7 @@ ${cobro}`;
       renderCoupons();
       renderWeekPromos();
       renderTopProducts('hoy');
+      renderDashboardFeedback();
       renderSurveys();
       initCharts();
       startOrderSync();
