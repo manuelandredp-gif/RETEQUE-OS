@@ -1510,24 +1510,1010 @@
       .live-ops-grid { grid-template-columns: 1fr; }
       .channel-strip { grid-template-columns: 1fr 1fr; }
     }
+    /* ===================================================
+       CUPONES & OFERTAS — REDISEÑO FIDEDIGNO 2026
+       =================================================== */
+    .header-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      border-radius: 10px;
+      padding: 7px 14px;
+      width: 320px;
+      color: #6B7280;
+      font-size: 13px;
+      transition: all 0.2s ease;
+    }
+    .header-search:focus-within {
+      border-color: #FF2442;
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(255, 36, 66, 0.1);
+    }
+    .header-search input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 13px;
+      width: 100%;
+      color: #111827;
+      font-family: inherit;
+    }
+    .header-search kbd {
+      background: #FFFFFF;
+      border: 1px solid #D1D5DB;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 10.5px;
+      color: #6B7280;
+      font-family: monospace;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+    }
+
+    /* Sidebar Active Red Style */
+    .nav-btn[data-tab="tab-promos"].active {
+      background: #FF2442 !important;
+      color: #FFFFFF !important;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(255, 36, 66, 0.35);
+    }
+    .nav-btn[data-tab="tab-promos"].active svg {
+      stroke: #FFFFFF;
+    }
+
+    /* Module Header */
+    .co-page-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .co-header-icon {
+      width: 42px;
+      height: 42px;
+      background: #FF2442;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-size: 20px;
+      font-weight: 900;
+      box-shadow: 0 4px 12px rgba(255, 36, 66, 0.28);
+      flex-shrink: 0;
+    }
+    .co-header-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      color: #111827;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    .co-header-sub {
+      font-size: 13px;
+      color: #6B7280;
+      margin-top: 2px;
+    }
+
+    /* KPI Grid */
+    .co-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    .co-kpi-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 14px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+    .co-kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+      border-color: #D1D5DB;
+    }
+    .co-kpi-icon-wrap {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .co-kpi-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .co-kpi-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #6B7280;
+      margin-bottom: 4px;
+    }
+    .co-kpi-value-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      line-height: 1;
+    }
+    .co-kpi-value {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 800;
+      color: #111827;
+    }
+    .co-kpi-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #DCFCE7;
+      color: #15803D;
+      display: inline-flex;
+      align-items: center;
+    }
+    .co-kpi-sub {
+      font-size: 11.5px;
+      color: #9CA3AF;
+      margin-top: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .co-kpi-arrow {
+      color: #D1D5DB;
+      font-size: 18px;
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+    .co-kpi-card:hover .co-kpi-arrow {
+      transform: translateX(3px);
+      color: #9CA3AF;
+    }
+
+    /* Weekly Planner */
+    .co-planner-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 16px;
+      padding: 20px 22px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      margin-bottom: 22px;
+    }
+    .co-planner-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .co-planner-title-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .co-planner-icon {
+      width: 34px;
+      height: 34px;
+      background: #FEE2E2;
+      color: #EF4444;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .co-planner-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 800;
+      color: #111827;
+    }
+    .co-planner-sub {
+      font-size: 12px;
+      color: #6B7280;
+      margin-top: 2px;
+    }
+    .co-planner-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .co-btn-pill {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .co-btn-pill:hover {
+      background: #F9FAFB;
+      border-color: #D1D5DB;
+    }
+    .co-btn-save {
+      background: #FF2442;
+      color: #FFFFFF;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(255, 36, 66, 0.25);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .co-btn-save:hover {
+      background: #E51E39;
+      transform: translateY(-1px);
+    }
+    .co-week-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 12px;
+    }
+    .co-day-col {
+      background: #FAFAFA;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      min-height: 220px;
+    }
+    .co-day-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #F3F4F6;
+    }
+    .co-day-name {
+      font-size: 11px;
+      font-weight: 800;
+      color: #FF2442;
+      letter-spacing: 0.03em;
+    }
+    .co-day-name.muted {
+      color: #6B7280;
+    }
+    .co-day-date {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6B7280;
+    }
+    .co-day-more {
+      color: #9CA3AF;
+      cursor: pointer;
+      font-size: 13px;
+      padding: 0 2px;
+    }
+    .co-day-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+    .co-day-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 8px 10px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+      transition: all 0.15s;
+    }
+    .co-day-card:hover {
+      border-color: #D1D5DB;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .co-day-time {
+      font-size: 10.5px;
+      color: #6B7280;
+      margin-bottom: 2px;
+    }
+    .co-day-card-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 6px;
+      line-height: 1.25;
+    }
+    .co-day-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+    .co-badge-activa {
+      background: #DEF7EC;
+      color: #03543F;
+    }
+    .co-badge-programada {
+      background: #E1EFFE;
+      color: #1E429F;
+    }
+    .co-badge-pausada {
+      background: #FEF3C7;
+      color: #92400E;
+    }
+    .co-day-empty {
+      font-size: 11px;
+      color: #9CA3AF;
+      text-align: center;
+      padding: 24px 0;
+      font-style: italic;
+    }
+    .co-btn-add-offer {
+      background: #FFFFFF;
+      border: 1px dashed #D1D5DB;
+      color: #6B7280;
+      border-radius: 8px;
+      padding: 6px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      width: 100%;
+      margin-top: 8px;
+      transition: all 0.15s;
+    }
+    .co-btn-add-offer:hover {
+      background: #FFF5F5;
+      color: #FF2442;
+      border-color: #FF2442;
+    }
+
+    /* Middle 3-Column Section (Form 47% + Phone 22% + Stacked Cards 31%) */
+    .co-middle-grid {
+      display: grid;
+      grid-template-columns: 47fr 23fr 30fr;
+      gap: 18px;
+      margin-bottom: 22px;
+      align-items: stretch;
+    }
+    .co-right-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      justify-content: space-between;
+    }
+    .co-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      box-sizing: border-box;
+    }
+
+    /* Form Styles */
+    .co-form-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .co-form-header-icon {
+      width: 24px;
+      height: 24px;
+      background: #FF2442;
+      color: #FFFFFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .co-form-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 800;
+      color: #111827;
+    }
+    .co-form-sub {
+      font-size: 11.5px;
+      color: #6B7280;
+      margin-top: 1px;
+    }
+    .co-form-group {
+      margin-bottom: 12px;
+    }
+    .co-form-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #374151;
+      margin-bottom: 4px;
+    }
+    .co-input {
+      width: 100%;
+      padding: 7px 11px;
+      border: 1px solid #D1D5DB;
+      border-radius: 8px;
+      font-size: 12.5px;
+      color: #111827;
+      background: #FFFFFF;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+    .co-input:focus {
+      border-color: #FF2442;
+      box-shadow: 0 0 0 3px rgba(255, 36, 66, 0.1);
+    }
+    .co-input-code {
+      text-transform: uppercase;
+      font-family: monospace;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .co-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .co-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    .co-grid-4 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 10px;
+    }
+    .co-days-selector {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .co-day-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      cursor: pointer;
+    }
+    .co-day-checkbox input[type="checkbox"] {
+      accent-color: #FF2442;
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+    }
+    .co-audience-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .co-audience-pill {
+      padding: 5px 12px;
+      border-radius: 8px;
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #4B5563;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .co-audience-pill:hover {
+      background: #E5E7EB;
+    }
+    .co-audience-pill.active {
+      background: #FF2442;
+      border-color: #FF2442;
+      color: #FFFFFF;
+    }
+    .co-radios-group {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+    .co-radio-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      cursor: pointer;
+    }
+    .co-radio-label input[type="radio"] {
+      accent-color: #FF2442;
+      width: 15px;
+      height: 15px;
+    }
+    .co-toggle-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 0.9fr;
+      gap: 10px;
+      padding: 12px 0;
+      border-top: 1px solid #F3F4F6;
+      border-bottom: 1px solid #F3F4F6;
+      margin: 14px 0;
+      align-items: center;
+    }
+    .co-toggle-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .co-toggle-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .co-toggle-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #111827;
+    }
+    .co-toggle-desc {
+      font-size: 10px;
+      color: #9CA3AF;
+      line-height: 1.25;
+    }
+    .co-form-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .co-btn-draft {
+      background: #FFFFFF;
+      border: 1px solid #D1D5DB;
+      color: #374151;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .co-btn-draft:hover {
+      background: #F9FAFB;
+      border-color: #9CA3AF;
+    }
+    .co-btn-schedule {
+      background: #FFF7ED;
+      border: 1px solid #FED7AA;
+      color: #EA580C;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .co-btn-schedule:hover {
+      background: #FFEDD5;
+    }
+    .co-btn-create {
+      background: #FF2442;
+      border: none;
+      color: #FFFFFF;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(255, 36, 66, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .co-btn-create:hover {
+      background: #E51E39;
+      transform: translateY(-1px);
+    }
+
+    /* Phone Mockup Card */
+    .co-preview-card {
+      display: flex;
+      flex-direction: column;
+    }
+    .co-phone-mockup {
+      width: 100%;
+      max-width: 275px;
+      height: 440px;
+      background: #111827;
+      border-radius: 38px;
+      padding: 9px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.14);
+      margin: auto auto;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+    }
+    .co-phone-island {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 68px;
+      height: 15px;
+      background: #000000;
+      border-radius: 999px;
+      z-index: 10;
+    }
+    .co-phone-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 12px 6px;
+      color: #FFFFFF;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .co-phone-screen {
+      flex: 1;
+      background: #FFFFFF;
+      border-radius: 28px;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .co-phone-logo {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 800;
+      color: #FF2442;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+    .co-phone-ticket {
+      width: 100%;
+      background: #FFF5F5;
+      border: 1.5px dashed #FCA5A5;
+      border-radius: 16px;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      box-sizing: border-box;
+    }
+    .co-ticket-badge {
+      background: #FF2442;
+      color: #FFFFFF;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 3px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .co-ticket-value {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1.1;
+      color: #111827;
+    }
+    .co-ticket-value span {
+      color: #FF2442;
+    }
+    .co-ticket-desc {
+      font-size: 11px;
+      font-weight: 600;
+      color: #4B5563;
+      margin-top: 3px;
+      margin-bottom: 12px;
+    }
+    .co-ticket-meta {
+      font-size: 9.5px;
+      color: #6B7280;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+    .co-ticket-btn {
+      background: #FF2442;
+      color: #FFFFFF;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 9px 0;
+      width: 100%;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(255, 36, 66, 0.3);
+    }
+    .co-ticket-terms {
+      font-size: 8.5px;
+      color: #9CA3AF;
+      margin-top: 6px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* Rendimiento Card */
+    .co-perf-wrap {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 16px;
+      align-items: flex-end;
+    }
+    .co-bars-chart-box {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 125px;
+    }
+    .co-chart-yaxis {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 95px;
+      font-size: 9px;
+      color: #9CA3AF;
+      text-align: right;
+      padding-bottom: 18px;
+    }
+    .co-bars-chart {
+      flex: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      height: 95px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #E5E7EB;
+      position: relative;
+    }
+    .co-bar-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+    }
+    .co-bar-pillar {
+      width: 14px;
+      background: #FF2442;
+      border-radius: 3px 3px 0 0;
+      transition: height 0.3s ease;
+    }
+    .co-bar-pillar.coral-light {
+      background: #FDA4AF;
+    }
+    .co-bar-pillar.coral-mid {
+      background: #FB7185;
+    }
+    .co-bar-date {
+      font-size: 9px;
+      color: #6B7280;
+      white-space: nowrap;
+    }
+    .co-top-coupons-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+    .co-top-coupon-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      padding: 4px 0;
+      border-bottom: 1px dashed #F3F4F6;
+    }
+    .co-top-rank {
+      color: #9CA3AF;
+      font-weight: 700;
+      width: 14px;
+    }
+    .co-top-code {
+      font-weight: 700;
+      color: #111827;
+      font-family: monospace;
+    }
+    .co-top-count {
+      font-weight: 700;
+      color: #4B5563;
+    }
+
+    /* Automatizaciones Card */
+    .co-rules-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+    .co-rule-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 10px;
+      padding: 10px 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .co-rule-card:hover {
+      border-color: #FF2442;
+      box-shadow: 0 2px 8px rgba(255, 36, 66, 0.08);
+    }
+    .co-rule-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: #FEE2E2;
+      color: #EF4444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .co-rule-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 2px;
+      line-height: 1.25;
+    }
+    .co-rule-desc {
+      font-size: 9.5px;
+      color: #6B7280;
+      line-height: 1.25;
+    }
+
+    /* Table Styles */
+    .co-table-wrap {
+      overflow-x: auto;
+      margin-top: 14px;
+    }
+    .co-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 12.5px;
+    }
+    .co-table th {
+      background: #F9FAFB;
+      color: #6B7280;
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 10px 14px;
+      border-bottom: 1px solid #E5E7EB;
+      text-align: left;
+      white-space: nowrap;
+    }
+    .co-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #F3F4F6;
+      color: #374151;
+      vertical-align: middle;
+    }
+    .co-table tr:hover td {
+      background: #FAF9F7;
+    }
+    .co-table-code {
+      font-family: monospace;
+      font-weight: 800;
+      color: #111827;
+      font-size: 12px;
+    }
+    .co-table-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      justify-content: flex-end;
+    }
+    .co-act-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      color: #6B7280;
+      padding: 4px 5px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .co-act-btn:hover {
+      color: #111827;
+      background: #F3F4F6;
+      border-color: #E5E7EB;
+    }
+    .co-act-btn.delete:hover {
+      color: #EF4444;
+      background: #FEE2E2;
+      border-color: #FECACA;
+    }
+
+    @media (max-width: 1440px) {
+      .co-middle-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .co-right-stack {
+        grid-column: 1 / -1;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 1200px) {
+      .co-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .co-week-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .co-middle-grid { grid-template-columns: 1fr; }
+      .co-right-stack { grid-template-columns: 1fr !important; }
+      .co-week-grid { grid-template-columns: repeat(2, 1fr); }
+      .co-kpi-grid { grid-template-columns: 1fr; }
+      .co-rules-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
 
   <!-- Sidebar -->
   <aside id="sidebar">
-    <div class="brand-logo-wrap">
-      <img src="assets/logo-retequenos.png" alt="Retequeños">
+    <div class="brand-logo-wrap" style="padding: 20px 18px; display:flex; align-items:center; gap:12px; border-bottom:1px solid rgba(255,255,255,0.08);">
+      <div style="width:36px; height:36px; background:#FF2442; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#FFFFFF; font-weight:900; font-size:19px; box-shadow:0 4px 10px rgba(255,36,66,0.35); flex-shrink:0;">R</div>
       <div>
-        <div class="brand-title">Retequeños <span class="brand-badge">ADMIN</span></div>
-        <div class="brand-subtitle">Hub Operativo & Analytics</div>
+        <div class="brand-title" style="font-family:var(--font-display); font-size:16px; font-weight:800; color:#FFFFFF; display:flex; align-items:center; gap:6px;">
+          <span>Retequeños</span>
+          <span class="brand-badge" style="background:#FF2442; font-size:9.5px; padding:2px 5px; border-radius:4px;">ADMIN</span>
+        </div>
+        <div class="brand-subtitle" style="font-size:11px; color:#8E8A85; font-weight:500;">Hub Operativo & Analytics</div>
       </div>
     </div>
 
-    <div class="nav-section">Operación Principal</div>
+    <div class="nav-section" style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#6E6864; font-weight:800; padding:18px 20px 8px;">OPERACIÓN PRINCIPAL</div>
     <ul class="nav-list">
       <li class="nav-item">
-        <button class="nav-btn active" data-tab="tab-dashboard">
+        <button class="nav-btn" data-tab="tab-dashboard">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg>
           <span>Dashboard & Métricas</span>
         </button>
@@ -1536,24 +2522,13 @@
         <button class="nav-btn" data-tab="tab-kanban">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="M9 14h6"></path><path d="M9 10h6"></path><path d="M9 18h4"></path></svg>
           <span>Pedidos KDS</span>
-          <span class="nav-badge pulse" id="badge-live-orders">11</span>
+          <span class="nav-badge pulse" id="badge-live-orders" style="background:#FF2442; color:#FFFFFF; font-weight:800;">7</span>
         </button>
       </li>
       <li class="nav-item">
         <button class="nav-btn" data-tab="tab-catalog">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 4.9V17L12 22l-9-4.9V7z"></path><path d="M12 12l9-4.9"></path><path d="M12 12v10"></path><path d="M12 12L3 7.1"></path></svg>
           <span>Menú & Stock</span>
-        </button>
-      </li>
-    </ul>
-
-    <div class="nav-section">Crecimiento & Ventas</div>
-    <ul class="nav-list">
-      <li class="nav-item">
-        <button class="nav-btn" data-tab="tab-promos">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
-          <span>Cupones & Ofertas</span>
-          <span class="nav-badge" style="background:var(--gold);color:#242424">Martes</span>
         </button>
       </li>
       <li class="nav-item">
@@ -1563,27 +2538,68 @@
         </button>
       </li>
       <li class="nav-item">
+        <button class="nav-btn active" data-tab="tab-promos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+          <span>Cupones & Ofertas</span>
+        </button>
+      </li>
+      <li class="nav-item">
         <button class="nav-btn" data-tab="tab-surveys">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path><path d="M9 10h6M9 13h4"></path></svg>
           <span>Encuestas & Reseñas</span>
-          <span class="nav-badge" style="background:var(--success)" id="badge-reviews">7</span>
+          <span class="nav-badge" style="background:#10B981; color:#FFFFFF; font-weight:800;" id="badge-reviews">7</span>
         </button>
       </li>
+      <li class="nav-item">
+        <button class="nav-btn" data-tab="tab-reports" onclick="showToast('Módulo de Reportes avanzados en desarrollo')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span>Reportes</span>
+        </button>
+      </li>
+    </ul>
+
+    <div class="nav-section" style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#6E6864; font-weight:800; padding:18px 20px 8px;">CONFIGURACIÓN</div>
+    <ul class="nav-list">
       <li class="nav-item">
         <button class="nav-btn" data-tab="tab-settings">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           <span>Preferencias Tienda</span>
         </button>
       </li>
+      <li class="nav-item">
+        <button class="nav-btn" data-tab="tab-users" onclick="showToast('Gestión de Usuarios y Permisos')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span>Usuarios</span>
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-btn" data-tab="tab-integrations" onclick="showToast('Integraciones WhatsApp, Yape y Pasarelas')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+          <span>Integraciones</span>
+        </button>
+      </li>
     </ul>
 
-    <div class="sidebar-footer">
-      <div class="user-pill">
-        <div class="user-avatar">MF</div>
-        <div class="user-info">
-          <div class="user-name">Milton Flores</div>
-          <div class="user-role">Superadministrador</div>
+    <div class="sidebar-footer" style="padding:14px 14px; margin-top:auto; display:flex; flex-direction:column; gap:10px;">
+      <!-- Support Box -->
+      <div class="sidebar-help-card" style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px 12px; display:flex; align-items:center; gap:10px; cursor:pointer;" onclick="showToast('Abriendo Centro de soporte...')">
+        <div style="width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg, #FF6B4A, #FF3038); display:flex; align-items:center; justify-content:center; color:#fff; font-size:15px; flex-shrink:0;">💬</div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-size:11.5px; font-weight:700; color:#FFFFFF;">¿Necesitas ayuda?</div>
+          <div style="font-size:10.5px; color:#9CA3AF; margin-top:1px; display:flex; align-items:center; gap:4px;">Centro de soporte <span>→</span></div>
         </div>
+      </div>
+
+      <!-- User Pill -->
+      <div class="user-pill" style="display:flex; align-items:center; justify-content:space-between; padding:8px 8px; background:transparent;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="user-avatar" style="background:#FF2442; color:#fff; font-weight:800; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0;">MF</div>
+          <div class="user-info">
+            <div class="user-name" style="color:#FFFFFF; font-weight:700; font-size:12.5px;">Milton Flores</div>
+            <div class="user-role" style="color:#9CA3AF; font-size:10.5px;">Superadministrador</div>
+          </div>
+        </div>
+        <div style="color:#9CA3AF; cursor:pointer; font-size:15px; padding:2px 4px;">⋮</div>
       </div>
     </div>
   </aside>
@@ -1592,33 +2608,34 @@
   <div id="main-wrapper">
     
     <!-- Top Header -->
-    <header>
-      <div class="header-left">
-        <div class="page-title-wrap">
-          <h1 id="page-heading">Dashboard & Métricas</h1>
-          <p id="page-subheading">Visión ejecutiva del negocio en tiempo real</p>
+    <header style="height:64px; background:#FFFFFF; border-bottom:1px solid #E5E7EB; display:flex; align-items:center; justify-content:space-between; padding:0 28px; position:sticky; top:0; z-index:30;">
+      <div class="header-left" style="display:flex; align-items:center; gap:16px;">
+        <div class="header-search">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="global-search-input" placeholder="Buscar en Retequeños..." onkeyup="handleGlobalSearch(event)">
+          <kbd>⌘ K</kbd>
         </div>
       </div>
 
-      <div class="header-right">
-        <div class="store-status-pill" id="store-pill">
-          <span class="status-dot"></span>
-          <span>Tienda Abierta</span>
+      <div class="header-right" style="display:flex; align-items:center; gap:10px;">
+        <div class="store-status-pill" id="store-pill" style="background:#DCFCE7; border:1px solid #BBF7D0; color:#15803D; font-weight:700; font-size:12px; padding:5px 12px; border-radius:999px; display:inline-flex; align-items:center; gap:6px;">
+          <span class="status-dot" style="width:7px; height:7px; background:#22C55E; border-radius:50%; box-shadow:0 0 0 3px rgba(34,197,94,0.2);"></span>
+          <span>Tienda abierta</span>
         </div>
 
-        <button class="btn btn-outline btn-sm" id="btn-sound-toggle" title="Alerta Sonora KDS">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        <button class="btn btn-outline btn-sm" id="btn-sound-toggle" style="background:#FFFFFF; border:1px solid #E5E7EB; border-radius:8px; font-weight:600; font-size:12px; color:#374151; padding:6px 12px; display:inline-flex; align-items:center; gap:6px;" title="Alerta Sonora KDS">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
           <span>Sonido: ON</span>
         </button>
 
-        <a href="/" target="_blank" class="btn btn-outline" style="background:#FFF3DF;border-color:#F5A623;color:#D9891A" title="Abrir Prototipo App Móvil en pestaña nueva">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
-          <span>Ver App Móvil</span>
+        <a href="/" target="_blank" class="btn btn-outline btn-sm" style="background:#FFFBF0; border:1px solid #FDE68A; border-radius:8px; font-weight:600; font-size:12px; color:#D97706; padding:6px 12px; display:inline-flex; align-items:center; gap:6px; text-decoration:none;" title="Abrir Prototipo App Móvil en pestaña nueva">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+          <span>Ver app móvil</span>
         </a>
 
-        <button class="btn btn-primary" onclick="triggerSimulatedOrder()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
-          <span>+ Simular Pedido</span>
+        <button class="btn btn-primary" onclick="focusNewCouponForm()" style="background:#FF2442; border:none; border-radius:8px; color:#FFFFFF; font-weight:700; font-size:12.5px; padding:7px 16px; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 6px rgba(255,36,66,0.25); cursor:pointer;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>Nueva campaña</span>
         </button>
       </div>
     </header>
@@ -1627,7 +2644,7 @@
     <main>
 
       <!-- TAB 1: DASHBOARD & ANALYTICS -->
-      <section id="tab-dashboard" class="tab-content active">
+      <section id="tab-dashboard" class="tab-content">
         
         <!-- KPI Cards Grid -->
         <div class="kpi-grid">
@@ -1917,100 +2934,516 @@
 
       </section>
 
-      <!-- TAB 4: COUPONS & PROMOS -->
-      <section id="tab-promos" class="tab-content">
+      <!-- TAB 4: CUPONES & OFERTAS (REDISEÑO FIDEDIGNO) -->
+      <section id="tab-promos" class="tab-content active">
         
-        <!-- Weekly Promo Scheduler -->
-        <div class="card" style="margin-bottom:28px;">
-          <div class="card-header">
-            <div>
-              <div class="card-title">📅 Planificador de "Días de Ofertas" (Weekly Promo Engine)</div>
-              <div class="card-subtitle">Las promociones programadas activan banners automáticos y precios especiales en la App móvil</div>
+        <!-- Header del Módulo -->
+        <div class="co-page-header">
+          <div class="co-header-icon">%</div>
+          <div>
+            <h1 class="co-header-title">Cupones & Ofertas</h1>
+            <p class="co-header-sub">Planifica, programa y controla promociones en la app móvil</p>
+          </div>
+        </div>
+
+        <!-- 4 Top KPI Cards -->
+        <div class="co-kpi-grid">
+          <!-- Card 1: Cupones activos -->
+          <div class="co-kpi-card" onclick="filterTableByStatus('Activo')" title="Filtrar cupones activos">
+            <div class="co-kpi-icon-wrap" style="background:#FEE2E2; color:#EF4444;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
             </div>
-            <button class="btn btn-gold btn-sm" onclick="showToast('Ofertas semanales sincronizadas con la App')">Guardar Días de Oferta</button>
+            <div class="co-kpi-body">
+              <div class="co-kpi-label">Cupones activos</div>
+              <div class="co-kpi-value-row">
+                <span class="co-kpi-value" id="kpi-active-count">12</span>
+                <span class="co-kpi-badge">↑ +20%</span>
+              </div>
+              <div class="co-kpi-sub" id="kpi-active-sub">de 28 cupones creados</div>
+            </div>
+            <div class="co-kpi-arrow">›</div>
           </div>
 
-          <div class="week-grid" id="week-promo-grid">
+          <!-- Card 2: Programados hoy -->
+          <div class="co-kpi-card" onclick="filterTableByStatus('Programado')" title="Filtrar programados">
+            <div class="co-kpi-icon-wrap" style="background:#FFEDD5; color:#F97316;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+            <div class="co-kpi-body">
+              <div class="co-kpi-label">Programados hoy</div>
+              <div class="co-kpi-value-row">
+                <span class="co-kpi-value" id="kpi-scheduled-count">3</span>
+              </div>
+              <div class="co-kpi-sub">Se activarán automáticamente</div>
+            </div>
+            <div class="co-kpi-arrow">›</div>
+          </div>
+
+          <!-- Card 3: Próximos a vencer -->
+          <div class="co-kpi-card" onclick="filterTableExpiring()" title="Ver cupones por vencer">
+            <div class="co-kpi-icon-wrap" style="background:#FEF3C7; color:#D97706;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div class="co-kpi-body">
+              <div class="co-kpi-label">Próximos a vencer</div>
+              <div class="co-kpi-value-row">
+                <span class="co-kpi-value" id="kpi-expiring-count">2</span>
+              </div>
+              <div class="co-kpi-sub">Expiran en los próximos 3 días</div>
+            </div>
+            <div class="co-kpi-arrow">›</div>
+          </div>
+
+          <!-- Card 4: Tasa de canje -->
+          <div class="co-kpi-card" onclick="document.getElementById('section-performance').scrollIntoView({behavior:'smooth'})" title="Ver análisis de canjes">
+            <div class="co-kpi-icon-wrap" style="background:#FCE7F3; color:#EC4899;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            </div>
+            <div class="co-kpi-body">
+              <div class="co-kpi-label">Tasa de canje</div>
+              <div class="co-kpi-value-row">
+                <span class="co-kpi-value">28.5%</span>
+                <span class="co-kpi-badge">↑ +5.2%</span>
+              </div>
+              <div class="co-kpi-sub">1,429 de 5,020 usos</div>
+            </div>
+            <div class="co-kpi-arrow">›</div>
+          </div>
+        </div>
+
+        <!-- Planificador Semanal de Ofertas -->
+        <div class="co-planner-card">
+          <div class="co-planner-header">
+            <div class="co-planner-title-wrap">
+              <div class="co-planner-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              </div>
+              <div>
+                <div class="co-planner-title">Planificador semanal de ofertas</div>
+                <div class="co-planner-sub">Organiza tus promociones por día y hora. Las ofertas se activarán automáticamente en la app.</div>
+              </div>
+            </div>
+
+            <div class="co-planner-controls">
+              <button class="co-btn-pill" type="button" onclick="showToast('Semana actual seleccionada')">Hoy</button>
+              <button class="co-btn-pill" type="button" onclick="navigateWeek(-1)" title="Semana anterior">‹</button>
+              <button class="co-btn-pill" type="button" onclick="navigateWeek(1)" title="Semana siguiente">›</button>
+              <div class="co-btn-pill" style="cursor:pointer;" onclick="showToast('Rango: Lun 29 Sep - Dom 5 Oct 2025')">
+                <span id="planner-range-text">Lun 29 Sep - Dom 5 Oct 2025</span>
+                <span style="font-size:10px; color:#6B7280;">▾</span>
+              </div>
+              <button class="co-btn-save" type="button" onclick="saveWeekSchedule()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                <span>Guardar programación</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="co-week-grid" id="co-week-grid">
             <!-- Rendered by JS -->
           </div>
         </div>
 
-        <!-- Coupons List & Creation -->
-        <div class="promo-grid">
+        <!-- Middle 3-Column Layout: Form (47%) + Phone Preview (23%) + Right Stack (30%) -->
+        <div class="co-middle-grid">
           
-          <!-- Create Coupon Card -->
-          <div class="card">
-            <div class="card-header">
+          <!-- COL 1: Crear / Editar cupón -->
+          <div class="co-card" id="form-card-container">
+            <div class="co-form-header">
+              <div class="co-form-header-icon">+</div>
               <div>
-                <div class="card-title">Generador de Cupones</div>
-                <div class="card-subtitle">Crea códigos de descuento aplicables en pantalla 13 (Carrito)</div>
+                <div class="co-form-title" id="form-coupon-title">Crear / Editar cupón</div>
+                <div class="co-form-sub">Completa la información y configura las reglas de tu promoción.</div>
               </div>
             </div>
 
-            <form id="coupon-form" onsubmit="handleCreateCoupon(event)">
-              <div class="form-group">
-                <label class="form-label">Código del Cupón (Mayúsculas)</label>
-                <div style="display:flex; gap:8px;">
-                  <input type="text" id="cp-code" class="form-control" placeholder="Ej. MARTES20, RETQVERANO" required style="text-transform:uppercase; font-family:monospace; font-weight:700;">
-                  <button type="button" class="btn btn-outline" onclick="generateRandomCouponCode()">Generar</button>
+            <form id="co-coupon-form" onsubmit="handleFormSubmit(event)">
+              <!-- Row 1: Código & Nombre interno -->
+              <div class="co-grid-2 co-form-group">
+                <div>
+                  <label class="co-form-label">Código del cupón *</label>
+                  <input type="text" id="form-code" class="co-input co-input-code" value="BIENVENIDO10" required placeholder="BIENVENIDO10" oninput="updateLivePreview()">
+                </div>
+                <div>
+                  <label class="co-form-label">Nombre interno *</label>
+                  <input type="text" id="form-name" class="co-input" value="Bienvenida nuevos usuarios" required placeholder="Bienvenida nuevos usuarios" oninput="updateLivePreview()">
                 </div>
               </div>
 
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-                <div class="form-group">
-                  <label class="form-label">Tipo de Beneficio</label>
-                  <select id="cp-type" class="form-control">
-                    <option value="percent">Porcentaje (% Descuento)</option>
-                    <option value="fixed">Monto Fijo (S/ Descuento)</option>
-                    <option value="shipping">Envío Gratis (S/ 5.90 flete)</option>
+              <!-- Row 2: Tipo de beneficio & Valor -->
+              <div class="co-grid-2 co-form-group">
+                <div>
+                  <label class="co-form-label">Tipo de beneficio</label>
+                  <select id="form-benefit-type" class="co-input" onchange="handleBenefitTypeChange()">
+                    <option value="fixed" selected>Monto fijo (S/ OFF)</option>
+                    <option value="percent">Porcentaje (% OFF)</option>
+                    <option value="bogo">2x1 en producto</option>
+                    <option value="shipping">Envío gratis</option>
+                    <option value="gift">Producto de regalo</option>
                   </select>
                 </div>
-
-                <div class="form-group">
-                  <label class="form-label">Valor del Descuento</label>
-                  <input type="number" id="cp-val" class="form-control" placeholder="20 (% o S/)" required value="20">
+                <div>
+                  <label class="co-form-label">Valor del descuento *</label>
+                  <input type="text" id="form-discount-val" class="co-input" value="S/ 5.00" required oninput="updateLivePreview()">
                 </div>
               </div>
 
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-                <div class="form-group">
-                  <label class="form-label">Monto Mínimo de Pedido</label>
-                  <input type="number" id="cp-min" class="form-control" placeholder="S/ 25.00" value="25">
+              <!-- Row 3: Pedido mínimo, Límite total, Límite cliente -->
+              <div class="co-grid-3 co-form-group">
+                <div>
+                  <label class="co-form-label">Pedido mínimo</label>
+                  <input type="text" id="form-min-order" class="co-input" value="S/ 20.00" oninput="updateLivePreview()">
                 </div>
-
-                <div class="form-group">
-                  <label class="form-label">Límite de Canjes Totales</label>
-                  <input type="number" id="cp-limit" class="form-control" placeholder="100 usos" value="100">
+                <div>
+                  <label class="co-form-label">Límite total de usos</label>
+                  <input type="number" id="form-total-limit" class="co-input" value="999">
+                </div>
+                <div>
+                  <label class="co-form-label">Límite por cliente</label>
+                  <input type="number" id="form-user-limit" class="co-input" value="1">
                 </div>
               </div>
 
-              <div class="form-group">
-                <label class="form-label">Fecha de Vencimiento del Cupón</label>
-                <input type="date" id="cp-expires" class="form-control" value="2026-09-30">
-                <div style="font-size:11.5px; color:var(--text-muted); margin-top:4px;">La App muestra "Válido hasta…" y bloquea el canje al vencer.</div>
+              <!-- Row 4: Fechas y Horarios (4 columns) -->
+              <div class="co-grid-4 co-form-group">
+                <div>
+                  <label class="co-form-label">Fecha de inicio</label>
+                  <div style="position:relative;">
+                    <input type="text" id="form-start-date" class="co-input" value="01/10/2025" style="padding-left:26px;">
+                    <span style="position:absolute; left:7px; top:7px; font-size:12px; color:#9CA3AF;">📅</span>
+                  </div>
+                </div>
+                <div>
+                  <label class="co-form-label">Fecha de expiración</label>
+                  <div style="position:relative;">
+                    <input type="text" id="form-end-date" class="co-input" value="30/10/2025" style="padding-left:26px;" oninput="updateLivePreview()">
+                    <span style="position:absolute; left:7px; top:7px; font-size:12px; color:#9CA3AF;">📅</span>
+                  </div>
+                </div>
+                <div>
+                  <label class="co-form-label">Hora de inicio</label>
+                  <div style="position:relative;">
+                    <input type="text" id="form-start-time" class="co-input" value="00:00" style="padding-left:26px;">
+                    <span style="position:absolute; left:7px; top:7px; font-size:12px; color:#9CA3AF;">🕒</span>
+                  </div>
+                </div>
+                <div>
+                  <label class="co-form-label">Hora de fin</label>
+                  <div style="position:relative;">
+                    <input type="text" id="form-end-time" class="co-input" value="23:59" style="padding-left:26px;">
+                    <span style="position:absolute; left:7px; top:7px; font-size:12px; color:#9CA3AF;">🕒</span>
+                  </div>
+                </div>
               </div>
 
-              <button type="submit" class="btn btn-primary" style="width:100%; margin-top:8px;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
-                <span>Crear y Publicar Cupón en App</span>
-              </button>
+              <!-- Row 5: Días de activación -->
+              <div class="co-form-group">
+                <label class="co-form-label">Días de activación</label>
+                <div class="co-days-selector">
+                  <label class="co-day-checkbox"><input type="checkbox" name="days" value="Lun" checked> Lun</label>
+                  <label class="co-day-checkbox"><input type="checkbox" name="days" value="Mar" checked> Mar</label>
+                  <label class="co-day-checkbox"><input type="checkbox" name="days" value="Mié" checked> Mié</label>
+                  <label class="co-day-checkbox"><input type="checkbox" name="days" value="Jue" checked> Jue</label>
+                  <label class="co-day-checkbox"><input type="checkbox" name="days" value="Vie" checked> Vie</label>
+                  <label class="co-day-checkbox"><input type="checkbox" name="days" value="Sáb"> Sáb</label>
+                  <label class="co-day-checkbox"><input type="checkbox" name="days" value="Dom"> Dom</label>
+                </div>
+              </div>
+
+              <!-- Row 6: Segmento / audiencia -->
+              <div class="co-form-group">
+                <label class="co-form-label">Segmento / audiencia</label>
+                <div class="co-audience-pills">
+                  <button type="button" class="co-audience-pill active" onclick="setAudience('Todos', this)">Todos</button>
+                  <button type="button" class="co-audience-pill" onclick="setAudience('Nuevos', this)">Nuevos</button>
+                  <button type="button" class="co-audience-pill" onclick="setAudience('Frecuentes', this)">Frecuentes</button>
+                  <button type="button" class="co-audience-pill" onclick="setAudience('Inactivos', this)">Inactivos</button>
+                  <button type="button" class="co-audience-pill" onclick="setAudience('VIP', this)">VIP</button>
+                </div>
+              </div>
+
+              <!-- Row 7: Aplicar a -->
+              <div class="co-form-group">
+                <label class="co-form-label">Aplicar a</label>
+                <div class="co-radios-group">
+                  <label class="co-radio-label"><input type="radio" name="applyTo" value="all" checked> Toda la carta</label>
+                  <label class="co-radio-label"><input type="radio" name="applyTo" value="categories"> Categorías</label>
+                  <label class="co-radio-label"><input type="radio" name="applyTo" value="products"> Productos específicos</label>
+                </div>
+              </div>
+
+              <!-- Row 8: Toggles & Estado -->
+              <div class="co-toggle-row">
+                <div class="co-toggle-item">
+                  <label class="switch">
+                    <input type="checkbox" id="form-stackable">
+                    <span class="slider"></span>
+                  </label>
+                  <div class="co-toggle-info">
+                    <span class="co-toggle-title">Cupón acumulable</span>
+                    <span class="co-toggle-desc">Puede usarse junto a otras promos</span>
+                  </div>
+                </div>
+
+                <div class="co-toggle-item">
+                  <label class="switch">
+                    <input type="checkbox" id="form-public-app" checked>
+                    <span class="slider"></span>
+                  </label>
+                  <div class="co-toggle-info">
+                    <span class="co-toggle-title">Publicar en app</span>
+                    <span class="co-toggle-desc">Visible para clientes en la app móvil</span>
+                  </div>
+                </div>
+
+                <div class="co-toggle-item">
+                  <label class="switch">
+                    <input type="checkbox" id="form-send-push" checked>
+                    <span class="slider"></span>
+                  </label>
+                  <div class="co-toggle-info">
+                    <span class="co-toggle-title">Enviar notificación push</span>
+                    <span class="co-toggle-desc">Notificar a la base seleccionada</span>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="co-form-label" style="margin-bottom:3px;">Estado</label>
+                  <select id="form-status" class="co-input" style="font-weight:700; color:#15803D; padding:5px 8px;">
+                    <option value="Activo" selected>● Activo</option>
+                    <option value="Programado">● Programado</option>
+                    <option value="Pausado">● Pausado</option>
+                    <option value="Borrador">● Borrador</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Row 9: Botones de Acción -->
+              <div class="co-form-actions">
+                <button type="button" class="co-btn-draft" onclick="handleSaveDraft()">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                  <span>Guardar borrador</span>
+                </button>
+                <button type="button" class="co-btn-schedule" onclick="handleScheduleCoupon()">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  <span>Programar cupón</span>
+                </button>
+                <button type="submit" class="co-btn-create">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                  <span>Crear y publicar</span>
+                </button>
+              </div>
             </form>
           </div>
 
-          <!-- Active Coupons List -->
-          <div class="card">
-            <div class="card-header">
+          <!-- COL 2: Vista previa en app móvil -->
+          <div class="co-card co-preview-card">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+              <div style="color:#FF2442; font-size:16px;">📱</div>
               <div>
-                <div class="card-title">Cupones Activos</div>
-                <div class="card-subtitle">Monitorea los canjes en tiempo real</div>
+                <div style="font-family:var(--font-display); font-size:14px; font-weight:800; color:#111827;">Vista previa en app móvil</div>
+                <div style="font-size:11px; color:#6B7280;">Así verán tus clientes este cupón</div>
               </div>
             </div>
 
-            <div id="coupons-list-container" style="max-height: 380px; overflow-y: auto;">
-              <!-- Injected by JS -->
+            <div class="co-phone-mockup">
+              <div class="co-phone-island"></div>
+              <div class="co-phone-status">
+                <span>9:41</span>
+                <div style="display:flex; gap:4px; font-size:10px;">
+                  <span>📶</span>
+                  <span>🔋</span>
+                </div>
+              </div>
+              <div class="co-phone-screen">
+                <div class="co-phone-logo">
+                  <span style="background:#FF2442; color:#fff; width:18px; height:18px; border-radius:4px; display:inline-flex; align-items:center; justify-content:center; font-size:11px; font-weight:900;">R</span>
+                  <span>Retequeños</span>
+                </div>
+
+                <div class="co-phone-ticket">
+                  <div class="co-ticket-badge" id="preview-badge">¡BIENVENIDO!</div>
+                  <div class="co-ticket-value" id="preview-val"><span>S/ 5</span> OFF</div>
+                  <div class="co-ticket-desc" id="preview-desc">en tu primera compra</div>
+                  <div class="co-ticket-meta">
+                    <span id="preview-expires">📅 Válido hasta 30 oct 2025</span>
+                    <span id="preview-min">🛒 Pedido mínimo: S/ 20.00</span>
+                  </div>
+                  <button class="co-ticket-btn" type="button" onclick="showToast('Simulando canje de cupón en la App...')">Usar cupón</button>
+                  <div class="co-ticket-terms">Ver términos y condiciones</div>
+                </div>
+              </div>
             </div>
           </div>
 
+          <!-- COL 3: Right Stacked Column (Rendimiento + Automatizaciones) -->
+          <div class="co-right-stack">
+            
+            <!-- Card B: Rendimiento de cupones -->
+            <div class="co-card" id="section-performance">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <div style="color:#FF2442; font-size:16px;">📊</div>
+                  <div>
+                    <div style="font-family:var(--font-display); font-size:14px; font-weight:800; color:#111827;">Rendimiento de cupones</div>
+                    <div style="font-size:11px; color:#6B7280;">Canjes de los últimos 30 días</div>
+                  </div>
+                </div>
+                <a href="javascript:void(0)" onclick="showToast('Generando reporte analítico de cupones...')" style="font-size:11.5px; font-weight:700; color:#FF2442; text-decoration:none;">Ver reporte →</a>
+              </div>
+
+              <div class="co-perf-wrap">
+                <!-- Bar Chart -->
+                <div class="co-bars-chart-box">
+                  <div class="co-chart-yaxis">
+                    <span>400</span>
+                    <span>300</span>
+                    <span>200</span>
+                    <span>100</span>
+                    <span>0</span>
+                  </div>
+                  <div class="co-bars-chart">
+                    <div class="co-bar-col">
+                      <div class="co-bar-pillar coral-light" style="height:32px;" title="1 Sep: 140 canjes"></div>
+                      <span class="co-bar-date">1 Sep</span>
+                    </div>
+                    <div class="co-bar-col">
+                      <div class="co-bar-pillar" style="height:62px;" title="8 Sep: 280 canjes"></div>
+                      <span class="co-bar-date">8 Sep</span>
+                    </div>
+                    <div class="co-bar-col">
+                      <div class="co-bar-pillar coral-light" style="height:40px;" title="15 Sep: 160 canjes"></div>
+                      <span class="co-bar-date">15 Sep</span>
+                    </div>
+                    <div class="co-bar-col">
+                      <div class="co-bar-pillar coral-mid" style="height:55px;" title="22 Sep: 220 canjes"></div>
+                      <span class="co-bar-date">22 Sep</span>
+                    </div>
+                    <div class="co-bar-col">
+                      <div class="co-bar-pillar" style="height:84px;" title="30 Sep: 380 canjes"></div>
+                      <span class="co-bar-date">30 Sep</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Top Cupones List -->
+                <div>
+                  <div class="co-top-coupons-title">Top cupones</div>
+                  <div class="co-top-coupon-item">
+                    <span class="co-top-rank">1</span>
+                    <span class="co-top-code">MARTESRETQ</span>
+                    <span class="co-top-count">342</span>
+                  </div>
+                  <div class="co-top-coupon-item">
+                    <span class="co-top-rank">2</span>
+                    <span class="co-top-code">BIENVENIDO10</span>
+                    <span class="co-top-count">281</span>
+                  </div>
+                  <div class="co-top-coupon-item">
+                    <span class="co-top-rank">3</span>
+                    <span class="co-top-code">ENVIOGRATIS</span>
+                    <span class="co-top-count">198</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card C: Automatizaciones y reglas rápidas -->
+            <div class="co-card">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <div style="color:#FF2442; font-size:16px;">⚙️</div>
+                  <div>
+                    <div style="font-family:var(--font-display); font-size:14px; font-weight:800; color:#111827;">Automatizaciones y reglas rápidas</div>
+                    <div style="font-size:11px; color:#6B7280;">Ahorra tiempo con reglas inteligentes.</div>
+                  </div>
+                </div>
+                <button class="co-btn-pill" style="font-size:11px; padding:3px 9px;" onclick="showToast('Nueva regla de automatización lista para configurar')">Nueva regla →</button>
+              </div>
+
+              <div class="co-rules-grid">
+                <div class="co-rule-card" onclick="applyRuleTemplate('baja_demanda')">
+                  <div class="co-rule-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                  </div>
+                  <div>
+                    <div class="co-rule-title">Activar promo baja demanda</div>
+                    <div class="co-rule-desc">Se activa cuando las ventas bajan un 30%</div>
+                  </div>
+                </div>
+
+                <div class="co-rule-card" onclick="applyRuleTemplate('bienvenida')">
+                  <div class="co-rule-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  </div>
+                  <div>
+                    <div class="co-rule-title">Cupón de bienvenida</div>
+                    <div class="co-rule-desc">Para nuevos usuarios automáticamente</div>
+                  </div>
+                </div>
+
+                <div class="co-rule-card" onclick="applyRuleTemplate('inactivos')">
+                  <div class="co-rule-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                  </div>
+                  <div>
+                    <div class="co-rule-title">Recuperación de inactivos</div>
+                    <div class="co-rule-desc">Envía un cupón a clientes sin pedidos en 30 días</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Bottom Full-Width Table: Cupones activos y programados -->
+        <div class="co-card">
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="width:32px; height:32px; background:#FEE2E2; color:#EF4444; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:16px;">🏷️</div>
+              <div>
+                <div style="font-family:var(--font-display); font-size:16px; font-weight:800; color:#111827;">Cupones activos y programados</div>
+                <div style="font-size:12px; color:#6B7280;">Gestiona todos tus cupones, edita, pausa o duplica fácilmente.</div>
+              </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="position:relative;">
+                <input type="text" id="co-search-table" placeholder="Buscar cupón..." class="co-input" style="padding-left:32px; width:220px; font-size:12.5px;" oninput="filterCouponsTable()">
+                <span style="position:absolute; left:10px; top:8px; font-size:13px; color:#9CA3AF;">🔍</span>
+              </div>
+              <button class="co-btn-pill" onclick="toggleTableFilterMenu()">
+                <span>⚙</span>
+                <span>Filtros</span>
+              </button>
+              <button class="co-btn-pill" onclick="exportCouponsCSV()">
+                <span>📥</span>
+                <span>Exportar</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="co-table-wrap">
+            <table class="co-table">
+              <thead>
+                <tr>
+                  <th>CÓDIGO</th>
+                  <th>NOMBRE / DESCRIPCIÓN</th>
+                  <th>ESTADO</th>
+                  <th>VIGENCIA</th>
+                  <th>HORARIO</th>
+                  <th>SEGMENTO</th>
+                  <th>CANJES</th>
+                  <th>PUSH</th>
+                  <th style="text-align:right;">ACCIONES</th>
+                </tr>
+              </thead>
+              <tbody id="co-table-body">
+                <!-- Injected by JS -->
+              </tbody>
+            </table>
+          </div>
         </div>
 
       </section>
@@ -3333,88 +4766,657 @@ ${cobro}`;
       }
     }
 
-    // Render Coupons List
-    function renderCoupons() {
-      const container = document.getElementById('coupons-list-container');
-      container.innerHTML = COUPONS.map(cp => `
-        <div class="coupon-card">
-          <div class="coupon-badge-code">${cp.code}</div>
-          <div class="coupon-meta">
-            <div class="coupon-title">${cp.label}</div>
-            <div class="coupon-desc">Mínimo: S/ ${cp.min.toFixed(2)} · Usos: ${cp.uses} / ${cp.limit} canjes · ${cp.expires ? '⏳ Vence ' + cp.expires.split('-').reverse().join('/') : 'Sin vencimiento'}</div>
-          </div>
-          <div>
-            <label class="switch">
-              <input type="checkbox" ${cp.active ? 'checked' : ''} onchange="toggleCouponActive('${cp.code}', this.checked)">
-              <span class="slider"></span>
-            </label>
-          </div>
-        </div>
-      `).join('');
-    }
+    // ===================================================
+    // CUPONES & OFERTAS — REDISEÑO FIDEDIGNO 2026
+    // ===================================================
 
-    function toggleCouponActive(code, active) {
-      const cp = COUPONS.find(c => c.code === code);
-      if (cp) {
-        cp.active = active;
-        showToast(`Cupón ${code} ${active ? 'ACTIVADO' : 'PAUSADO'} en la App`);
-      }
-    }
-
-    function handleCreateCoupon(e) {
-      e.preventDefault();
-      const code = document.getElementById('cp-code').value.trim().toUpperCase();
-      const type = document.getElementById('cp-type').value;
-      const val = parseFloat(document.getElementById('cp-val').value) || 10;
-      const min = parseFloat(document.getElementById('cp-min').value) || 20;
-      const limit = parseInt(document.getElementById('cp-limit').value) || 100;
-      const expires = (document.getElementById('cp-expires') || {}).value || '';
-
-      let label = `${val}% OFF`;
-      if (type === 'fixed') label = `S/ ${val.toFixed(2)} OFF`;
-      if (type === 'shipping') label = `Envío Gratis`;
-
-      COUPONS.unshift({
-        code,
-        type,
-        val,
-        min,
+    let DETAILED_COUPONS = [
+      {
+        code: 'BIENVENIDO10',
+        name: 'S/ 5 OFF en tu primera compra',
+        status: 'Activo',
+        validity: '01 - 30 Oct 2025',
+        schedule: 'Todo el día',
+        segment: 'Nuevos',
+        uses: 281,
+        limit: 999,
+        push: true,
+        discountVal: 'S/ 5.00',
+        benefitType: 'fixed',
+        minOrder: 'S/ 20.00',
+        startDate: '01/10/2025',
+        endDate: '30/10/2025',
+        startTime: '00:00',
+        endTime: '23:59',
+        days: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie'],
+        badge: '¡BIENVENIDO!'
+      },
+      {
+        code: 'MARTESRETQ',
+        name: '20% OFF todos los martes',
+        status: 'Activo',
+        validity: '01 Oct - 31 Dic 2025',
+        schedule: 'Todo el día',
+        segment: 'Todos',
+        uses: 342,
+        limit: 2000,
+        push: true,
+        discountVal: '20%',
+        benefitType: 'percent',
+        minOrder: 'S/ 25.00',
+        startDate: '01/10/2025',
+        endDate: '31/12/2025',
+        startTime: '00:00',
+        endTime: '23:59',
+        days: ['Mar'],
+        badge: 'MARTES RETEQUEÑOS'
+      },
+      {
+        code: 'ENCUESTA3',
+        name: 'S/ 3 OFF por encuesta',
+        status: 'Programado',
+        validity: '01 - 31 Oct 2025',
+        schedule: '12:00 - 18:00',
+        segment: 'Todos',
         uses: 0,
-        limit,
-        active: true,
-        expires,
-        label: `${label} en compras > S/ ${min}`
+        limit: 999,
+        push: true,
+        discountVal: 'S/ 3.00',
+        benefitType: 'fixed',
+        minOrder: 'S/ 15.00',
+        startDate: '01/10/2025',
+        endDate: '31/10/2025',
+        startTime: '12:00',
+        endTime: '18:00',
+        days: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+        badge: 'ENCUESTA'
+      },
+      {
+        code: 'ENVIOGRATIS',
+        name: 'Delivery gratis en pedidos > S/ 35',
+        status: 'Activo',
+        validity: '01 - 30 Oct 2025',
+        schedule: 'Todo el día',
+        segment: 'Todos',
+        uses: 198,
+        limit: 1000,
+        push: false,
+        discountVal: 'Envío Gratis',
+        benefitType: 'shipping',
+        minOrder: 'S/ 35.00',
+        startDate: '01/10/2025',
+        endDate: '30/10/2025',
+        startTime: '00:00',
+        endTime: '23:59',
+        days: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+        badge: 'ENVÍO GRATIS'
+      },
+      {
+        code: 'AFTERWORK',
+        name: 'Happy Hour 2x1 en bebidas',
+        status: 'Pausado',
+        validity: '01 Oct - 30 Nov 2025',
+        schedule: '18:00 - 21:00',
+        segment: 'Frecuentes',
+        uses: 54,
+        limit: 500,
+        push: true,
+        discountVal: '2x1',
+        benefitType: 'bogo',
+        minOrder: 'S/ 20.00',
+        startDate: '01/10/2025',
+        endDate: '30/11/2025',
+        startTime: '18:00',
+        endTime: '21:00',
+        days: ['Mié', 'Vie', 'Sáb'],
+        badge: 'AFTER WORK'
+      }
+    ];
+
+    let DETAILED_WEEK_SCHEDULE = [
+      {
+        day: 'LUNES',
+        date: '29 Sep',
+        items: [
+          { time: '12:00 - 15:00', title: 'Almuerzo 15% OFF', status: 'Activa' },
+          { time: '18:00 - 21:00', title: 'Happy Hour', status: 'Activa' }
+        ],
+        allowAdd: false
+      },
+      {
+        day: 'MARTES',
+        date: '30 Sep',
+        items: [
+          { time: 'Todo el día', title: 'Martes de Retequeños', status: 'Activa' }
+        ],
+        allowAdd: true
+      },
+      {
+        day: 'MIÉRCOLES',
+        date: '1 Oct',
+        items: [
+          { time: '12:00 - 15:00', title: '2x1 en refrescos', status: 'Programada' },
+          { time: '20:00 - 23:00', title: 'After Work', status: 'Programada' }
+        ],
+        allowAdd: false
+      },
+      {
+        day: 'JUEVES',
+        date: '2 Oct',
+        items: [
+          { time: '12:00 - 15:00', title: 'Promo de Chocolate', status: 'Activa' }
+        ],
+        allowAdd: true
+      },
+      {
+        day: 'VIERNES',
+        date: '3 Oct',
+        items: [
+          { time: '18:00 - 22:00', title: 'Happy Hour', status: 'Activa' }
+        ],
+        allowAdd: false
+      },
+      {
+        day: 'SÁBADO',
+        date: '4 Oct',
+        items: [
+          { time: 'Todo el día', title: 'Envío Gratis', status: 'Programada' }
+        ],
+        allowAdd: false
+      },
+      {
+        day: 'DOMINGO',
+        date: '5 Oct',
+        items: [],
+        allowAdd: true
+      }
+    ];
+
+    let currentAudience = 'Todos';
+    let editingCouponCode = null;
+
+    // Render Table & Update KPIs
+    function renderCoupons(filterText = '') {
+      const tbody = document.getElementById('co-table-body');
+      if (!tbody) return;
+
+      const filtered = DETAILED_COUPONS.filter(c => {
+        if (!filterText) return true;
+        const q = filterText.toLowerCase();
+        return c.code.toLowerCase().includes(q) ||
+               c.name.toLowerCase().includes(q) ||
+               c.segment.toLowerCase().includes(q) ||
+               c.status.toLowerCase().includes(q);
       });
 
-      renderCoupons();
-      e.target.reset();
-      showToast(`¡Cupón ${code} creado y publicado con éxito!`);
-    }
+      tbody.innerHTML = filtered.map(c => {
+        let statusBadge = '';
+        if (c.status === 'Activo') {
+          statusBadge = '<span class="co-day-badge co-badge-activa">● Activo</span>';
+        } else if (c.status === 'Programado') {
+          statusBadge = '<span class="co-day-badge co-badge-programada">● Programado</span>';
+        } else if (c.status === 'Pausado') {
+          statusBadge = '<span class="co-day-badge co-badge-pausada">● Pausado</span>';
+        } else {
+          statusBadge = `<span class="co-day-badge" style="background:#F3F4F6;color:#6B7280;">● ${c.status}</span>`;
+        }
 
-    function generateRandomCouponCode() {
-      const prefixes = ['RETQ', 'PROMO', 'COMBO', 'FIESTA', 'DORADO'];
-      const num = Math.floor(10 + Math.random() * 90);
-      document.getElementById('cp-code').value = prefixes[Math.floor(Math.random() * prefixes.length)] + num;
+        const pushBadge = c.push
+          ? '<span style="background:#DEF7EC;color:#03543F;font-weight:700;font-size:11px;padding:2px 8px;border-radius:6px;">Sí</span>'
+          : '<span style="background:#FEF3C7;color:#92400E;font-weight:700;font-size:11px;padding:2px 8px;border-radius:6px;">No</span>';
+
+        const pausePlayIcon = c.status === 'Activo'
+          ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>'
+          : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+
+        return `
+          <tr>
+            <td><span class="co-table-code">${c.code}</span></td>
+            <td>
+              <div style="font-weight:700;color:#111827;font-size:12.5px;">${c.name}</div>
+              ${c.minOrder ? `<div style="font-size:10.5px;color:#9CA3AF;">Mínimo: ${c.minOrder}</div>` : ''}
+            </td>
+            <td>${statusBadge}</td>
+            <td><span style="font-size:11.5px;color:#4B5563;white-space:nowrap;">${c.validity}</span></td>
+            <td><span style="font-size:11.5px;color:#4B5563;white-space:nowrap;">${c.schedule}</span></td>
+            <td><span style="font-size:11.5px;font-weight:600;color:#4B5563;">${c.segment}</span></td>
+            <td><span style="font-size:11.5px;font-weight:700;color:#111827;">${c.uses} / ${c.limit}</span></td>
+            <td>${pushBadge}</td>
+            <td style="text-align:right;">
+              <div class="co-table-actions">
+                <button type="button" class="co-act-btn" onclick="previewCouponInMockup('${c.code}')" title="Ver en teléfono">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+                <button type="button" class="co-act-btn" onclick="editCoupon('${c.code}')" title="Editar cupón">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                </button>
+                <button type="button" class="co-act-btn" onclick="toggleCouponStatus('${c.code}')" title="${c.status === 'Activo' ? 'Pausar cupón' : 'Reactivar cupón'}">
+                  ${pausePlayIcon}
+                </button>
+                <button type="button" class="co-act-btn" onclick="duplicateCoupon('${c.code}')" title="Duplicar cupón">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+                <button type="button" class="co-act-btn delete" onclick="deleteCoupon('${c.code}')" title="Eliminar cupón">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // Update KPI Cards Counts (exact baseline match from reference image)
+      const activeCount = 12 + (DETAILED_COUPONS.filter(c => c.status === 'Activo').length - 3);
+      const scheduledCount = 3 + (DETAILED_COUPONS.filter(c => c.status === 'Programado').length - 1);
+      const totalCreated = 28 + (DETAILED_COUPONS.length - 5);
+      const activeEl = document.getElementById('kpi-active-count');
+      const activeSub = document.getElementById('kpi-active-sub');
+      const schedEl = document.getElementById('kpi-scheduled-count');
+      if (activeEl) activeEl.textContent = activeCount;
+      if (activeSub) activeSub.textContent = `de ${totalCreated} cupones creados`;
+      if (schedEl) schedEl.textContent = scheduledCount;
     }
 
     // Render Weekly Promo Scheduler
     function renderWeekPromos() {
-      const grid = document.getElementById('week-promo-grid');
-      grid.innerHTML = WEEK_PROMOS.map((d, i) => `
-        <div class="day-card ${d.active ? 'active-promo' : ''}" onclick="toggleDayPromo(${i})">
-          <div class="day-name">${d.name}</div>
-          <div class="day-promo-label">${d.active ? d.promo : '<span style="color:#A09990">Sin oferta fija</span>'}</div>
-          <div style="margin-top:6px; font-size:10.5px; font-weight:700; color:${d.active ? 'var(--primary)' : 'var(--text-light)'}">
-            ${d.active ? '● ACTIVA' : '○ DESACTIVADA'}
+      const grid = document.getElementById('co-week-grid');
+      if (!grid) return;
+
+      grid.innerHTML = DETAILED_WEEK_SCHEDULE.map((col, idx) => {
+        const itemsHtml = col.items.length > 0 ? col.items.map(item => `
+          <div class="co-day-card">
+            <div class="co-day-time">${item.time}</div>
+            <div class="co-day-card-title">${item.title}</div>
+            <span class="co-day-badge ${item.status === 'Activa' ? 'co-badge-activa' : 'co-badge-programada'}">
+              ● ${item.status}
+            </span>
           </div>
-        </div>
-      `).join('');
+        `).join('') : '<div class="co-day-empty">Sin promociones</div>';
+
+        const addBtnHtml = col.allowAdd ? `
+          <button type="button" class="co-btn-add-offer" onclick="openAddOfferModal('${col.day}', ${idx})">
+            + Agregar oferta
+          </button>
+        ` : '';
+
+        return `
+          <div class="co-day-col">
+            <div class="co-day-header">
+              <div>
+                <div class="co-day-name ${col.day === 'DOMINGO' ? 'muted' : ''}">${col.day}</div>
+                <div class="co-day-date">${col.date}</div>
+              </div>
+              <div class="co-day-more" onclick="showToast('Opciones para ${col.day}')">⋮</div>
+            </div>
+            <div class="co-day-items">
+              ${itemsHtml}
+            </div>
+            ${addBtnHtml}
+          </div>
+        `;
+      }).join('');
     }
 
-    function toggleDayPromo(idx) {
-      WEEK_PROMOS[idx].active = !WEEK_PROMOS[idx].active;
-      renderWeekPromos();
-      showToast(`Oferta del día ${WEEK_PROMOS[idx].name} ${WEEK_PROMOS[idx].active ? 'HABILITADA' : 'DESACTIVADA'}`);
+    // Live Phone Preview Synchronizer
+    function updateLivePreview() {
+      const codeInput = document.getElementById('form-code');
+      const nameInput = document.getElementById('form-name');
+      const discountInput = document.getElementById('form-discount-val');
+      const minInput = document.getElementById('form-min-order');
+      const endDateInput = document.getElementById('form-end-date');
+
+      const code = codeInput ? codeInput.value.trim().toUpperCase() : 'BIENVENIDO10';
+      const name = nameInput ? nameInput.value.trim() : 'en tu primera compra';
+      const discount = discountInput ? discountInput.value.trim() : 'S/ 5.00';
+      const min = minInput ? minInput.value.trim() : 'S/ 20.00';
+      const endDate = endDateInput ? endDateInput.value.trim() : '30/10/2025';
+
+      const badgeEl = document.getElementById('preview-badge');
+      const valEl = document.getElementById('preview-val');
+      const descEl = document.getElementById('preview-desc');
+      const expEl = document.getElementById('preview-expires');
+      const minEl = document.getElementById('preview-min');
+
+      if (badgeEl) badgeEl.textContent = code ? `¡${code}!` : '¡OFERTA!';
+      if (descEl) descEl.textContent = name || 'en productos seleccionados';
+      if (expEl) expEl.textContent = `📅 Válido hasta ${endDate || 'fecha fin'}`;
+      if (minEl) minEl.textContent = `🛒 Pedido mínimo: ${min || 'S/ 0.00'}`;
+
+      if (valEl) {
+        if (discount.includes('%')) {
+          valEl.innerHTML = `<span>${discount}</span> OFF`;
+        } else if (discount.toLowerCase().includes('envío') || discount.toLowerCase().includes('gratis')) {
+          valEl.innerHTML = `<span>ENVÍO</span> GRATIS`;
+        } else if (discount.toLowerCase().includes('2x1')) {
+          valEl.innerHTML = `<span>2x1</span> PROMO`;
+        } else {
+          valEl.innerHTML = `<span>${discount}</span> OFF`;
+        }
+      }
+    }
+
+    // Form Event Handlers
+    function handleBenefitTypeChange() {
+      const type = document.getElementById('form-benefit-type').value;
+      const discountInput = document.getElementById('form-discount-val');
+      if (type === 'fixed') discountInput.value = 'S/ 5.00';
+      else if (type === 'percent') discountInput.value = '20%';
+      else if (type === 'bogo') discountInput.value = '2x1';
+      else if (type === 'shipping') discountInput.value = 'Envío gratis';
+      else if (type === 'gift') discountInput.value = 'Tequeños gratis';
+      updateLivePreview();
+    }
+
+    function setAudience(seg, btn) {
+      currentAudience = seg;
+      document.querySelectorAll('.co-audience-pill').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      showToast(`Segmento seleccionado: ${seg}`);
+    }
+
+    function generateAutoCode() {
+      const prefixes = ['RETQ', 'PROMO', 'DESCUENTO', 'FIESTA', 'SUPER'];
+      const num = Math.floor(10 + Math.random() * 90);
+      const code = prefixes[Math.floor(Math.random() * prefixes.length)] + num;
+      const codeInput = document.getElementById('form-code');
+      if (codeInput) {
+        codeInput.value = code;
+        updateLivePreview();
+      }
+      showToast(`🎲 Código generado: ${code}`);
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const code = document.getElementById('form-code').value.trim().toUpperCase();
+      const name = document.getElementById('form-name').value.trim();
+      const discountVal = document.getElementById('form-discount-val').value.trim();
+      const minOrder = document.getElementById('form-min-order').value.trim();
+      const totalLimit = parseInt(document.getElementById('form-total-limit').value) || 999;
+      const startDate = document.getElementById('form-start-date').value.trim();
+      const endDate = document.getElementById('form-end-date').value.trim();
+      const startTime = document.getElementById('form-start-time').value.trim();
+      const endTime = document.getElementById('form-end-time').value.trim();
+      const status = document.getElementById('form-status').value;
+      const push = document.getElementById('form-send-push').checked;
+
+      if (editingCouponCode) {
+        const item = DETAILED_COUPONS.find(c => c.code === editingCouponCode);
+        if (item) {
+          item.code = code;
+          item.name = name;
+          item.discountVal = discountVal;
+          item.minOrder = minOrder;
+          item.totalLimit = totalLimit;
+          item.startDate = startDate;
+          item.endDate = endDate;
+          item.startTime = startTime;
+          item.endTime = endTime;
+          item.validity = `${startDate} - ${endDate}`;
+          item.schedule = `${startTime} - ${endTime}`;
+          item.status = status;
+          item.segment = currentAudience;
+          item.push = push;
+        }
+        editingCouponCode = null;
+        document.getElementById('form-coupon-title').textContent = 'Crear / Editar cupón';
+        showToast(`✅ Cupón "${code}" actualizado y publicado`);
+      } else {
+        DETAILED_COUPONS.unshift({
+          code,
+          name,
+          status,
+          validity: `${startDate} - ${endDate}`,
+          schedule: `${startTime} - ${endTime}`,
+          segment: currentAudience,
+          uses: 0,
+          limit: totalLimit,
+          push,
+          discountVal,
+          benefitType: document.getElementById('form-benefit-type').value,
+          minOrder,
+          startDate,
+          endDate,
+          startTime,
+          endTime,
+          badge: code
+        });
+        showToast(`⚡ ¡Cupón "${code}" creado y publicado exitosamente!`);
+      }
+
+      renderCoupons();
+    }
+
+    function handleSaveDraft() {
+      const code = document.getElementById('form-code').value.trim().toUpperCase() || 'BORRADOR_' + Math.floor(Math.random()*100);
+      const name = document.getElementById('form-name').value.trim() || 'Borrador sin título';
+      DETAILED_COUPONS.unshift({
+        code,
+        name,
+        status: 'Borrador',
+        validity: 'Borrador',
+        schedule: 'Sin horario',
+        segment: currentAudience,
+        uses: 0,
+        limit: 100,
+        push: false,
+        discountVal: document.getElementById('form-discount-val').value.trim() || 'S/ 5.00',
+        benefitType: document.getElementById('form-benefit-type').value,
+        minOrder: document.getElementById('form-min-order').value.trim() || 'S/ 20.00',
+        badge: code
+      });
+      renderCoupons();
+      showToast(`📋 Cupón "${code}" guardado como borrador`);
+    }
+
+    function handleScheduleCoupon() {
+      const code = document.getElementById('form-code').value.trim().toUpperCase() || 'PROG_' + Math.floor(Math.random()*100);
+      const name = document.getElementById('form-name').value.trim() || 'Promoción programada';
+      DETAILED_COUPONS.unshift({
+        code,
+        name,
+        status: 'Programado',
+        validity: document.getElementById('form-start-date').value + ' - ' + document.getElementById('form-end-date').value,
+        schedule: document.getElementById('form-start-time').value + ' - ' + document.getElementById('form-end-time').value,
+        segment: currentAudience,
+        uses: 0,
+        limit: parseInt(document.getElementById('form-total-limit').value) || 999,
+        push: document.getElementById('form-send-push').checked,
+        discountVal: document.getElementById('form-discount-val').value.trim() || 'S/ 5.00',
+        benefitType: document.getElementById('form-benefit-type').value,
+        minOrder: document.getElementById('form-min-order').value.trim() || 'S/ 20.00',
+        badge: code
+      });
+      renderCoupons();
+      showToast(`🚀 Cupón "${code}" programado para activación futura`);
+    }
+
+    function editCoupon(code) {
+      const c = DETAILED_COUPONS.find(item => item.code === code);
+      if (!c) return;
+      editingCouponCode = code;
+      document.getElementById('form-coupon-title').textContent = `Editar cupón: ${code}`;
+      document.getElementById('form-code').value = c.code;
+      document.getElementById('form-name').value = c.name;
+      document.getElementById('form-discount-val').value = c.discountVal || 'S/ 5.00';
+      document.getElementById('form-min-order').value = c.minOrder || 'S/ 20.00';
+      if (c.benefitType) document.getElementById('form-benefit-type').value = c.benefitType;
+      if (c.startDate) document.getElementById('form-start-date').value = c.startDate;
+      if (c.endDate) document.getElementById('form-end-date').value = c.endDate;
+      if (c.status) document.getElementById('form-status').value = c.status;
+      setAudience(c.segment || 'Todos');
+      updateLivePreview();
+      document.getElementById('form-card-container').scrollIntoView({ behavior: 'smooth' });
+      showToast(`✏️ Editando cupón "${code}"`);
+    }
+
+    function previewCouponInMockup(code) {
+      const c = DETAILED_COUPONS.find(item => item.code === code);
+      if (!c) return;
+      document.getElementById('preview-badge').textContent = `¡${c.code}!`;
+      document.getElementById('preview-desc').textContent = c.name;
+      document.getElementById('preview-expires').textContent = `📅 Válido hasta ${c.endDate || c.validity}`;
+      document.getElementById('preview-min').textContent = `🛒 Pedido mínimo: ${c.minOrder || 'S/ 20.00'}`;
+      const valEl = document.getElementById('preview-val');
+      if (valEl) {
+        valEl.innerHTML = `<span>${c.discountVal || 'S/ 5.00'}</span> OFF`;
+      }
+      document.querySelector('.co-phone-mockup').scrollIntoView({ behavior: 'smooth' });
+      showToast(`📱 Vista previa cargada para "${code}"`);
+    }
+
+    function toggleCouponStatus(code) {
+      const c = DETAILED_COUPONS.find(item => item.code === code);
+      if (!c) return;
+      c.status = c.status === 'Activo' ? 'Pausado' : 'Activo';
+      renderCoupons();
+      showToast(`Estado de "${code}" cambiado a ${c.status}`);
+    }
+
+    function duplicateCoupon(code) {
+      const c = DETAILED_COUPONS.find(item => item.code === code);
+      if (!c) return;
+      const newCode = `${c.code}_COPIA`;
+      const copy = { ...c, code: newCode, name: `${c.name} (Copia)`, uses: 0, status: 'Borrador' };
+      DETAILED_COUPONS.unshift(copy);
+      renderCoupons();
+      editCoupon(newCode);
+      showToast(`📋 Cupón duplicado como "${newCode}"`);
+    }
+
+    function deleteCoupon(code) {
+      if (confirm(`¿Estás seguro de eliminar el cupón "${code}"? Esta acción no se puede deshacer.`)) {
+        DETAILED_COUPONS = DETAILED_COUPONS.filter(c => c.code !== code);
+        renderCoupons();
+        showToast(`🗑️ Cupón "${code}" eliminado.`);
+      }
+    }
+
+    function filterCouponsTable() {
+      const query = document.getElementById('co-search-table').value;
+      renderCoupons(query);
+    }
+
+    function filterTableByStatus(status) {
+      document.getElementById('co-search-table').value = status;
+      renderCoupons(status);
+      document.getElementById('co-table-body').scrollIntoView({ behavior: 'smooth' });
+      showToast(`Filtrando cupones con estado: ${status}`);
+    }
+
+    function filterTableExpiring() {
+      document.getElementById('co-search-table').value = 'Oct';
+      renderCoupons('Oct');
+      document.getElementById('co-table-body').scrollIntoView({ behavior: 'smooth' });
+      showToast('Mostrando cupones que expiran este mes');
+    }
+
+    function applyRuleTemplate(template) {
+      if (template === 'baja_demanda') {
+        document.getElementById('form-code').value = 'DEMANDA15';
+        document.getElementById('form-name').value = 'Alivio horario bajo 15% OFF';
+        document.getElementById('form-discount-val').value = '15%';
+        document.getElementById('form-benefit-type').value = 'percent';
+        document.getElementById('form-min-order').value = 'S/ 25.00';
+        document.getElementById('form-start-time').value = '15:00';
+        document.getElementById('form-end-time').value = '18:00';
+        setAudience('Todos');
+        showToast('⚡ Plantilla de Baja Demanda aplicada al formulario');
+      } else if (template === 'bienvenida') {
+        document.getElementById('form-code').value = 'BIENVENIDO10';
+        document.getElementById('form-name').value = 'Bienvenida nuevos usuarios';
+        document.getElementById('form-discount-val').value = 'S/ 5.00';
+        document.getElementById('form-benefit-type').value = 'fixed';
+        document.getElementById('form-min-order').value = 'S/ 20.00';
+        setAudience('Nuevos');
+        showToast('👤 Plantilla de Cupón de Bienvenida aplicada');
+      } else if (template === 'inactivos') {
+        document.getElementById('form-code').value = 'TEEXTRAÑAMOS';
+        document.getElementById('form-name').value = 'Vuelve a pedir con S/ 6 de descuento';
+        document.getElementById('form-discount-val').value = 'S/ 6.00';
+        document.getElementById('form-benefit-type').value = 'fixed';
+        document.getElementById('form-min-order').value = 'S/ 25.00';
+        setAudience('Inactivos');
+        showToast('👥 Plantilla de Recuperación de Inactivos aplicada');
+      }
+      updateLivePreview();
+      document.getElementById('form-card-container').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function saveWeekSchedule() {
+      showToast('💾 Programación semanal sincronizada exitosamente con la App móvil');
+    }
+
+    function navigateWeek(dir) {
+      showToast(dir > 0 ? 'Visualizando siguiente semana' : 'Visualizando semana anterior');
+    }
+
+    function openAddOfferModal(day, idx) {
+      const name = prompt(`Agregar promoción para el ${day} (ej. "2x1 en Tequeños"):`);
+      if (name) {
+        DETAILED_WEEK_SCHEDULE[idx].items.push({
+          time: '18:00 - 22:00',
+          title: name,
+          status: 'Activa'
+        });
+        renderWeekPromos();
+        showToast(`✅ Oferta agregada para ${day}`);
+      }
+    }
+
+    function focusNewCouponForm() {
+      // Switch tab to promos if not already active
+      const promoBtn = document.querySelector('.nav-btn[data-tab="tab-promos"]');
+      if (promoBtn) promoBtn.click();
+      setTimeout(() => {
+        const input = document.getElementById('form-code');
+        if (input) {
+          input.focus();
+          document.getElementById('form-card-container').scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+      showToast('🎯 Formulario de nueva campaña listo para configurar');
+    }
+
+    function handleGlobalSearch(e) {
+      const val = e.target.value.trim();
+      if (e.key === 'Enter' || val.length > 2) {
+        const promoBtn = document.querySelector('.nav-btn[data-tab="tab-promos"]');
+        if (promoBtn) promoBtn.click();
+        const tableSearch = document.getElementById('co-search-table');
+        if (tableSearch) {
+          tableSearch.value = val;
+          filterCouponsTable();
+        }
+      }
+    }
+
+    function toggleTableFilterMenu() {
+      const current = document.getElementById('co-search-table').value;
+      if (!current) {
+        filterTableByStatus('Activo');
+      } else {
+        document.getElementById('co-search-table').value = '';
+        renderCoupons('');
+        showToast('Filtro restablecido (mostrando todos los cupones)');
+      }
+    }
+
+    function exportCouponsCSV() {
+      const headers = ['Codigo', 'Nombre', 'Estado', 'Vigencia', 'Horario', 'Segmento', 'Usos', 'Limite', 'Push'];
+      const rows = DETAILED_COUPONS.map(c => [
+        c.code, `"${c.name}"`, c.status, `"${c.validity}"`, `"${c.schedule}"`, c.segment, c.uses, c.limit, c.push ? 'Si' : 'No'
+      ].join(','));
+      const csv = [headers.join(','), ...rows].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `retequenos-cupones-${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast('📥 Cupones exportados en CSV exitosamente');
     }
 
     // Push Simulator Logic
