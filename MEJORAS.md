@@ -95,3 +95,53 @@ Prioridad MVP: **P1** = imprescindible para lanzar · **P2** = mejora clara con 
 ## Cómo se compila la web sin Node instalado
 
 `tools\node.cmd` usa el motor Node 22 que trae el ejecutable de Antigravity IDE (Electron con `ELECTRON_RUN_AS_NODE=1`). `Compilar web.cmd` ejecuta `tsc -b` y `vite build` con él y deja el resultado en `web/dist`, listo para subir a cualquier hosting estático.
+
+---
+
+## C · Reestructuración según PLAN_REESTRUCTURACION_APP_MOVIL_RETEQUE_OS_CLAUDE.md
+
+Aplicado sobre `app/index.html` (prototipo móvil). No se tocó `web/` ni el panel admin en esta pasada.
+
+### Archivos modificados
+- `app/index.html` (único archivo de código tocado).
+- `tools/patch-app-plan1.js`, `patch-app-plan1-fix.js`, `patch-app-plan1-fix2.js`, `syntax-check.js` (scripts del parche, quedan como registro reproducible del cambio).
+
+### Pantallas eliminadas
+- **14 · Direcciones guardadas** y **15 · Agregar dirección** (mapa, pin, etiquetas Casa/Trabajo/Otro, switch de dirección principal). Se quitaron del riel de navegación, del índice de títulos/pistas y de todo el código que las abría.
+
+### Pantallas transformadas
+- **06 · Inicio**: "Entregar en Tacna" deja de abrir Direcciones; ahora es solo informativo.
+- **16 · Modalidad**: el bloque de horario (Lo antes posible / Programar) ahora solo aparece si se eligió Recojo; Delivery muestra un aviso de que dirección, costo y pago se coordinan por WhatsApp. Ya no promete "Llega en 35–45 min".
+- **17 · Resumen de compra**: se vuelve dinámico por modalidad. Delivery: sin dirección, sin costo de envío, sin método de pago forzado; botón **HACER PEDIDO POR WHATSAPP** que arma el mensaje (código, productos, cantidades, personalización, cupón, total de productos, modalidad) y lo abre en WhatsApp — sin dirección, mapa, costo de delivery ni datos de motorizado. Recojo: conserva método de pago, comprobante y botón **CONFIRMAR PEDIDO**.
+- **19 · Pedido confirmado**: Delivery muestra "Solicitud enviada" / "La coordinación continúa por WhatsApp", sin hora de llegada inventada, con botón **ABRIR WHATSAPP**. Recojo conserva "¡Gracias!" con hora estimada de recojo y botón **VER ESTADO DEL PEDIDO**.
+- **20 · Seguimiento → Estado del pedido**: se eliminó por completo el mapa, la moto, el motorizado ficticio (Carlos Ríos, placa M2-4821), la geolocalización y "en vivo". Ahora es un stepper simple de 4 pasos (Pedido recibido / Preparando / Listo para recoger / Recogido), solo para Recojo.
+- **22 · Detalle y valoración**: el botón "Compartir mi experiencia en Google" ya no depende de `rating >= 4`; se muestra siempre, independiente de si la opinión es positiva o negativa.
+- **24 · Perfil**: se quitó "Mis direcciones"; se agregó "Mis pedidos" en su lugar (ya existía la pantalla 21, faltaba el acceso directo desde Perfil).
+- **18 · Método de pago**: ahora solo se llega a ella desde Recojo; se corrigió el texto de "Efectivo" (ya no menciona un motorizado) y se quitó la opción redundante "Recojo en local" (toda la pantalla ya es de recojo).
+
+### Funciones/estado eliminados (huérfanos tras quitar Direcciones)
+`go14`, `go15`, `saveAddr`, `addresses`, `addrTags`, `toggleMain`, `mainTrack`, `mainJustify`, las banderas `s14`/`s15`, y el cargo fijo de delivery `STORE.fee` (queda en 0; el costo de envío ya no lo calcula la app).
+
+### Funciones nuevas
+- `buildOrderWhatsApp(order, note)`: arma el mensaje de WhatsApp del pedido (sin dirección/costo/pago) y lo abre con `window.open('https://wa.me/...')`. La reutilizan tanto el botón de Resumen como el botón "Abrir WhatsApp" de la confirmación y del estado del pedido.
+- Stepper `pickupSteps` para la pantalla 20 (estado estático de demo: "Preparando"; el paso real debe venir del panel administrador cuando exista backend).
+
+### Bugs encontrados y corregidos de paso
+- El total de Delivery sumaba S/ 5.90 de envío silenciosamente dentro de la app, contradiciendo el propio texto de "el costo se coordina por WhatsApp". Ahora el total en pantalla es siempre "total de productos".
+- La confirmación de Delivery mostraba una hora de llegada calculada (`+35 min`) como si fuera un dato real de tracking; ya no se muestra ninguna hora prometida para Delivery.
+
+### Pendientes de backend (no se inventó nada; queda documentado)
+- Autenticación real (Google/Apple/correo), persistencia de usuario.
+- Historial, cupones y favoritos sincronizados por cuenta (hoy son datos de demo en el estado local del prototipo).
+- Estado real del pedido para la pantalla 20 (hoy es un paso fijo de ejemplo).
+- Notificaciones push reales.
+- Reseñas de Google vía API (hoy solo se explica que son de Google y se invita a dejarla, sin publicar nada en nombre del usuario).
+- Segmentación de clientes, referidos, RetePuntos, Happy Hour dinámico — quedan para el panel administrador, tal como pide el plan.
+- El panel "Cupones & Ofertas" de la captura de pantalla (hub de campañas con calendario semanal y automatizaciones) es una referencia visual para una futura versión del panel admin; no se tocó el `admin.html` actual en esta pasada.
+
+### Pruebas realizadas (headless, con datos reales del prototipo)
+- Flujo Delivery: Inicio → Menú → Carrito → Modalidad (Delivery) → Resumen (sin dirección/costo) → WhatsApp (mensaje verificado línea por línea) → Confirmación ("Solicitud enviada").
+- Flujo Recojo: Carrito → Modalidad (Recojo, con horario) → Resumen (con método de pago) → Confirmar → Confirmación ("¡Gracias!", hora de recojo) → Estado del pedido (stepper, sin mapa).
+- Perfil: "Mis direcciones" ya no existe; "Mis pedidos" sí.
+- Valoración: el botón de Google aparece sin haber calificado con estrellas.
+- Verificación de sintaxis del script embebido (`new Function()` sobre el bloque JS) sin errores tras cada parche.

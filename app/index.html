@@ -314,7 +314,7 @@ Prototipo navegable con fotos reales de la carta 2026. <strong style="color:#F5A
 <div style="padding:6px 20px 14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
 <div>
 <div style="font:700 20px/1.2 'Roboto',sans-serif">Hola, Milton 👋</div>
-<div onClick="{{ go14 }}" style="display:flex;align-items:center;gap:5px;margin-top:6px;cursor:pointer">
+<div style="display:flex;align-items:center;gap:5px;margin-top:6px">
 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FF3038" stroke-width="2"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>
 <span style="font:400 11.5px 'Roboto',sans-serif;color:#6B6662">Entregar en</span>
 <span style="font:500 12.5px 'Roboto',sans-serif;color:#242424">Tacna</span>
@@ -869,7 +869,6 @@ Válido solo los martes en tienda y delivery. No acumulable con otras promocione
 </div>
 <div style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;padding:14px;display:flex;flex-direction:column;gap:9px;font:400 13px 'Roboto',sans-serif;color:#6B6662">
 <div style="display:flex;justify-content:space-between"><span>Subtotal</span><span style="color:#242424">{{ subtotalLabel }}</span></div>
-<div style="display:flex;justify-content:space-between"><span>{{ feeName }}</span><span style="color:#242424">{{ feeLabel }}</span></div>
 <div style="display:flex;justify-content:space-between"><span>Descuento</span><span style="color:#1F9D62">{{ discount }}</span></div>
 <div style="height:1px;background:#F4EDE0"></div>
 <div style="display:flex;justify-content:space-between;font:700 15px 'Roboto',sans-serif;color:#242424"><span>Total</span><span>{{ cartTotal }}</span></div>
@@ -878,71 +877,6 @@ Válido solo los martes en tienda y delivery. No acumulable con otras promocione
 </div>
 <div style="position:sticky;bottom:0;padding:12px 20px 16px;background:#FFF8EE;border-top:1px solid #EFE6D6">
 <button type="button" onClick="{{ continueCart }}" style="width:100%;border:0;background:#FF3038;color:#fff;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer" style-active="transform:scale(.98)">{{ continueLabel }}</button>
-</div>
-</div>
-</sc-if>
-
-<sc-if value="{{ s14 }}" hint-placeholder-val="{{ false }}">
-<div class="scr" style="min-height:100%;background:#FFF8EE;display:flex;flex-direction:column">
-<div style="display:flex;align-items:center;gap:12px;padding:14px 20px 6px">
-<button type="button" onClick="{{ go16 }}" aria-label="Volver" style="border:0;background:transparent;cursor:pointer;padding:6px;margin:-6px;display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<span style="font:700 18px 'Roboto',sans-serif;letter-spacing:-.01em">¿Dónde lo llevamos?</span>
-</div>
-<div style="margin:12px 20px 0;height:126px;border-radius:13px;overflow:hidden;position:relative;background:#EDE7DB;flex:none">
-<div style="position:absolute;inset:0;background-image:linear-gradient(90deg,transparent 47%,#DED6C6 47% 53%,transparent 53%),linear-gradient(0deg,transparent 30%,#DED6C6 30% 33%,transparent 33%),linear-gradient(0deg,transparent 72%,#DED6C6 72% 75%,transparent 75%)"></div>
-<div style="position:absolute;left:50%;top:44%;transform:translate(-50%,-100%)">
-<svg width="26" height="26" viewBox="0 0 24 24" fill="#FF3038"><path d="M12 22s7-6.6 7-11.4A7 7 0 105 10.6C5 15.4 12 22 12 22z"></path><circle cx="12" cy="10" r="2.6" fill="#fff"></circle></svg>
-</div>
-<span style="position:absolute;bottom:8px;left:10px;font:500 9.5px 'Roboto',sans-serif;color:#8C867F;letter-spacing:.1em">MAPA · TACNA</span>
-</div>
-<div class="stagger" style="padding:16px 20px;display:flex;flex-direction:column;gap:10px;flex:1">
-<sc-for list="{{ addresses }}" as="a" hint-placeholder-count="2">
-<button type="button" onClick="{{ a.pick }}" style="border:1.5px solid {{ a.bd }};background:#fff;border-radius:13px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;text-align:left;width:100%;transition:border-color .18s">
-<span style="width:19px;height:19px;border-radius:50%;border:2px solid {{ a.ring }};display:flex;align-items:center;justify-content:center;flex:none"><span style="width:9px;height:9px;border-radius:50%;background:{{ a.dot }}"></span></span>
-<span style="flex:1">
-<span style="display:block;font:500 13.5px 'Roboto',sans-serif;color:#242424">{{ a.label }}</span>
-<span style="display:block;font:400 12px 'Roboto',sans-serif;color:#6B6662;margin-top:3px">{{ a.line }}</span>
-</span>
-<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#7A736B" stroke-width="1.8"><path d="M4 20l4-1 10-10-3-3L5 16l-1 4z"></path></svg>
-</button>
-</sc-for>
-<button type="button" onClick="{{ go15 }}" style="border:1.5px dashed #DCD2C1;background:transparent;border-radius:13px;padding:14px;display:flex;align-items:center;gap:10px;cursor:pointer;color:#D91F2A;font:500 13px 'Roboto',sans-serif">
-<span style="font:400 18px/1 'Roboto',sans-serif">＋</span>Agregar nueva dirección
-</button>
-</div>
-<div style="position:sticky;bottom:0;padding:12px 20px 16px;background:#FFF8EE;border-top:1px solid #EFE6D6">
-<button type="button" onClick="{{ go17 }}" style="width:100%;border:0;background:#FF3038;color:#fff;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer" style-active="transform:scale(.98)">CONFIRMAR DIRECCIÓN</button>
-</div>
-</div>
-</sc-if>
-
-<sc-if value="{{ s15 }}" hint-placeholder-val="{{ false }}">
-<div class="scr" style="min-height:100%;background:#FFF8EE;display:flex;flex-direction:column">
-<div style="height:280px;flex:none;position:relative;background:#EDE7DB">
-<div style="position:absolute;inset:0;background-image:linear-gradient(90deg,transparent 30%,#DED6C6 30% 34%,transparent 34%),linear-gradient(90deg,transparent 68%,#DED6C6 68% 71%,transparent 71%),linear-gradient(0deg,transparent 26%,#DED6C6 26% 29%,transparent 29%),linear-gradient(0deg,transparent 62%,#DED6C6 62% 66%,transparent 66%)"></div>
-<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);animation:fadeUp .4s">
-<svg width="34" height="34" viewBox="0 0 24 24" fill="#FF3038"><path d="M12 22s7-6.6 7-11.4A7 7 0 105 10.6C5 15.4 12 22 12 22z"></path><circle cx="12" cy="10" r="2.6" fill="#fff"></circle></svg>
-</div>
-<button type="button" onClick="{{ go14 }}" style="position:absolute;top:14px;left:16px;border:0;background:#fff;width:34px;height:34px;border-radius:{{ iconR }};display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<button type="button" style="position:absolute;bottom:16px;right:16px;border:0;background:#fff;width:38px;height:38px;border-radius:{{ iconR }};display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.12)"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FF3038" stroke-width="1.9"><circle cx="12" cy="12" r="3.4"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg></button>
-<div style="position:absolute;left:16px;bottom:16px;background:rgba(36,36,36,.86);color:#fff;font:400 11.5px 'Roboto',sans-serif;padding:8px 12px;border-radius:9px">Mueve el pin hasta la ubicación exacta</div>
-</div>
-<div class="stagger" style="padding:20px;display:flex;flex-direction:column;gap:12px;flex:1">
-<div style="font:700 19px 'Roboto',sans-serif;letter-spacing:-.02em">Nueva dirección</div>
-<div style="background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:13px 14px;font:400 13.5px 'Roboto',sans-serif;color:#7A736B">Dirección</div>
-<div style="background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:13px 14px;font:400 13.5px 'Roboto',sans-serif;color:#7A736B">Referencia</div>
-<div style="display:flex;gap:8px">
-<sc-for list="{{ addrTags }}" as="t" hint-placeholder-count="3">
-<button type="button" onClick="{{ t.pick }}" style="border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.fg }};font:500 12.5px 'Roboto',sans-serif;padding:9px 16px;border-radius:{{ pill }};cursor:pointer;transition:all .18s">{{ t.label }}</button>
-</sc-for>
-</div>
-<label style="display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:13px 14px;font:400 13px 'Roboto',sans-serif;cursor:pointer">
-Guardar como dirección principal
-<button type="button" onClick="{{ toggleMain }}" style="border:0;width:42px;height:25px;border-radius:999px;background:{{ mainTrack }};cursor:pointer;padding:0;display:flex;align-items:center;justify-content:{{ mainJustify }};transition:all .2s"><span style="width:19px;height:19px;border-radius:50%;background:#fff;margin:0 3px;box-shadow:0 1px 3px rgba(0,0,0,.2)"></span></button>
-</label>
-</div>
-<div style="position:sticky;bottom:0;padding:12px 20px 16px;background:#FFF8EE;border-top:1px solid #EFE6D6">
-<button type="button" onClick="{{ saveAddr }}" style="width:100%;border:0;background:#FF3038;color:#fff;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer" style-active="transform:scale(.98)">GUARDAR DIRECCIÓN</button>
 </div>
 </div>
 </sc-if>
@@ -956,7 +890,7 @@ Guardar como dirección principal
 <div class="stagger" style="padding:18px 20px;display:flex;flex-direction:column;gap:12px;flex:1">
 <button type="button" onClick="{{ pickDelivery }}" style="border:2px solid {{ delBd }};background:{{ delBg }};border-radius:15px;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;text-align:left;transition:all .2s">
 <span style="width:44px;height:44px;border-radius:12px;background:#FFE9E9;display:flex;align-items:center;justify-content:center;flex:none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF3038" stroke-width="1.8"><circle cx="6" cy="17.5" r="2.6"></circle><circle cx="18" cy="17.5" r="2.6"></circle><path d="M8.6 17.5h6.8M6 15V9h5l3 4h4v4.5"></path></svg></span>
-<span style="flex:1"><span style="display:block;font:700 15.5px 'Roboto',sans-serif">Delivery</span><span style="display:block;font:400 12.5px 'Roboto',sans-serif;color:#6B6662;margin-top:4px">Llega en 35–45 min</span></span>
+<span style="flex:1"><span style="display:block;font:700 15.5px 'Roboto',sans-serif">Delivery</span><span style="display:block;font:400 12.5px 'Roboto',sans-serif;color:#6B6662;margin-top:4px">Coordinamos dirección y costo por WhatsApp</span></span>
 <span style="width:19px;height:19px;border-radius:50%;border:2px solid {{ delRing }};display:flex;align-items:center;justify-content:center;flex:none"><span style="width:9px;height:9px;border-radius:50%;background:{{ delDot }}"></span></span>
 </button>
 <button type="button" onClick="{{ pickPickup }}" style="border:2px solid {{ pickBd }};background:{{ pickBg }};border-radius:15px;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;text-align:left;transition:all .2s">
@@ -964,6 +898,7 @@ Guardar como dirección principal
 <span style="flex:1"><span style="display:block;font:700 15.5px 'Roboto',sans-serif">Recojo en tienda</span><span style="display:block;font:400 12.5px 'Roboto',sans-serif;color:#6B6662;margin-top:4px">Listo en 20–25 min · {{ storeAddr }}</span></span>
 <span style="width:19px;height:19px;border-radius:50%;border:2px solid {{ pickRing }};display:flex;align-items:center;justify-content:center;flex:none"><span style="width:9px;height:9px;border-radius:50%;background:{{ pickDot }}"></span></span>
 </button>
+<sc-if value="{{ isPickupMode }}" hint-placeholder-val="{{ true }}">
 <div style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;overflow:hidden;margin-top:6px">
 <sc-for list="{{ timings }}" as="t" hint-placeholder-count="2">
 <button type="button" onClick="{{ t.pick }}" style="width:100%;border:0;border-bottom:1px solid #F4EDE0;background:transparent;display:flex;align-items:center;gap:12px;padding:15px 14px;cursor:pointer;text-align:left">
@@ -976,6 +911,10 @@ Guardar como dirección principal
 <div style="flex:1;border:1px solid #E7DECD;border-radius:{{ fieldR }};padding:11px 13px;font:400 12.5px 'Roboto',sans-serif;color:#6B6662">{{ schedTime }}</div>
 </div>
 </div>
+</sc-if>
+<sc-if value="{{ isDeliveryMode }}" hint-placeholder-val="{{ false }}">
+<div style="background:#FFF3DF;border:1.5px dashed #F5A623;border-radius:13px;padding:13px 14px;font:400 12.5px/1.55 'Roboto',sans-serif;color:#6B6662;margin-top:6px">📲 Al pulsar continuar armamos tu pedido; la dirección, el costo de envío y la forma de pago se coordinan directamente en WhatsApp.</div>
+</sc-if>
 </div>
 <div style="position:sticky;bottom:0;padding:12px 20px 16px;background:#FFF8EE;border-top:1px solid #EFE6D6">
 <button type="button" onClick="{{ confirmMode }}" style="width:100%;border:0;background:#FF3038;color:#fff;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer" style-active="transform:scale(.98)">CONTINUAR</button>
@@ -1006,6 +945,7 @@ Guardar como dirección principal
 </sc-for>
 </div>
 </div>
+<sc-if value="{{ isPickup }}" hint-placeholder-val="{{ true }}">
 <button type="button" onClick="{{ go18 }}" style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;padding:14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;text-align:left;width:100%">
 <span><span style="display:block;font:500 10px 'Roboto',sans-serif;letter-spacing:.14em;color:#8C867F">MÉTODO DE PAGO</span><span style="display:block;font:500 13.5px 'Roboto',sans-serif;margin-top:8px">{{ payLabel }}</span></span>
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7A736B" stroke-width="2"><path d="M9 5l7 7-7 7"></path></svg>
@@ -1014,10 +954,10 @@ Guardar como dirección principal
 <span><span style="display:block;font:500 10px 'Roboto',sans-serif;letter-spacing:.14em;color:#8C867F">COMPROBANTE</span><span style="display:block;font:500 13.5px 'Roboto',sans-serif;margin-top:8px">Boleta</span></span>
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7A736B" stroke-width="2"><path d="M9 5l7 7-7 7"></path></svg>
 </div>
-<textarea class="rq-notes" value="{{ driverNotes }}" onInput="{{ onDriverNotes }}" placeholder="Instrucciones para el repartidor (opcional)" aria-label="Instrucciones" style="border-radius:13px;padding:14px;min-height:60px;font-size:13px"></textarea>
+</sc-if>
+<textarea class="rq-notes" value="{{ driverNotes }}" onInput="{{ onDriverNotes }}" placeholder="Observaciones para tu pedido (opcional)" aria-label="Observaciones" style="border-radius:13px;padding:14px;min-height:60px;font-size:13px"></textarea>
 <div style="background:#fff;border:1px solid #EFE6D6;border-radius:13px;padding:14px;display:flex;flex-direction:column;gap:9px;font:400 13px 'Roboto',sans-serif;color:#6B6662">
 <div style="display:flex;justify-content:space-between"><span>Subtotal</span><span style="color:#242424">{{ subtotalLabel }}</span></div>
-<div style="display:flex;justify-content:space-between"><span>{{ feeName }}</span><span style="color:#242424">{{ feeLabel }}</span></div>
 <div style="display:flex;justify-content:space-between"><span>Descuento</span><span style="color:#1F9D62">{{ discount }}</span></div>
 <div style="height:1px;background:#F4EDE0"></div>
 <div style="display:flex;justify-content:space-between;font:700 15px 'Roboto',sans-serif;color:#242424"><span>Total</span><span>{{ cartTotal }}</span></div>
@@ -1048,7 +988,7 @@ Acepto los Términos del servicio y la Política de privacidad
 <span style="width:34px;height:22px;border-radius:4px;background:#F4EDE0;display:flex;align-items:center;justify-content:center;font:700 8.5px 'Roboto',sans-serif;color:#6B6662;letter-spacing:.06em">{{ m.tag }}</span>
 </button>
 </sc-for>
-<div style="padding:12px 14px;background:#FFF8EE;font:400 12px/1.5 'Roboto',sans-serif;color:#6B6662;border-top:1px solid #F4EDE0">🛵 <strong>Efectivo:</strong> el motorizado lleva sencillo y le pagas en tu puerta.<br>💳 <strong>Yape / Plin / transferencia:</strong> nos envías la captura por WhatsApp, la verificamos en minutos y empezamos a preparar.</div>
+<div style="padding:12px 14px;background:#FFF8EE;font:400 12px/1.5 'Roboto',sans-serif;color:#6B6662;border-top:1px solid #F4EDE0">🏪 <strong>Efectivo:</strong> pagas al retirar tu pedido en tienda.<br>💳 <strong>Yape / Plin / transferencia:</strong> nos envías la captura por WhatsApp, la verificamos en minutos y empezamos a preparar.</div>
 <sc-if value="{{ showYape }}" hint-placeholder-val="{{ false }}">
 <div style="padding:12px 14px;background:#FFF3DF;border-top:1px dashed #F5A623;display:flex;align-items:center;gap:12px;animation:fadeUp .25s">
 <span style="width:40px;height:40px;border-radius:10px;background:#742284;color:#fff;font:700 11px 'Roboto',sans-serif;display:flex;align-items:center;justify-content:center;flex:none">YAPE</span>
@@ -1107,8 +1047,8 @@ Sin pasarela ni comisiones · pagas directo a Retequeños
 <div class="stagger" style="display:flex;flex-direction:column;gap:14px;align-items:center;width:100%">
 
 <div>
-<div style="font:700 24px/1.2 'Roboto',sans-serif;letter-spacing:-.02em;color:#242424">¡Gracias, Milton! 🥟</div>
-<div style="font:400 13.5px/1.5 'Roboto',sans-serif;color:#6B6662;margin-top:4px">Empezamos a preparar tu pedido en cocina</div>
+<div style="font:700 24px/1.2 'Roboto',sans-serif;letter-spacing:-.02em;color:#242424">{{ confirmTitle }}</div>
+<div style="font:400 13.5px/1.5 'Roboto',sans-serif;color:#6B6662;margin-top:4px">{{ confirmSub }}</div>
 </div>
 
 <div style="background:linear-gradient(135deg,#FF3038,#D91F2A);color:#fff;border-radius:16px;padding:16px 18px;width:100%;box-shadow:0 10px 24px rgba(255,48,56,.28);text-align:left;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden">
@@ -1130,7 +1070,6 @@ Sin pasarela ni comisiones · pagas directo a Retequeños
 </div>
 <div style="font:400 11.5px/1.4 'Roboto',sans-serif;color:#8C7A55;background:#FFF8EE;border:1px dashed #EFE6D6;border-radius:9px;padding:7px 10px">{{ payNote }}</div>
 <div style="display:flex;justify-content:space-between;gap:10px"><span>{{ orderSummary }}</span><span style="color:#242424;font-weight:600;flex:none">{{ orderSubtotal }}</span></div>
-<div style="display:flex;justify-content:space-between;gap:10px"><span>{{ orderFeeName }}</span><span style="color:#242424;font-weight:600;flex:none">{{ orderFee }}</span></div>
 <div style="height:1px;background:#F4EDE0;margin:2px 0"></div>
 <div style="display:flex;justify-content:space-between"><span style="color:#242424;font-weight:700">Total</span><span style="color:#FF3038;font:700 15px 'Roboto',sans-serif">{{ orderTotal }}</span></div>
 </div>
@@ -1143,9 +1082,8 @@ Sin pasarela ni comisiones · pagas directo a Retequeños
 </div>
 
 <div style="display:flex;flex-direction:column;gap:9px;width:100%;margin-top:2px">
-<button type="button" onClick="{{ go20 }}" style="width:100%;border:0;background:#FF3038;color:#fff;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer;box-shadow:0 6px 18px rgba(255,48,56,.26);display:flex;align-items:center;justify-content:center;gap:8px" style-active="transform:scale(.98)">
-<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>
-SEGUIR MI PEDIDO EN VIVO
+<button type="button" onClick="{{ trackBtnAction }}" style="width:100%;border:0;background:#FF3038;color:#fff;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:16px 0;border-radius:{{ btnR }};cursor:pointer;box-shadow:0 6px 18px rgba(255,48,56,.26);display:flex;align-items:center;justify-content:center;gap:8px" style-active="transform:scale(.98)">
+{{ trackBtnLabel }}
 </button>
 <button type="button" onClick="{{ goHome }}" style="width:100%;border:1.5px solid #DCD2C1;background:transparent;color:#242424;font:700 13.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:13px 0;border-radius:{{ btnR }};cursor:pointer">VOLVER AL MENÚ</button>
 </div>
@@ -1156,133 +1094,43 @@ SEGUIR MI PEDIDO EN VIVO
 
 <sc-if value="{{ s20 }}" hint-placeholder-val="{{ false }}">
 <div class="scr" style="min-height:100%;background:#FFF8EE;display:flex;flex-direction:column">
-
-<div style="height:290px;flex:none;position:relative;background:#E8E0CD;overflow:hidden">
-
-<svg viewBox="0 0 390 290" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMid slice">
-<defs>
-<pattern id="mapBlocks" x="0" y="0" width="90" height="70" patternUnits="userSpaceOnUse">
-<rect width="90" height="70" fill="#E8E0CD"/>
-<rect x="4" y="4" width="38" height="28" rx="3" fill="#DFD5BE"/>
-<rect x="48" y="4" width="38" height="28" rx="3" fill="#DFD5BE"/>
-<rect x="4" y="38" width="38" height="28" rx="3" fill="#DFD5BE"/>
-<rect x="48" y="38" width="38" height="28" rx="3" fill="#DFD5BE"/>
-</pattern>
-</defs>
-<rect width="390" height="290" fill="url(#mapBlocks)"/>
-
-<path d="M0 60 Q80 90 140 70 T260 120 T390 100" fill="none" stroke="#B6D9E8" stroke-width="14" opacity=".55"/>
-<path d="M0 60 Q80 90 140 70 T260 120 T390 100" fill="none" stroke="#8FBFD6" stroke-width="1.5" stroke-dasharray="3 5" opacity=".6"/>
-
-<rect x="130" y="150" width="60" height="14" rx="2" fill="#C8BB9E" opacity=".7" transform="rotate(-8 160 157)"/>
-<circle cx="298" cy="160" r="22" fill="#CDDDBE" opacity=".8"/>
-<circle cx="298" cy="160" r="12" fill="#B4CC9F" opacity=".7"/>
-
-<line x1="0" y1="220" x2="390" y2="220" stroke="#F5A623" stroke-width="4" opacity=".35"/>
-<line x1="0" y1="220" x2="390" y2="220" stroke="#F5A623" stroke-width="1" stroke-dasharray="6 8"/>
-<text x="10" y="215" font-family="Roboto" font-size="8" font-weight="700" fill="#8C7A55" letter-spacing="1">AV. BOLOGNESI</text>
-
-<line x1="0" y1="170" x2="390" y2="170" stroke="#C8BB9E" stroke-width="2.5" opacity=".55"/>
-<text x="10" y="165" font-family="Roboto" font-size="7" font-weight="600" fill="#8C867F" letter-spacing=".8">AV. CORONEL MENDOZA</text>
-
-<line x1="0" y1="255" x2="390" y2="255" stroke="#C8BB9E" stroke-width="2.5" opacity=".55"/>
-<text x="10" y="269" font-family="Roboto" font-size="7" font-weight="600" fill="#8C867F" letter-spacing=".8">AV. LEGUÍA</text>
-
-<line x1="140" y1="0" x2="140" y2="290" stroke="#C8BB9E" stroke-width="2.5" opacity=".55"/>
-<line x1="230" y1="0" x2="230" y2="290" stroke="#C8BB9E" stroke-width="2.5" opacity=".55"/>
-<text x="234" y="12" font-family="Roboto" font-size="7" font-weight="600" fill="#8C867F" letter-spacing=".8">AV. PINTO</text>
-
-<line x1="80" y1="0" x2="80" y2="290" stroke="#C8BB9E" stroke-width="2" opacity=".45" stroke-dasharray="4 4"/>
-
-<path d="M40 220 Q75 220 90 190 T145 130 Q175 100 220 100 T295 88" fill="none" stroke="#FF3038" stroke-width="4" stroke-linecap="round" stroke-dasharray="9 7" style="animation:dash 1.6s linear infinite"/>
-
-<g transform="translate(295 88)">
-<circle r="20" fill="rgba(255,48,56,.15)"/>
-<circle r="14" fill="#FF3038"/>
-<circle r="6" fill="#fff"/>
-<path d="M-4 -14 L-4 -8 L-8 -8 L0 -22 L8 -8 L4 -8 L4 -14 Z" fill="#FF3038" transform="translate(0 -8)"/>
-</g>
-
-<g transform="translate(40 220)">
-<circle r="18" fill="rgba(245,166,35,.2)"/>
-<circle r="13" fill="#F5A623" stroke="#fff" stroke-width="3"/>
-<text y="4" text-anchor="middle" font-size="12">🥟</text>
-</g>
-</svg>
-
-<div style="position:absolute;top:0;left:0;width:44px;height:44px" class="moto-path">
-<div style="width:44px;height:44px;border-radius:50%;background:#FF3038;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(255,48,56,.5);border:3px solid #fff">
-<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><circle cx="6" cy="17.5" r="2.4"></circle><circle cx="18" cy="17.5" r="2.4"></circle><path d="M8.4 17.5h7.2M6 15V9h5l3 4h4v4.5"></path></svg>
+<div style="display:flex;align-items:center;gap:12px;padding:14px 20px 4px">
+<button type="button" onClick="{{ go21 }}" aria-label="Volver" style="border:0;background:transparent;cursor:pointer;padding:6px;margin:-6px;display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<span style="font:700 18px/1.25 'Roboto',sans-serif;letter-spacing:-.01em">Estado de tu pedido</span>
 </div>
-<div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:#242424;color:#fff;font:700 9px 'Roboto',sans-serif;padding:2px 7px;border-radius:10px;white-space:nowrap;letter-spacing:.06em">CARLOS</div>
+<div class="stagger" style="padding:16px 20px 20px;display:flex;flex-direction:column;gap:16px;flex:1">
+
+<div style="background:#fff;border:1px solid #EFE6D6;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<span style="font:700 15px 'Roboto',sans-serif">{{ orderId }}</span>
+<span style="background:#FFF3DF;color:#D9891A;padding:4px 10px;border-radius:20px;font:700 10px 'Roboto',sans-serif;letter-spacing:.05em">RECOJO EN TIENDA</span>
+</div>
+<sc-for list="{{ pickupSteps }}" as="st" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:12px">
+<span style="width:26px;height:26px;border-radius:50%;background:{{ st.bg }};border:2px solid {{ st.bd }};display:flex;align-items:center;justify-content:center;flex:none;color:#fff;font:700 12px 'Roboto',sans-serif">{{ st.mark }}</span>
+<span style="font:{{ st.weight }} 13.5px 'Roboto',sans-serif;color:{{ st.fg }}">{{ st.label }}</span>
+</div>
+</sc-for>
 </div>
 
-<div style="position:absolute;top:14px;left:14px;background:rgba(255,255,255,.95);backdrop-filter:blur(6px);border-radius:12px;padding:10px 14px;box-shadow:0 6px 18px rgba(0,0,0,.12);display:flex;align-items:center;gap:10px">
-<div style="width:36px;height:36px;border-radius:10px;background:#E7F6EE;display:flex;align-items:center;justify-content:center;flex:none">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F9D62" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-</div>
-<div>
-<div style="font:600 9.5px 'Roboto',sans-serif;color:#6B6662;letter-spacing:.1em">LLEGA EN</div>
-<div style="font:700 18px/1 'Roboto',sans-serif;color:#1F9D62;margin-top:2px" class="tickBlink">12:34</div>
-</div>
-</div>
-
-<div style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,.95);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.12);cursor:pointer">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M12 11l3-2M11 11V7"/></svg>
-</div>
-
-<div style="position:absolute;bottom:8px;left:12px;background:rgba(255,255,255,.85);padding:3px 8px;border-radius:5px;font:600 9px 'Roboto',sans-serif;color:#6B6662;letter-spacing:.1em">TACNA · CERCADO</div>
-</div>
-
-<div class="stagger" style="margin-top:-22px;background:#fff;border-radius:22px 22px 0 0;padding:22px 22px 20px;display:flex;flex-direction:column;gap:16px;flex:1;position:relative;box-shadow:0 -10px 24px rgba(0,0,0,.08);z-index:2">
-
-<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
-<div>
-<div style="font:700 19px/1.25 'Roboto',sans-serif;letter-spacing:-.02em">Tu pedido está en camino 🛵</div>
-<div style="display:flex;align-items:center;gap:6px;margin-top:6px">
-<span style="width:7px;height:7px;border-radius:50%;background:#1F9D62;animation:twinkle 1.2s infinite"></span>
-<span style="font:600 12px 'Roboto',sans-serif;color:#1F9D62">Carlos está a 3 cuadras · Av. Bolognesi 890</span>
-</div>
-</div>
-<div style="background:#FFF3DF;color:#D9891A;padding:5px 10px;border-radius:20px;font:700 10.5px 'Roboto',sans-serif;letter-spacing:.05em;flex:none">EN VIVO</div>
-</div>
-
-<div style="display:flex;align-items:center;gap:0;padding:2px 0">
-<div style="flex:1;height:6px;background:linear-gradient(90deg,#1F9D62 0%,#1F9D62 72%,#E4D9C6 72%);border-radius:3px;position:relative">
-<span style="position:absolute;top:-5px;left:0;width:16px;height:16px;border-radius:50%;background:#1F9D62;border:3px solid #fff;box-shadow:0 2px 6px rgba(31,157,98,.4)"></span>
-<span style="position:absolute;top:-5px;left:33%;width:16px;height:16px;border-radius:50%;background:#1F9D62;border:3px solid #fff;box-shadow:0 2px 6px rgba(31,157,98,.4)"></span>
-<span style="position:absolute;top:-5px;left:66%;width:16px;height:16px;border-radius:50%;background:#1F9D62;border:3px solid #fff;box-shadow:0 0 0 4px rgba(31,157,98,.2),0 2px 6px rgba(31,157,98,.4);animation:pulseHalo 1.8s infinite"></span>
-<span style="position:absolute;top:-5px;right:0;width:16px;height:16px;border-radius:50%;background:#E4D9C6;border:3px solid #fff"></span>
-</div>
-</div>
-<div style="display:flex;justify-content:space-between;font:500 10px 'Roboto',sans-serif;color:#6B6662;letter-spacing:.04em;margin-top:-4px">
-<span style="color:#1F9D62;font-weight:700">✓ Confirmado</span>
-<span style="color:#1F9D62;font-weight:700">✓ Cocina</span>
-<span style="color:#1F9D62;font-weight:700">● En camino</span>
-<span>Entregado</span>
-</div>
-
-<div style="background:#FFF8EE;border:1px solid #EFE6D6;border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:12px">
-<span style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#FF3038,#D91F2A);color:#fff;font:700 16px 'Roboto',sans-serif;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 4px 10px rgba(255,48,56,.3)">C</span>
-<div style="flex:1;min-width:0">
-<div style="font:600 13.5px 'Roboto',sans-serif;color:#242424">Carlos Ríos</div>
-<div style="display:flex;align-items:center;gap:6px;margin-top:3px">
-<span style="font:400 11.5px 'Roboto',sans-serif;color:#6B6662">Moto roja · M2-4821</span>
-<span style="font:700 10.5px 'Roboto',sans-serif;color:#F5A623;background:#FFF3DF;padding:1px 6px;border-radius:8px">★ 4.9</span>
-</div>
-</div>
-<button type="button" style="border:0;background:#1F9D62;width:38px;height:38px;border-radius:{{ iconR }};display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 10px rgba(31,157,98,.3)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></button>
-<button type="button" style="border:0;background:#242424;width:38px;height:38px;border-radius:{{ iconR }};display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1C11 20 4 13 4 5a1 1 0 011-1z"/></svg></button>
+<div style="background:#FFF3DF;border:1.5px dashed #F5A623;border-radius:13px;padding:13px 14px;display:flex;align-items:center;gap:10px">
+<span style="font-size:20px;line-height:1">🏪</span>
+<span style="flex:1;font:500 12.5px/1.4 'Roboto',sans-serif;color:#8C7A55">Te avisamos por WhatsApp en cuanto tu pedido esté listo para recoger en {{ storeAddr }}.</span>
 </div>
 
 <div style="background:#fff;border:1px solid #EFE6D6;border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:10px">
 <span style="width:32px;height:32px;border-radius:8px;background:#FFF3DF;display:flex;align-items:center;justify-content:center;flex:none">🥟</span>
 <div style="flex:1;min-width:0">
 <div style="font:600 12.5px 'Roboto',sans-serif;color:#242424">{{ orderId }} · {{ orderTotal }}</div>
-<div style="font:400 11px 'Roboto',sans-serif;color:#6B6662">{{ orderSummary }} · {{ orderPayShort }}</div>
+<div style="font:400 11px 'Roboto',sans-serif;color:#6B6662">{{ orderSummary }}</div>
 </div>
 <button type="button" onClick="{{ go22 }}" style="border:0;background:transparent;color:#D91F2A;font:600 12px 'Roboto',sans-serif;cursor:pointer;padding:6px 4px;flex:none">Detalle ›</button>
 </div>
+
+<button type="button" onClick="{{ openLastOrderWA }}" style="width:100%;border:1.5px solid #DCD2C1;background:transparent;color:#242424;font:700 13px 'Roboto',sans-serif;letter-spacing:.04em;padding:14px 0;border-radius:{{ btnR }};cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1F9D62" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+Escribir por WhatsApp
+</button>
 
 </div>
 </div>
@@ -1584,7 +1432,7 @@ SEGUIR MI PEDIDO EN VIVO
 const P = {coral:'#FF3038', dark:'#D91F2A', gold:'#F5A623', cream:'#FFF8EE', char:'#242424', gray:'#6B6662'};
 
 // Datos del local (configurables; el horario y la dirección deben confirmarse con Retequeños)
-const STORE = {name:'Retequeños', addr:'Calle Alto Lima 1488, Tacna', hours:'Abierto hoy · delivery hasta 11:00 p. m.', fee:5.90, yape:'912 266 950'};
+const STORE = {name:'Retequeños', addr:'Calle Alto Lima 1488, Tacna', hours:'Abierto hoy · delivery hasta 11:00 p. m.', fee:0, yape:'912 266 950', whatsapp:'51912266950'};
 
 // Fotos reales de la carta (las mismas de la web)
 const IMG_DEFAULT = 'img/products/tequenos/queso.jpg';
@@ -1621,7 +1469,7 @@ const RAIL = [
   ['01','Lanzamiento'],['02','Bienvenida'],['03','Inicio de sesión'],['04','Crear cuenta'],
   ['05','Recuperar contraseña'],['06','Inicio'],['07','Búsqueda'],['08','Menú'],
   ['09','Detalle de producto'],['10','Personalizar combo'],['11','Favoritos'],['12','Promociones'],
-  ['13','Carrito'],['14','Direcciones'],['15','Nueva dirección'],['16','Modalidad y horario'],
+  ['13','Carrito'],['16','Modalidad'],
   ['17','Resumen de compra'],['18','Método de pago'],['19','Pedido confirmado'],['20','Seguimiento'],
   ['21','Historial'],['22','Detalle y valoración'],['23','Notificaciones'],['24','Perfil'],
   ['25','Configuración'],['26','Estados excepcionales']
@@ -1641,13 +1489,11 @@ const TITLES = {
   '11':['Lote 11 · Favoritos','Colección guardada'],
   '12':['Lote 12 · Promociones y cupones','Cupón copiable y condiciones'],
   '13':['Lote 13 · Carrito','Dos productos, cupón y desglose'],
-  '14':['Lote 14 · Direcciones guardadas','Selección de entrega'],
-  '15':['Lote 15 · Agregar dirección','Mapa, pin y etiquetas'],
-  '16':['Lote 16 · Modalidad y horario','Delivery o recojo'],
+  '16':['Lote 16 · Modalidad','Delivery por WhatsApp o recojo en tienda'],
   '17':['Lote 17 · Resumen de compra','Checkout final'],
   '18':['Lote 18 · Método de pago','Selección segura'],
   '19':['Lote 19 · Pedido confirmado','Estado de éxito'],
-  '20':['Lote 20 · Seguimiento','Pedido RTQ-2048 en camino'],
+  '20':['Lote 20 · Estado del pedido','Solo para recojo en tienda'],
   '21':['Lote 21 · Historial de pedidos','En curso y anteriores'],
   '22':['Lote 22 · Detalle y valoración','RTQ-1987 entregado · encuesta y cupón'],
   '23':['Lote 23 · Notificaciones','Centro de avisos'],
@@ -1670,13 +1516,11 @@ const HINTS = {
   '11':'Quita un favorito con el corazón.',
   '12':'Copia el cupón y abre las condiciones.',
   '13':'Aplica o quita el cupón, ajusta cantidades o vacía el carrito (estado vacío). Continuar lleva a la modalidad.',
-  '14':'Solo aparece si elegiste delivery. Elige Casa o Trabajo, o agrega una nueva.',
-  '15':'Cambia la etiqueta y el switch de dirección principal.',
-  '16':'Delivery pide dirección; Recojo salta directo al resumen y el delivery cuesta S/ 0.',
+  '16':'Delivery no pide nada aquí: se coordina todo por WhatsApp. Recojo permite elegir horario.',
   '17':'Muestra las líneas y totales reales del carrito. Escribe instrucciones; Confirmar genera el pedido.',
   '18':'Sin pasarela: efectivo, Yape/Plin o transferencia con captura por WhatsApp.',
   '19':'Número de pedido, hora estimada y montos salen del pedido que acabas de confirmar.',
-  '20':'La moto recorre la ruta; el timeline marca el estado actual.',
+  '20':'Sin mapa ni moto: son los pasos de preparación del pedido para recojo (demo).',
   '21':'Cambia entre “En curso” y “Anteriores”.',
   '22':'Califica, marca qué mejorar y dónde nos viste; 4-5★ invita a Google Reviews. Enviar da el cupón ENCUESTA3.',
   '23':'“Marcar todo como leído” apaga los puntos.',
@@ -1769,6 +1613,24 @@ class Component extends DCLogic {
   }
 
   go = (s) => () => this.setState({screen: s, terms: false});
+
+  // Arma el mensaje del pedido (sin dirección, costo de envío ni método de pago) y abre WhatsApp.
+  buildOrderWhatsApp = (order, note) => {
+    const wa = ['🥟 PEDIDO RETEQUEÑOS', '────────────────────', '', '🔖 Solicitud: ' + order.id, '👤 Milton', '', '🛒 PEDIDO', ''];
+    order.lines.forEach((l) => {
+      wa.push(l.n + ' × ' + l.name);
+      (l.opts || '').split(' · ').filter(Boolean).forEach((o) => wa.push('• ' + o));
+    });
+    wa.push('');
+    if (order.coupon) wa.push('🎟 Cupón: ' + order.coupon);
+    wa.push('💰 Total productos: S/ ' + order.total.toFixed(2));
+    wa.push('');
+    wa.push('🛵 Modalidad: Delivery');
+    if (order.notes) wa.push('📝 ' + order.notes);
+    wa.push('');
+    wa.push(note || 'Hola 👋, quisiera realizar este pedido.');
+    window.open('https://wa.me/' + STORE.whatsapp + '?text=' + encodeURIComponent(wa.join('\n')), '_blank');
+  };
 
   flash = (msg, toCart) => {
     clearTimeout(this._tt);
@@ -1897,13 +1759,14 @@ class Component extends DCLogic {
     const t = TITLES[scr] || ['',''];
     const sub = st.lines.reduce((a, l) => a + l.unit * l.n, 0);
     const isPickup = st.mode === 'pickup';
+    const pickupStepIndex = 1; // Demo: "Preparando". El estado real debe venir del panel administrador cuando exista backend.
     const fee = st.lines.length ? (isPickup ? 0 : STORE.fee) : 0;
     const disc = st.applied && st.lines.length ? 2 : 0;
     const total = sub + fee - disc;
     const cartCount = st.lines.reduce((a, l) => a + l.n, 0);
     const addrLine = st.addr === 'Casa' ? 'Av. Bolognesi 845, Tacna' : 'Calle Zela 320, Tacna';
     // Último pedido confirmado (o el de ejemplo RTQ-2048 mientras no se confirme ninguno)
-    const lo = st.lastOrder || {id: 'RTQ-2048', lines: ORDER_LINES['RTQ-2048'], sub: 52.90, fee: 5.90, disc: 0, total: 58.80, mode: 'delivery', addr: 'Casa', addrLine: 'Av. Bolognesi 845, Tacna', pay: 'Yape / Plin (captura por WhatsApp)', eta: '7:47 p. m.'};
+    const lo = st.lastOrder || {id: 'RTQ-2048', lines: ORDER_LINES['RTQ-2048'], sub: 52.90, fee: 0, disc: 0, total: 52.90, mode: 'pickup', pay: 'Pago contraentrega (Efectivo)', eta: '7:47 p. m.'};
     const loSummary = lo.lines.map(l => l.n + ' ' + l.name).join(' + ');
 
     return {
@@ -1934,7 +1797,7 @@ class Component extends DCLogic {
       s01: scr==='01', s02: scr==='02', s03: scr==='03', s04: scr==='04', s05: scr==='05',
       s06: scr==='06', s07: scr==='07', s08: scr==='08', s09: scr==='09', s10: scr==='10',
       s11: scr==='11', s12: scr==='12',
-      s13: scr==='13', s14: scr==='14', s15: scr==='15', s16: scr==='16', s17: scr==='17',
+      s13: scr==='13', s16: scr==='16', s17: scr==='17',
       s18: scr==='18', s19: scr==='19', s20: scr==='20', s21: scr==='21', s22: scr==='22',
       s23: scr==='23', s24: scr==='24', s25: scr==='25', s26: scr==='26',
       showNav: ['06','07','08','11','12','13','20','21','23','24'].indexOf(scr) > -1,
@@ -1943,8 +1806,18 @@ class Component extends DCLogic {
       cOrders: ['20','21','22'].indexOf(scr) > -1 ? P.coral : '#B5ADA3',
       cProfile: ['24','25'].indexOf(scr) > -1 ? P.coral : '#B5ADA3',
 
+      isPickup: isPickup, isPickupMode: st.mode === 'pickup', isDeliveryMode: st.mode === 'delivery',
       goHome: this.go('06'), go03: this.go('03'), go04: this.go('04'), go05: this.go('05'),
-      go07: this.go('07'), go08: this.go('08'), go10: this.go('10'), go12: this.go('12'), go23: this.go('23'),
+      go07: this.go('07'), go08: this.go('08'), go10: this.go('10'), go12: this.go('12'), go21: this.go('21'), go23: this.go('23'),
+      openLastOrderWA: () => this.buildOrderWhatsApp(lo, 'Hola 👋, quisiera confirmar el estado de mi solicitud.'),
+      pickupSteps: ['Pedido recibido', 'Preparando', 'Listo para recoger', 'Recogido'].map((label, i) => ({
+        label,
+        mark: i < pickupStepIndex ? '✓' : (i + 1).toString(),
+        weight: i === pickupStepIndex ? 700 : 400,
+        fg: i <= pickupStepIndex ? P.char : '#A69E93',
+        bg: i < pickupStepIndex ? '#1F9D62' : (i === pickupStepIndex ? P.coral : '#fff'),
+        bd: i <= pickupStepIndex ? (i < pickupStepIndex ? '#1F9D62' : P.coral) : '#DCD2C1'
+      })),
 
       cart: cartCount, cartCount: cartCount, toast: st.toast,
       toastTap: () => { if (st.toastGo) this.setState({screen: '13', toast: '', toastGo: false}); },
@@ -1970,19 +1843,23 @@ class Component extends DCLogic {
         label: x.label, price: money(x.price), pick: () => this.setState({pres: x.v}),
         bd: st.pres === x.v ? P.coral : '#EFE6D6', bg: st.pres === x.v ? '#FFF8F6' : '#fff', fg: st.pres === x.v ? P.dark : '#242424'
       })),
-      confirmMode: () => this.setState({screen: isPickup ? '17' : '14'}),
-      entregaLine: isPickup ? 'Recojo en ' + STORE.addr : st.addr + ' · ' + addrLine,
-      entregaSub: isPickup ? 'Listo en 20–25 min · pagas al retirar o por Yape' : 'Delivery · 35–45 min · ' + money(STORE.fee),
+      confirmMode: () => this.setState({screen: '17'}),
+      entregaLine: isPickup ? 'Recojo en ' + STORE.addr : 'Delivery por WhatsApp',
+      entregaSub: isPickup ? 'Listo en 20–25 min · pagas al retirar o por Yape' : 'Dirección, costo de envío y pago se coordinan al enviar tu pedido',
       driverNotes: st.driverNotes, onDriverNotes: (e) => this.setState({driverNotes: e.target.value}),
       comboNotes: st.comboNotes, onComboNotes: (e) => this.setState({comboNotes: e.target.value}),
-      payBtn: 'CONFIRMAR PEDIDO · ' + money(total),
+      payBtn: isPickup ? 'CONFIRMAR PEDIDO · ' + money(total) : 'HACER PEDIDO POR WHATSAPP',
       showYape: /Yape|Plin|Transferencia/.test(st.pay), yapeNumber: STORE.yape,
-      eta: lo.eta, etaTitle: lo.mode === 'pickup' ? 'LISTO PARA RECOGER' : 'LLEGA A LAS',
-      etaSub: lo.mode === 'pickup' ? 'En aprox. 20–25 minutos' : 'En aprox. 35 minutos',
-      notifyLine: lo.mode === 'pickup' ? 'Te avisamos por WhatsApp cuando tu pedido esté listo para recoger' : 'Te avisamos por WhatsApp cuando el motorizado esté cerca',
+      confirmTitle: lo.mode === 'pickup' ? '¡Gracias, Milton! 🥟' : 'Solicitud enviada 🥟',
+      confirmSub: lo.mode === 'pickup' ? 'Empezamos a preparar tu pedido en cocina' : 'La coordinación continúa por WhatsApp',
+      eta: lo.mode === 'pickup' ? lo.eta : 'WhatsApp',
+      etaTitle: lo.mode === 'pickup' ? 'LISTO PARA RECOGER' : 'PRÓXIMO PASO',
+      etaSub: lo.mode === 'pickup' ? 'En aprox. 20–25 minutos' : 'Confirma dirección, costo y pago en la conversación',
+      notifyLine: lo.mode === 'pickup' ? 'Te avisamos por WhatsApp cuando tu pedido esté listo para recoger' : 'Revisa WhatsApp para coordinar dirección, costo de envío y forma de pago',
       orderId: lo.id, orderSummary: loSummary, orderSubtotal: money(lo.sub), orderTotal: money(lo.total),
-      orderFeeName: lo.mode === 'pickup' ? 'Recojo en ' + STORE.addr : 'Delivery a ' + lo.addrLine, orderFee: money(lo.fee),
-      orderPayShort: /Yape|Plin/.test(lo.pay) ? 'Yape ✓' : (/Transfer/.test(lo.pay) ? 'Transferencia' : (lo.mode === 'pickup' ? 'Pago en tienda' : 'Efectivo')),
+      orderPayShort: lo.mode !== 'pickup' ? 'Por WhatsApp' : (/Yape|Plin/.test(lo.pay) ? 'Yape ✓' : (/Transfer/.test(lo.pay) ? 'Transferencia' : 'Pago en tienda')),
+      trackBtnLabel: lo.mode === 'pickup' ? 'VER ESTADO DEL PEDIDO' : 'ABRIR WHATSAPP',
+      trackBtnAction: lo.mode === 'pickup' ? this.go('20') : () => this.buildOrderWhatsApp(lo, 'Hola 👋, quisiera confirmar el estado de mi solicitud.'),
 
       loginTitle: ios ? '¡Qué gusto verte!' : '¡Hola de nuevo!',
       loginSub: ios ? 'Ingresa para pedir tus Retequeños favoritos' : 'Ingresa y disfruta tus favoritos',
@@ -2093,7 +1970,7 @@ class Component extends DCLogic {
       terms: st.terms,
       showTerms: () => this.setState(s => ({terms: !s.terms})),
 
-      go13: this.go('13'), go14: this.go('14'), go15: this.go('15'), go16: this.go('16'),
+      go13: this.go('13'), go16: this.go('16'),
       go17: this.go('17'), go18: this.go('18'), go20: this.go('20'), go21: this.go('21'),
       go22: this.go('22'), go24: this.go('24'), go25: this.go('25'),
 
@@ -2112,19 +1989,6 @@ class Component extends DCLogic {
       applyLabel: st.applied ? 'Quitar' : 'Aplicar',
       applyBg: st.applied ? '#1F9D62' : P.char,
       applyFg: '#fff',
-
-      addresses: [['Casa','Av. Bolognesi 845, Tacna'],['Trabajo','Calle Zela 320, Tacna']].map(a => ({
-        label: a[0], line: a[1], pick: () => this.setState({addr: a[0]}),
-        bd: st.addr === a[0] ? P.coral : '#EFE6D6',
-        ring: st.addr === a[0] ? P.coral : '#CFC5B4',
-        dot: st.addr === a[0] ? P.coral : 'transparent'
-      })),
-      addrTags: ['Casa','Trabajo','Otro'].map(t =>
-        this.chip(t, st.addrTag === t, () => this.setState({addrTag: t}))),
-      toggleMain: () => this.setState(s => ({mainAddr: !s.mainAddr})),
-      mainTrack: st.mainAddr ? P.coral : '#DCD2C1',
-      mainJustify: st.mainAddr ? 'flex-end' : 'flex-start',
-      saveAddr: () => { this.flash('Dirección guardada'); this.setState({screen: '14'}); },
 
       pickDelivery: () => this.setState({mode: 'delivery'}),
       pickPickup: () => this.setState({mode: 'pickup'}),
@@ -2146,17 +2010,18 @@ class Component extends DCLogic {
       schedTime: st.timing === 'Programar pedido' ? '7:00 – 7:30 p. m.' : 'Franja horaria',
 
       payLabel: st.pay,
-      payBadge: /Yape|Plin|Transferencia/.test(lo.pay) ? 'PAGO POR VERIFICAR' : ((lo.pay.indexOf('Recojo') > -1 || lo.mode === 'pickup') ? 'PAGAS EN TIENDA' : 'EFECTIVO · CONTRAENTREGA'),
-      payBadgeBg: /Yape|Plin|Transferencia/.test(lo.pay) ? '#FFF3DF' : '#E7F6EE',
-      payBadgeFg: /Yape|Plin|Transferencia/.test(lo.pay) ? '#B7791F' : '#1F9D62',
-      payNote: /Yape|Plin|Transferencia/.test(lo.pay)
-        ? '📲 Envía la captura de tu pago por WhatsApp (' + STORE.yape + '). Confirmamos en minutos y empezamos a preparar.'
-        : ((lo.pay.indexOf('Recojo') > -1 || lo.mode === 'pickup') ? '🏪 Pagas al retirar en ' + STORE.addr + '.' : '💵 Ten listo el efectivo: el motorizado lleva sencillo.'),
+      payBadge: lo.mode !== 'pickup' ? 'COORDINAR POR WHATSAPP' : (/Yape|Plin|Transferencia/.test(lo.pay) ? 'PAGO POR VERIFICAR' : 'EFECTIVO · CONTRAENTREGA'),
+      payBadgeBg: lo.mode !== 'pickup' ? '#E6F4FB' : (/Yape|Plin|Transferencia/.test(lo.pay) ? '#FFF3DF' : '#E7F6EE'),
+      payBadgeFg: lo.mode !== 'pickup' ? '#0369A1' : (/Yape|Plin|Transferencia/.test(lo.pay) ? '#B7791F' : '#1F9D62'),
+      payNote: lo.mode !== 'pickup'
+        ? 'La forma de pago (Yape, Plin, efectivo) y el costo de envío se coordinan en la conversación de WhatsApp.'
+        : (/Yape|Plin|Transferencia/.test(lo.pay)
+          ? '📲 Envía la captura de tu pago por WhatsApp (' + STORE.yape + '). Confirmamos en minutos y empezamos a preparar.'
+          : '🏪 Pagas al retirar en ' + STORE.addr + '.'),
       payMethods: [
-        ['Pago contraentrega (Efectivo)','Pagas en efectivo al repartidor al recibir · lleva sencillo','EFEC'],
+        ['Efectivo al recoger','Pagas en tienda al retirar tu pedido','EFEC'],
         ['Yape / Plin (captura por WhatsApp)','Yapeas ahora y nos envías la captura; verificamos y preparamos','YAPE'],
-        ['Transferencia BCP / Banco de la Nación','Transfieres y envías el comprobante por WhatsApp','TRANSF'],
-        ['Recojo en local (Efectivo/Yape)','Pagas en tienda al retirar tus tequeños','LOCAL']
+        ['Transferencia BCP / Banco de la Nación','Transfieres y envías el comprobante por WhatsApp','TRANSF']
       ].map(m => ({
         label: m[0], note: m[1], tag: m[2],
         pick: () => this.setState({pay: m[0]}),
@@ -2165,9 +2030,17 @@ class Component extends DCLogic {
       })),
       pay: () => {
         const ordId = 'RTQ-' + (2050 + Math.floor(Math.random() * 200));
-        const etaDate = new Date(Date.now() + (isPickup ? 22 : 35) * 60000);
-        const order = {id: ordId, lines: st.lines.slice(), sub: sub, fee: fee, disc: disc, total: total, mode: st.mode, addr: st.addr, addrLine: addrLine, pay: st.pay, eta: fmtTime(etaDate), notes: st.driverNotes};
-        this.flash(/Yape|Plin|Transferencia/.test(st.pay) ? '¡Pedido enviado! Envíanos la captura del pago' : (isPickup ? '¡Pedido enviado! Te avisamos cuando esté listo' : '¡Pedido enviado! Pagarás al recibir'));
+        if (!isPickup) {
+          // Delivery: no se fija dirección, costo de envío ni método de pago en la app; todo se coordina en WhatsApp.
+          const order = {id: ordId, lines: st.lines.slice(), sub: sub, fee: 0, disc: disc, total: total, mode: 'delivery', pay: 'Por coordinar en WhatsApp', coupon: st.applied ? 'RETE10' : null, notes: st.driverNotes};
+          this.buildOrderWhatsApp(order);
+          this.flash('Solicitud enviada a WhatsApp');
+          this.setState({screen: '19', lastOrder: order, lines: [], applied: false, driverNotes: '', hist: 'En curso'});
+          return;
+        }
+        const etaDate = new Date(Date.now() + 22 * 60000);
+        const order = {id: ordId, lines: st.lines.slice(), sub: sub, fee: 0, disc: disc, total: total, mode: 'pickup', pay: st.pay, eta: fmtTime(etaDate), notes: st.driverNotes};
+        this.flash(/Yape|Plin|Transferencia/.test(st.pay) ? '¡Pedido enviado! Envíanos la captura del pago' : '¡Pedido confirmado! Te avisamos cuando esté listo');
         this.setState({screen: '19', lastOrder: order, lines: [], applied: false, driverNotes: '', hist: 'En curso'});
         try {
           fetch('/api/pedidos', {
@@ -2177,11 +2050,11 @@ class Component extends DCLogic {
               id: ordId,
               customer: 'Milton Flores (App)',
               phone: '952741852',
-              address: isPickup ? 'Recojo en tienda · ' + STORE.addr : addrLine,
+              address: 'Recojo en tienda · ' + STORE.addr,
               items: st.lines.map(l => ({name: l.name + (l.opts ? ' (' + l.opts + ')' : ''), qty: l.n, price: l.unit, sauces: l.opts})),
-              subtotal: sub, deliveryFee: fee, discount: disc, total: total,
+              subtotal: sub, deliveryFee: 0, discount: disc, total: total,
               payMethod: st.pay || 'Pago contraentrega (Efectivo)',
-              notes: (st.driverNotes ? st.driverNotes + ' · ' : '') + 'Pedido enviado desde la app.' + (isPickup ? ' Recojo en tienda.' : '')
+              notes: (st.driverNotes ? st.driverNotes + ' · ' : '') + 'Pedido enviado desde la app. Recojo en tienda.'
             })
           }).catch(function(){});
         } catch(e) {}
@@ -2220,7 +2093,7 @@ class Component extends DCLogic {
         })))),
       sourceChips: ['TikTok','Facebook / Instagram','Recomendación','Pasé por el local','Google'].map(c =>
         this.chip(c, st.source === c, () => this.setState({source: c}))),
-      showGoogle: st.rating >= 4,
+      showGoogle: true,
       goGoogle: () => this.flash('Abriendo Google Reviews de Retequeños…'),
       sendSurvey: () => {
         if (!st.rating) { this.flash('Primero elige tu calificación'); return; }
@@ -2250,7 +2123,7 @@ class Component extends DCLogic {
       readAll: () => { this.setState({unread: false}); this.flash('Notificaciones marcadas como leídas'); },
 
       profileRows: [
-        ['Mis direcciones','◎', this.go('14')],
+        ['Mis pedidos','▤', this.go('21')],
         ['Métodos de pago','▤', this.go('18')],
         ['Favoritos','♡', this.go('11')],
         ['Promociones','%', this.go('12')],
