@@ -75,7 +75,7 @@ export const HomePage: React.FC = () => {
       <HeroBanner />
 
       {/* Filtro por categoría (se queda visible al hacer scroll, debajo del encabezado) */}
-      <div className="sticky top-28 z-30 bg-[#F9FAFB]/95 backdrop-blur-md py-3 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 border-b border-neutral-200/80">
+      <div className="sticky top-16 z-30 bg-[#F9FAFB]/95 backdrop-blur-md py-3 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 border-b border-neutral-200/80">
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5" role="tablist" aria-label="Secciones de la carta">
           {CATEGORY_TABS.map((tab) => {
             const Icon = tab.icon;

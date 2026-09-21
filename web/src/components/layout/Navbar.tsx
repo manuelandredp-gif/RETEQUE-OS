@@ -4,7 +4,6 @@ import { Menu, Search, ShoppingCart, X, MessageCircle } from 'lucide-react';
 import { useCartStore } from '../../store/cartStore';
 import { useUiStore } from '../../store/uiStore';
 import { siteConfig } from '../../config/site';
-import { NAV_LINKS } from '../../config/navigation';
 import { formatMoney } from '../../lib/money';
 import { openWhatsApp } from '../../lib/whatsapp';
 import { SearchBox } from './SearchBox';
@@ -30,9 +29,6 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     setSearchOpen(false);
   }, [pathname, setSearchOpen]);
-
-  const isActive = (path: string) =>
-    path === '/' ? pathname === '/' : pathname.startsWith(path) || (path === '/tequenos' && pathname.startsWith('/producto'));
 
   return (
     <header className="sticky top-0 z-40 shadow-md">
@@ -112,35 +108,6 @@ export const Navbar: React.FC = () => {
           </div>
         )}
       </div>
-
-      {/* Categorías */}
-      <nav aria-label="Categorías" className="bg-white border-b border-neutral-200">
-        <div className="max-w-[1640px] mx-auto px-3 sm:px-6 h-12 flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
-          <div className="flex items-center gap-1.5 sm:gap-3 py-1">
-            {NAV_LINKS.map((link) => {
-              const active = isActive(link.path);
-              return (
-                <Link
-                  key={link.id}
-                  to={link.path}
-                  aria-current={active ? 'page' : undefined}
-                  className={`text-xs sm:text-sm font-bold px-3.5 py-1.5 rounded-full whitespace-nowrap transition-all ${
-                    active
-                      ? 'bg-[#C5161D] text-white shadow-sm'
-                      : 'text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-          </div>
-
-          <div className="font-script text-[#C5161D] text-xl font-bold whitespace-nowrap hidden lg:block shrink-0">
-            {siteConfig.tagline}
-          </div>
-        </div>
-      </nav>
     </header>
   );
 };
