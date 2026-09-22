@@ -3542,12 +3542,6 @@
           <span class="nav-badge" style="background:#10B981; color:#FFFFFF; font-weight:800;" id="badge-reviews">7</span>
         </button>
       </li>
-      <li class="nav-item">
-        <button class="nav-btn" data-tab="tab-settings">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-          <span>Preferencias Tienda</span>
-        </button>
-      </li>
     </ul>
 
     <div class="nav-section" style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:#6E6864; font-weight:800; padding:18px 20px 8px;">MÁS MÓDULOS</div>
@@ -5196,103 +5190,6 @@
 
       </section>
 
-      <!-- TAB 6: SETTINGS & STORE PREFERENCES -->
-      <section id="tab-settings" class="tab-content">
-        
-        <div class="promo-grid">
-          
-          <div class="card">
-            <div class="card-header">
-              <div>
-                <div class="card-title">Parámetros Operativos de Delivery</div>
-                <div class="card-subtitle">Configura tarifas y cobertura</div>
-              </div>
-            </div>
-
-            <form onsubmit="handleSaveSettings(event)">
-              <div class="form-group">
-                <label class="form-label">Costo Fijo de Delivery (Soles)</label>
-                <input type="number" step="0.10" id="set-delivery-fee" class="form-control" value="5.90">
-              </div>
-
-              <div class="form-group">
-                <label class="form-label">Monto Mínimo para Envío a Domicilio</label>
-                <input type="number" step="0.50" id="set-min-order" class="form-control" value="15.00">
-              </div>
-
-              <div class="form-group">
-                <label class="form-label">Radio Máximo de Cobertura (Km)</label>
-                <input type="number" step="0.5" id="set-radius" class="form-control" value="8.5">
-              </div>
-
-              <div class="form-group">
-                <label class="form-label">Tiempo Base de Preparación en Cocina (Minutos)</label>
-                <input type="number" id="set-prep-time" class="form-control" value="15">
-              </div>
-
-              <button type="submit" class="btn btn-primary" style="margin-top:10px;">Guardar Preferencias de Delivery</button>
-            </form>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <div>
-                <div class="card-title">Reglas de Salsas & Métodos de Pago</div>
-                <div class="card-subtitle">Límites y pasarelas aceptadas</div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Salsas Gratuitas Incluidas por Porción</label>
-              <input type="number" class="form-control" value="2" readonly style="background:#FAF8F5;">
-              <div style="font-size:11.5px; color:var(--text-muted); margin-top:4px;">Regla activa: El cliente puede seleccionar hasta 2 salsas gratis (Lote 09 y 10).</div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Precio por Salsa Adicional (Extra)</label>
-              <input type="number" step="0.50" class="form-control" value="2.00">
-            </div>
-
-            <div style="margin-top:20px;">
-              <label class="form-label">Métodos de Pago Habilitados en Checkout (Lote 18)</label>
-              <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
-                <label style="display:flex; align-items:center; gap:10px; font-size:13px; cursor:pointer;">
-                  <input type="checkbox" checked> <strong>Yape</strong> (adelantado · captura verificada a mano, 0% comisión)
-                </label>
-                <label style="display:flex; align-items:center; gap:10px; font-size:13px; cursor:pointer;">
-                  <input type="checkbox" checked> <strong>Plin</strong> (adelantado · captura verificada a mano)
-                </label>
-                <label style="display:flex; align-items:center; gap:10px; font-size:13px; cursor:pointer;">
-                  <input type="checkbox" checked> <strong>Transferencia bancaria</strong> (BCP / Banco de la Nación · comprobante por WhatsApp)
-                </label>
-                <label style="display:flex; align-items:center; gap:10px; font-size:13px; cursor:pointer;">
-                  <input type="checkbox" checked> <strong>Efectivo contraentrega</strong> (el motorizado lleva sencillo)
-                </label>
-                <label style="display:flex; align-items:center; gap:10px; font-size:13px; cursor:pointer; color:var(--text-muted);">
-                  <input type="checkbox"> <strong>Tarjetas Débito / Crédito</strong> (requiere pasarela: comisión y retenciones — desactivado)
-                </label>
-                <label style="display:flex; align-items:center; gap:10px; font-size:13px; cursor:pointer; color:var(--text-muted);">
-                  <input type="checkbox"> <strong>Apple Pay</strong> (requiere pasarela — desactivado)
-                </label>
-              </div>
-              <div style="margin-top:10px; padding:10px 12px; background:#FFF8EE; border-left:3px solid var(--gold); font-size:11.5px; color:#6B6662;">
-                Sin pasarela de pagos: los pagos digitales se confirman a mano con la captura (código de 3 dígitos de Yape) desde el KDS antes de mandar a cocina. Así se evitan comisiones y retenciones.
-              </div>
-            </div>
-
-            <div class="form-group" style="margin-top:18px;">
-              <label class="form-label">Central de Motos (grupo de WhatsApp de motorizados)</label>
-              <input type="text" class="form-control" id="set-driver-group" value="https://chat.whatsapp.com/central-motos-alto-lima">
-              <div style="font-size:11.5px; color:var(--text-muted); margin-top:4px;">El botón "📲 Moto" del KDS arma la comanda con nombre, teléfono, dirección, referencia y GPS del cliente para pegarla en este grupo. Los motorizados están al frente (Carlitos) y llegan en minutos.</div>
-            </div>
-
-            <button class="btn btn-primary" style="margin-top:20px;" onclick="showToast('Métodos de pago actualizados')">Guardar Reglas de Pago</button>
-          </div>
-
-        </div>
-
-      </section>
-
     </main>
   </div>
 
@@ -6043,8 +5940,7 @@
           'tab-catalog': ['Menú & Control de Stock', 'Administración de productos, precios y disponibilidad'],
           'tab-promos': ['Cupones & Ofertas', 'Motor de promociones y planificador de días especiales'],
           'tab-customers': ['Clientes & Notificaciones Push', 'CRM de fidelización y campañas directas'],
-          'tab-surveys': ['Encuestas & Reseñas', 'Feedback de clientes, origen de la publicidad y cupones por encuesta'],
-          'tab-settings': ['Preferencias de Tienda', 'Horarios, parámetros de delivery y métodos de pago']
+          'tab-surveys': ['Encuestas & Reseñas', 'Feedback de clientes, origen de la publicidad y cupones por encuesta']
         };
 
         if (headings[tabId]) {
@@ -7467,11 +7363,6 @@ ${cobro}`;
       e.preventDefault();
       playAlertSound();
       showToast('🚀 Notificación Push enviada exitosamente a 1,240 dispositivos');
-    }
-
-    function handleSaveSettings(e) {
-      e.preventDefault();
-      showToast('⚙️ Preferencias de Delivery guardadas correctamente');
     }
 
     // Charts Initialization
