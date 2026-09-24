@@ -1,84 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Retequeños · App Móvil (Prototipo)</title>
+  <meta name="theme-color" content="#E53935">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Retequeños">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/logo-retequenos.png">
+  <link rel="icon" type="image/png" href="assets/logo-retequenos.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/mobile.css">
+  <script src="js/mobile/data.js"></script>
+  <script src="./support.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
 </head>
 <body>
 <x-dc>
 <helmet data-dc-atomics>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-body{margin:0;background:#EFEAE2}
-a{color:#D91F2A}a:hover{color:#FF3038}
-*{box-sizing:border-box}
-@keyframes scrIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes toastIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-@keyframes pop{0%{transform:scale(.7)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
-@keyframes twinkle{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
-@keyframes logoIn{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:none}}
-@keyframes shimmer{0%{background-position:-200px 0}100%{background-position:220px 0}}
-@keyframes ride{0%{transform:translate(0,0)}100%{transform:translate(150px,-96px)}}
-@keyframes dash{to{stroke-dashoffset:-40}}
-@keyframes ring{0%{box-shadow:0 0 0 0 rgba(31,157,98,.45)}100%{box-shadow:0 0 0 16px rgba(31,157,98,0)}}
-@keyframes moto{0%{offset-distance:0%}100%{offset-distance:100%}}
-@keyframes cheeseBounce{0%,100%{transform:translateY(0) scale(1) rotate(0deg)}50%{transform:translateY(-3px) scale(1.08) rotate(-2deg)}}
-@keyframes dipPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-@keyframes floatItem{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-3.5px) rotate(1.5deg)}}
-@keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,48,56,.3)}50%{box-shadow:0 0 0 8px rgba(255,48,56,0)}}
-.cheese-fig{animation:cheeseBounce 2.8s ease-in-out infinite}
-.sauce-fig{animation:dipPulse 3.2s ease-in-out infinite}
-.float-fig{animation:floatItem 3.6s ease-in-out infinite}
-.pulse-badge{animation:glowPulse 2s infinite}
-.scr{animation:scrIn .3s cubic-bezier(.2,.8,.2,1)}
-.stagger>*{animation:fadeUp .34s both cubic-bezier(.2,.8,.2,1)}
-.stagger>*:nth-child(2){animation-delay:.05s}
-.stagger>*:nth-child(3){animation-delay:.1s}
-.stagger>*:nth-child(4){animation-delay:.15s}
-.stagger>*:nth-child(5){animation-delay:.2s}
-.stagger>*:nth-child(6){animation-delay:.25s}
-.stagger>*:nth-child(7){animation-delay:.3s}
-.sc::-webkit-scrollbar{width:0}
-.ph{background:linear-gradient(135deg,#FFF3DF 0%,#FFE0BE 100%);overflow:hidden}
-.ph svg{display:block}
-@keyframes steamUp{0%{transform:translateY(0) scale(1);opacity:0}20%{opacity:.7}100%{transform:translateY(-14px) scale(1.4);opacity:0}}
-@keyframes steamBig{0%{transform:translateY(4px) scale(.7);opacity:0}25%{opacity:.85}100%{transform:translateY(-40px) scale(1.7);opacity:0}}
-@keyframes confettiFall{0%{transform:translate(0,-40px) rotate(0deg);opacity:0}10%{opacity:1}100%{transform:translate(var(--dx,0),320px) rotate(720deg);opacity:0}}
-@keyframes pulseHalo{0%{box-shadow:0 0 0 0 rgba(31,157,98,.5)}70%{box-shadow:0 0 0 22px rgba(31,157,98,0)}100%{box-shadow:0 0 0 0 rgba(31,157,98,0)}}
-@keyframes bump{0%,100%{transform:scale(1)}45%{transform:scale(1.08)}}
-@keyframes motoRide{0%{offset-distance:0%}50%{offset-distance:60%}100%{offset-distance:100%}}
-@keyframes tickBlink{0%,100%{opacity:1}50%{opacity:.35}}
-.steam{animation:steamUp 2.4s ease-in-out infinite}
-.steam2{animation:steamUp 2.4s ease-in-out infinite .5s}
-.steam3{animation:steamUp 2.4s ease-in-out infinite 1s}
-.confetti{position:absolute;width:8px;height:12px;border-radius:2px;animation:confettiFall 3.4s linear infinite;top:-16px;pointer-events:none}
-.moto-path{offset-path:path("M40 220 Q75 220 90 190 T145 130 Q175 100 220 100 T295 88");animation:motoRide 8s linear infinite}
-.tickBlink{animation:tickBlink 1.4s ease-in-out infinite}
-img.rq-photo{width:100%;height:100%;object-fit:cover;display:block;background:#FFF3DF}
-div.rq-photo{width:100%;height:100%;background-size:cover;background-position:center;background-repeat:no-repeat;background-color:#FFF3DF}
-textarea.rq-notes{width:100%;border:1px solid #EFE6D6;background:#fff;border-radius:11px;padding:10px 12px;font:400 12.5px/1.45 'Roboto',sans-serif;color:#242424;min-height:56px;resize:none;outline:0;box-sizing:border-box}
-textarea.rq-notes::placeholder{color:#7A736B}
-textarea.rq-notes:focus{border-color:#FF3038}
-/* Vista móvil real: en un celular se oculta el escritorio del prototipo y la app ocupa toda la pantalla */
-@media (max-width:720px){
-  [data-rail]{display:none!important}
-  [data-stage]{padding:0!important;gap:0!important;height:100dvh!important;overflow:hidden!important}
-  [data-stage-title],[data-stage-hint],[data-statusbar],[data-homebar]{display:none!important}
-  [data-zoom]{transform:none!important;width:100vw;height:100dvh}
-  [data-device]{width:100vw!important;height:100dvh!important;border-radius:0!important;padding:0!important;box-shadow:none!important;background:#FFF8EE!important}
-  [data-screen]{border-radius:0!important}
-}
-</style>
+<link rel="stylesheet" href="css/mobile.css">
 </helmet>
 
 <div style="display:flex;min-height:100vh;font-family:'Roboto',system-ui,sans-serif;color:#242424">
 
 <aside data-rail style="width:262px;flex:none;background:#242424;color:#fff;padding:22px 18px;display:flex;flex-direction:column;gap:18px;position:sticky;top:0;height:100vh;overflow:auto">
 <div style="display:flex;align-items:center;gap:10px">
-<img src="assets/logo-retequenos.png" alt="Retequeños" style="width:38px;height:38px;border-radius:9px;display:block">
+<img src="assets/logo-retequenos.png" alt="Retequeños" style="width:38px;height:38px;border-radius:9px;display:block" decoding="async">
 <div>
 <div style="font:700 14px/1.1 'Roboto',sans-serif">Retequeños</div>
 <div style="font:400 10.5px/1.3 'Roboto',sans-serif;color:#A8A29B;letter-spacing:.04em">PROTOTIPO APP · v2 · MVP</div>
@@ -147,7 +103,7 @@ Prototipo navegable con fotos reales de la carta 2026. <strong style="color:#F5A
 <sc-if value="{{ s01 }}" hint-placeholder-val="{{ true }}">
 <div class="scr" style="position:absolute;inset:0;background:#FF3038;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;overflow:hidden">
 <div style="position:absolute;inset:0;opacity:.09;background-image:radial-gradient(circle at 20% 18%,#fff 0 9px,transparent 10px),radial-gradient(circle at 78% 34%,#fff 0 7px,transparent 8px),radial-gradient(circle at 34% 72%,#fff 0 8px,transparent 9px),radial-gradient(circle at 84% 84%,#fff 0 6px,transparent 7px)"></div>
-<img src="assets/logo-retequenos.png" alt="Retequeños" style="width:148px;height:148px;border-radius:34px;display:block;animation:logoIn .7s cubic-bezier(.2,.8,.2,1) both">
+<img src="assets/logo-retequenos.png" alt="Retequeños" style="width:148px;height:148px;border-radius:34px;display:block;animation:logoIn .7s cubic-bezier(.2,.8,.2,1) both" decoding="async">
 <div style="text-align:center;position:relative;z-index:2">
 <div style="font:700 34px/1.1 'Roboto',sans-serif;color:#FFF8EE;letter-spacing:-.01em">Retequeños</div>
 <div style="font:400 15px/1.4 'Roboto',sans-serif;color:#FFE0C9;margin-top:8px">Sabor que nos une</div>
@@ -180,7 +136,7 @@ Prototipo navegable con fotos reales de la carta 2026. <strong style="color:#F5A
 <g transform="translate(198 148)"><ellipse cx="18" cy="34" rx="20" ry="3" fill="rgba(80,40,10,.18)"/><path d="M2 12 Q2 8 6 8 L30 8 Q34 8 34 12 L32 30 Q31 36 18 36 Q5 36 4 30 Z" fill="#F5F0E6" stroke="#C8B99C" stroke-width="1.1"/><ellipse cx="18" cy="12" rx="14" ry="4" fill="#FFF8EE"/><ellipse cx="18" cy="12" rx="10" ry="3" fill="#F1F8E9"/><circle cx="14" cy="12" r=".8" fill="#2E7D32"/><circle cx="20" cy="13" r=".7" fill="#388E3C"/><circle cx="22" cy="11" r=".7" fill="#2E7D32"/></g>
 <g transform="translate(28 148)"><ellipse cx="18" cy="34" rx="20" ry="3" fill="rgba(80,40,10,.18)"/><path d="M2 12 Q2 8 6 8 L30 8 Q34 8 34 12 L32 30 Q31 36 18 36 Q5 36 4 30 Z" fill="#F5F0E6" stroke="#C8B99C" stroke-width="1.1"/><ellipse cx="18" cy="12" rx="14" ry="4" fill="#FBE9E7"/><ellipse cx="18" cy="12" rx="10" ry="3" fill="#FF5722"/><circle cx="16" cy="12" r="1" fill="#FFC107"/></g>
 </svg>
-<img class="rq-photo" src="img/products/tequenos/queso-detail-main.jpg" alt="Tequeños de queso recién fritos" style="position:absolute;inset:0;width:100%;height:100%">
+<img class="rq-photo" src="img/products/tequenos/queso-detail-main.jpg" alt="Tequeños de queso recién fritos" style="position:absolute;inset:0;width:100%;height:100%" loading="lazy" decoding="async">
 <button type="button" onClick="{{ goHome }}" style="position:absolute;top:14px;right:16px;border:0;background:rgba(255,255,255,.86);color:#6B6662;font:500 12px 'Roboto',sans-serif;padding:7px 13px;border-radius:{{ pill }};cursor:pointer">Omitir</button>
 </div>
 <div class="stagger" style="padding:30px 26px 26px;display:flex;flex-direction:column;gap:14px;flex:1">
@@ -202,7 +158,7 @@ Prototipo navegable con fotos reales de la carta 2026. <strong style="color:#F5A
 <sc-if value="{{ s03 }}" hint-placeholder-val="{{ false }}">
 <div class="scr" style="min-height:100%;background:#FFF8EE;display:flex;flex-direction:column">
 <div style="background:#FF3038;padding:26px 26px 30px;display:flex;align-items:center;gap:14px;flex:none">
-<img src="assets/logo-retequenos.png" alt="" style="width:52px;height:52px;border-radius:13px;display:block">
+<img src="assets/logo-retequenos.png" alt="" style="width:52px;height:52px;border-radius:13px;display:block" decoding="async">
 <div class="ph" style="flex:1;height:52px;border-radius:9px;display:flex;align-items:center;justify-content:center;overflow:hidden">
 <svg viewBox="0 0 220 48" style="width:100%;height:100%" preserveAspectRatio="xMidYMid meet">
 <defs><linearGradient id="lgg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#F5C271"/><stop offset="1" stop-color="#B8721C"/></linearGradient></defs>
@@ -350,7 +306,7 @@ Prototipo navegable con fotos reales de la carta 2026. <strong style="color:#F5A
 <div style="font:400 12.5px 'Roboto',sans-serif;color:#FFE0C9;margin-top:5px">2x1 en clásicos seleccionados</div>
 </div>
 <div class="ph" style="width:82px;height:82px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;overflow:hidden">
-<img class="rq-photo" src="img/promos/promo-duo.jpg" alt="Promo Duo">
+<img class="rq-photo" src="img/promos/promo-duo.jpg" alt="Promo Duo" loading="lazy" decoding="async">
 </div>
 </div>
 
@@ -412,7 +368,7 @@ Prototipo navegable con fotos reales de la carta 2026. <strong style="color:#F5A
 </div>
 
 <div style="margin:16px 20px 0;background:#fff;border:1px solid #EFE6D6;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px">
-<img src="img/products/tequenos/queso.jpg" alt="" style="width:46px;height:46px;border-radius:10px;object-fit:cover;flex:none">
+<img src="img/products/tequenos/queso.jpg" alt="" style="width:46px;height:46px;border-radius:10px;object-fit:cover;flex:none" loading="lazy" decoding="async">
 <div style="flex:1;min-width:0"><div style="font:500 10px 'Roboto',sans-serif;letter-spacing:.14em;color:#8C867F">TU ÚLTIMO PEDIDO</div><div style="font:600 13px/1.3 'Roboto',sans-serif;color:#242424;margin-top:3px">2× Tequeños de queso + Limonada ½ L</div><div style="font:400 11px 'Roboto',sans-serif;color:#6B6662;margin-top:2px">RTQ-1987 · S/ 45.90 · 12 ago.</div></div>
 <button type="button" onClick="{{ repeatLast }}" style="border:0;background:#FF3038;color:#fff;font:700 11px 'Roboto',sans-serif;padding:10px 12px;border-radius:{{ pill }};cursor:pointer;flex:none">REPETIR</button>
 </div>
@@ -827,7 +783,7 @@ Válido solo los martes en tienda y delivery. No acumulable con otras promocione
 <div class="stagger" style="padding:16px 20px 8px;display:flex;flex-direction:column;gap:10px;flex:1">
 <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}">
 <div style="text-align:center;padding:40px 20px;display:flex;flex-direction:column;gap:12px;align-items:center">
-<img src="img/products/tequenos/queso.jpg" alt="" style="width:120px;height:80px;object-fit:cover;border-radius:14px;opacity:.9">
+<img src="img/products/tequenos/queso.jpg" alt="" style="width:120px;height:80px;object-fit:cover;border-radius:14px;opacity:.9" loading="lazy" decoding="async">
 <div style="font:700 17px 'Roboto',sans-serif">Tu carrito está vacío</div>
 <div style="font:400 13px/1.5 'Roboto',sans-serif;color:#6B6662;max-width:230px">Agrega tequeños, promos o pizzas desde el menú.</div>
 <button type="button" onClick="{{ go08 }}" style="border:0;background:#FF3038;color:#fff;font:700 12.5px 'Roboto',sans-serif;letter-spacing:.04em;padding:13px 22px;border-radius:{{ btnR }};cursor:pointer">VER EL MENÚ</button>
@@ -1103,7 +1059,7 @@ Sin pasarela ni comisiones · pagas directo a Retequeños
 <div style="background:#fff;border:1px solid #EFE6D6;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:14px">
 <div style="display:flex;align-items:center;justify-content:space-between">
 <span style="font:700 15px 'Roboto',sans-serif">{{ orderId }}</span>
-<span style="background:#FFF3DF;color:#D9891A;padding:4px 10px;border-radius:20px;font:700 10px 'Roboto',sans-serif;letter-spacing:.05em">RECOJO EN TIENDA</span>
+<span style="background:#FFF3DF;color:#D9891A;padding:4px 10px;border-radius:20px;font:700 10.5px 'Roboto',sans-serif;letter-spacing:.04em">{{ trackModeBadge }}</span>
 </div>
 <sc-for list="{{ pickupSteps }}" as="st" hint-placeholder-count="4">
 <div style="display:flex;align-items:center;gap:12px">
@@ -1113,10 +1069,17 @@ Sin pasarela ni comisiones · pagas directo a Retequeños
 </sc-for>
 </div>
 
-<div style="background:#FFF3DF;border:1.5px dashed #F5A623;border-radius:13px;padding:13px 14px;display:flex;align-items:center;gap:10px">
-<span style="font-size:20px;line-height:1">🏪</span>
-<span style="flex:1;font:500 12.5px/1.4 'Roboto',sans-serif;color:#8C7A55">Te avisamos por WhatsApp en cuanto tu pedido esté listo para recoger en {{ storeAddr }}.</span>
+<div style="background:#FFF3DF;border:1.5px dashed #F5A623;border-radius:13px;padding:14px 16px;display:flex;align-items:center;gap:12px">
+<span style="font-size:24px;line-height:1">{{ trackStepIcon }}</span>
+<div style="flex:1">
+<div style="font:700 13px 'Roboto',sans-serif;color:#B45309">{{ trackStepTitle }}</div>
+<div style="font:400 12px/1.4 'Roboto',sans-serif;color:#8C7A55;margin-top:2px">{{ trackStepDesc }}</div>
 </div>
+</div>
+
+<button type="button" onClick="{{ advanceTrackStep }}" style="width:100%;border:1.5px dashed #FF3038;background:#FFF0F1;color:#D91F2A;font:700 12.5px 'Roboto',sans-serif;padding:12px 0;border-radius:{{ btnR }};cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" style-active="transform:scale(.98)">
+<span>▶</span> <span>Simular siguiente etapa del pedido</span>
+</button>
 
 <div style="background:#fff;border:1px solid #EFE6D6;border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:10px">
 <span style="width:32px;height:32px;border-radius:8px;background:#FFF3DF;display:flex;align-items:center;justify-content:center;flex:none">🥟</span>
@@ -1429,158 +1392,18 @@ Escribir por WhatsApp
 
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;1280&quot;,&quot;height&quot;:&quot;1000&quot;}}">
-const P = {coral:'#FF3038', dark:'#D91F2A', gold:'#F5A623', cream:'#FFF8EE', char:'#242424', gray:'#6B6662'};
-
-// Datos del local (configurables; el horario y la dirección deben confirmarse con Retequeños)
-const STORE = {name:'Retequeños', addr:'Calle Alto Lima 1488, Tacna', hours:'Abierto hoy · delivery hasta 11:00 p. m.', fee:0, yape:'912 266 950', whatsapp:'51912266950'};
-
-// Fotos reales de la carta (las mismas de la web)
-const IMG_DEFAULT = 'img/products/tequenos/queso.jpg';
-const IMG = {
-  clasicos:'img/products/tequenos/queso.jpg', combo:'img/promos/promo-duo.jpg', jamon:'img/products/tequenos/jamon-queso.jpg',
-  dulces:'img/products/tequenos/chocolate.jpg', tocino:'img/products/tequenos/tocino-queso.jpg', hotdog:'img/products/tequenos/hotdog-queso.jpg',
-  tresquesos:'img/products/tequenos/tres-quesos.jpg', ajigallina:'img/products/tequenos/aji-de-gallina.jpg', oregano:'img/products/tequenos/queso.jpg',
-  cheddar:'img/products/tequenos/queso-cheddar.jpg', jamoncheddar:'img/products/tequenos/jamon-cheddar.jpg',
-  'promo-solo':'img/promos/promo-solo-para-mi.jpg', 'promo-extra':'img/promos/promo-extra.jpg', 'promo-familiar':'img/promos/promo-familiar.jpg',
-  'promo-tequepizza':'img/promos/promo-tequepizza.jpg', 'promo-antojo':'img/promos/antojo-criollo.jpg', 'promo-sazon':'img/promos/sazon-antojo.jpg',
-  'promo-bocados':'img/promos/bocaditos-de-felicidad.jpg', 'promo-fiesta':'img/promos/fiesta-de-sabor.jpg', 'promo-mundo':'img/promos/mundo-de-sabores.jpg',
-  'promo-sinlimites':'img/promos/sabor-sin-limites.jpg', 'promo-tentacion':'img/promos/la-doble-tentacion.jpg', 'promo-placer':'img/promos/doble-placer.jpg',
-  'pizza-americana':'img/products/pizzas/americana.jpg', 'pizza-italiana':'img/products/pizzas/italiana.jpg', 'pizza-supermargarita':'img/products/pizzas/super-margarita.jpg',
-  'pizza-hawaiana':'img/products/pizzas/la-hawaiana.jpg', 'pizza-peperoni':'img/products/pizzas/full-peperoni.jpg', 'pizza-especial':'img/products/pizzas/la-especial.jpg',
-  'pizza-espanola':'img/products/pizzas/espanola.jpg', 'pizza-vegetariana':'img/products/pizzas/vegetariana.jpg', 'pizza-oriental':'img/products/pizzas/oriental.jpg',
-  'pizza-primavera':'img/products/pizzas/primavera.jpg', 'pizza-margarita':'img/products/pizzas/margarita.jpg', 'pizza-adicional':'img/products/pizzas/adicionales.jpg',
-  'pastel-queso':'img/promos/antojo-criollo.jpg', 'pastel-jamonqueso':'img/promos/antojo-criollo.jpg', 'pastel-pizza':'img/promos/antojo-criollo.jpg',
-  'pastel-pollo':'img/promos/antojo-criollo.jpg', 'pastel-carne':'img/promos/antojo-criollo.jpg',
-  limonada:'img/products/bebidas/coca-cola-600ml.jpg', chicha:'img/products/bebidas/coca-cola-600ml.jpg', cocacola:'img/products/bebidas/coca-cola-600ml.jpg',
-  inkakola:'img/products/bebidas/coca-cola-600ml.jpg', pepsi1l:'img/products/bebidas/coca-cola-600ml.jpg', pepsi2l:'img/products/bebidas/coca-cola-600ml.jpg',
-  agua:'img/products/bebidas/coca-cola-600ml.jpg', infusiones:'img/products/bebidas/coca-cola-600ml.jpg', tartara:'img/products/cremas/mayonesa-ajo.jpg'
-};
-const num = (v) => parseFloat(String(v).replace(/[^\d.]/g, '')) || 0;
-const money = (n) => 'S/ ' + n.toFixed(2);
-const fmtTime = (d) => { let h = d.getHours(); const m = d.getMinutes(); const ap = h >= 12 ? 'p. m.' : 'a. m.'; h = h % 12 || 12; return h + ':' + (m < 10 ? '0' + m : m) + ' ' + ap; };
-// Líneas de pedidos anteriores para "Pedir de nuevo"
-const ORDER_LINES = {
-  'RTQ-1987': [{pid:'clasicos', name:'Tequeños de queso', opts:'Mayonesa de ajo', unit:16.00, n:2}, {pid:'limonada', name:'Limonada', opts:'½ litro', unit:8.00, n:1}],
-  'RTQ-1904': [{pid:'promo-solo', name:'Promo Solo para Mí', opts:'Queso · 2 cremas · gaseosa ½ L', unit:19.90, n:1}],
-  'RTQ-2048': [{pid:'combo', name:'Promo Duo', opts:'Queso · Mayonesa de ajo y Mayopalta', unit:35.90, n:1}, {pid:'dulces', name:'Tequeños de chocolate', opts:'', unit:17.00, n:1}]
-};
-
-const RAIL = [
-  ['01','Lanzamiento'],['02','Bienvenida'],['03','Inicio de sesión'],['04','Crear cuenta'],
-  ['05','Recuperar contraseña'],['06','Inicio'],['07','Búsqueda'],['08','Menú'],
-  ['09','Detalle de producto'],['10','Personalizar combo'],['11','Favoritos'],['12','Promociones'],
-  ['13','Carrito'],['16','Modalidad'],
-  ['17','Resumen de compra'],['18','Método de pago'],['19','Pedido confirmado'],['20','Seguimiento'],
-  ['21','Historial'],['22','Detalle y valoración'],['23','Notificaciones'],['24','Perfil'],
-  ['25','Configuración'],['26','Estados excepcionales']
-];
-
-const TITLES = {
-  '01':['Lote 01 · Pantalla de lanzamiento','Carga inicial, sin controles'],
-  '02':['Lote 02 · Bienvenida','Última pantalla de onboarding'],
-  '03':['Lote 03 · Inicio de sesión','Acceso con correo y proveedores'],
-  '04':['Lote 04 · Creación de cuenta','Formulario de registro'],
-  '05':['Lote 05 · Recuperación de contraseña','Enlace por correo'],
-  '06':['Lote 06 · Inicio principal','Descubrimiento y accesos rápidos'],
-  '07':['Lote 07 · Búsqueda de productos','Escribe para filtrar resultados'],
-  '08':['Lote 08 · Menú por categorías','Catálogo completo'],
-  '09':['Lote 09 · Detalle de producto','Salsa, cantidad y carrito'],
-  '10':['Lote 10 · Personalización','Relleno, 2 salsas y notas'],
-  '11':['Lote 11 · Favoritos','Colección guardada'],
-  '12':['Lote 12 · Promociones y cupones','Cupón copiable y condiciones'],
-  '13':['Lote 13 · Carrito','Dos productos, cupón y desglose'],
-  '16':['Lote 16 · Modalidad','Delivery por WhatsApp o recojo en tienda'],
-  '17':['Lote 17 · Resumen de compra','Checkout final'],
-  '18':['Lote 18 · Método de pago','Selección segura'],
-  '19':['Lote 19 · Pedido confirmado','Estado de éxito'],
-  '20':['Lote 20 · Estado del pedido','Solo para recojo en tienda'],
-  '21':['Lote 21 · Historial de pedidos','En curso y anteriores'],
-  '22':['Lote 22 · Detalle y valoración','RTQ-1987 entregado · encuesta y cupón'],
-  '23':['Lote 23 · Notificaciones','Centro de avisos'],
-  '24':['Lote 24 · Perfil del cliente','Accesos de cuenta'],
-  '25':['Lote 25 · Configuración','Preferencias y privacidad'],
-  '26':['Lote 26 · Estados excepcionales','Android: sin conexión · iOS: búsqueda vacía']
-};
-
-const HINTS = {
-  '01':'Avanza automáticamente a la bienvenida.',
-  '02':'“COMENZAR” u “Omitir” llevan al Inicio.',
-  '03':'Los textos cambian entre Android e iOS según el plan.',
-  '04':'Registro con prefijo +51 y medidor de contraseña.',
-  '05':'“ENVIAR ENLACE” muestra la confirmación.',
-  '06':'Toca +, el estado del local, "Repetir" tu último pedido, los chips o el buscador. La barra "Ver carrito" aparece cuando hay productos.',
-  '07':'Escribe o usa los chips de sugerencia. "Más pedidos" ordena por valoración. Toca el corazón.',
-  '08':'Cambia de categoría y abre cualquier producto.',
-  '09':'Muestra el producto que tocaste (foto real). Elige 10 o 20 unidades, salsa, extras y cantidad.',
-  '10':'Máximo 2 salsas: la tercera selección se bloquea.',
-  '11':'Quita un favorito con el corazón.',
-  '12':'Copia el cupón y abre las condiciones.',
-  '13':'Aplica o quita el cupón, ajusta cantidades o vacía el carrito (estado vacío). Continuar lleva a la modalidad.',
-  '16':'Delivery no pide nada aquí: se coordina todo por WhatsApp. Recojo permite elegir horario.',
-  '17':'Muestra las líneas y totales reales del carrito. Escribe instrucciones; Confirmar genera el pedido.',
-  '18':'Sin pasarela: efectivo, Yape/Plin o transferencia con captura por WhatsApp.',
-  '19':'Número de pedido, hora estimada y montos salen del pedido que acabas de confirmar.',
-  '20':'Sin mapa ni moto: son los pasos de preparación del pedido para recojo (demo).',
-  '21':'Cambia entre “En curso” y “Anteriores”.',
-  '22':'Califica, marca qué mejorar y dónde nos viste; 4-5★ invita a Google Reviews. Enviar da el cupón ENCUESTA3.',
-  '23':'“Marcar todo como leído” apaga los puntos.',
-  '24':'Los accesos llevan a favoritos, promociones y configuración.',
-  '25':'Los switches y la acción destructiva son funcionales.',
-  '26':'Cambia de plataforma: Android muestra sin conexión, iOS búsqueda vacía.'
-};
-
-// Carta oficial Retequeños 2026 (precios en soles). Tequeños: precio de 10 unid.; el de 20 unid. va en la descripción.
-const CATALOG = [
-  {id:'clasicos', name:'Tequeños de queso', qty:'10 unidades', price:'S/ 16.00', cat:'Clásicos', desc:'Queso fundido · 20 unid. S/ 27.00', rating:'4.8'},
-  {id:'combo', name:'Promo Duo', qty:'20 unid. + 2 gaseosas', price:'S/ 35.90', cat:'Combos', desc:'20 tequeños (2 sabores) + 2 cremas + 2 gaseosas ½ L', rating:'4.9'},
-  {id:'jamon', name:'Tequeños de jamón y queso', qty:'10 unidades', price:'S/ 16.00', cat:'Clásicos', desc:'Jamón y queso · 20 unid. S/ 28.00', rating:'4.7'},
-  {id:'dulces', name:'Tequeños de chocolate', qty:'10 unidades', price:'S/ 17.00', cat:'Especiales', desc:'Chocolate · 20 unid. S/ 31.00', rating:'4.6'},
-  {id:'tocino', name:'Tequeños de tocino y queso', qty:'10 unidades', price:'S/ 17.00', cat:'Clásicos', desc:'Tocino y queso · 20 unid. S/ 29.00', rating:'4.7'},
-  {id:'hotdog', name:'Tequeños de hotdog y queso', qty:'10 unidades', price:'S/ 16.00', cat:'Clásicos', desc:'Hotdog y queso · 20 unid. S/ 28.00', rating:'4.6'},
-  {id:'tresquesos', name:'Tequeños tres quesos', qty:'10 unidades', price:'S/ 17.00', cat:'Clásicos', desc:'Tres quesos · 20 unid. S/ 28.00', rating:'4.7'},
-  {id:'ajigallina', name:'Tequeños de ají de gallina', qty:'10 unidades', price:'S/ 17.00', cat:'Especiales', desc:'Ají de gallina · 20 unid. S/ 29.00', rating:'4.8'},
-  {id:'oregano', name:'Tequeños de queso con masa de orégano', qty:'10 unidades', price:'S/ 16.00', cat:'Especiales', desc:'Masa especial de orégano · 20 unid. S/ 27.00', rating:'4.6'},
-  {id:'cheddar', name:'Tequeños de queso cheddar', qty:'10 unidades', price:'S/ 18.00', cat:'Especiales', desc:'Queso cheddar · 20 unid. S/ 34.00', rating:'4.7'},
-  {id:'jamoncheddar', name:'Tequeños de jamón y cheddar', qty:'10 unidades', price:'S/ 19.00', cat:'Especiales', desc:'Jamón y cheddar · 20 unid. S/ 36.00', rating:'4.7'},
-  {id:'promo-solo', name:'Promo Solo para Mí', qty:'10 unid. + 1 gaseosa', price:'S/ 19.90', cat:'Combos', desc:'10 tequeños de queso + 2 cremas + 1 gaseosa ½ L', rating:'4.8'},
-  {id:'promo-extra', name:'Promo Extra', qty:'20 unid. + 1 gaseosa', price:'S/ 32.90', cat:'Combos', desc:'20 tequeños (2 sabores) + 2 cremas + 1 gaseosa ½ L', rating:'4.8'},
-  {id:'promo-familiar', name:'Promo Familiar', qty:'40 unid. + 1 gaseosa 2 L', price:'S/ 63.90', cat:'Combos', desc:'40 tequeños (4 sabores) + 4 cremas + 1 gaseosa 2 L', rating:'4.9'},
-  {id:'promo-tequepizza', name:'Promo Tequepizza', qty:'1 pizza + 5 tequeños', price:'S/ 43.90', cat:'Combos', desc:'1 pizza familiar + 5 tequeños de queso + 1 crema + 1 gaseosa 1 L', rating:'4.8'},
-  {id:'promo-antojo', name:'Promo Antojo Criollo', qty:'10 mini empanaditas', price:'S/ 19.90', cat:'Combos', desc:'Ají de gallina, lomo saltado y queso + 1 Coca Cola 600 ml + 2 cremas', rating:'4.7'},
-  {id:'promo-sazon', name:'Promo Sazón & Antojo', qty:'20 mini tequeños + 20 mini empanaditas', price:'S/ 47.90', cat:'Combos', desc:'Mini tequeños de queso + mini empanaditas + 1 Pepsi 1 L + 4 cremas', rating:'4.8'},
-  {id:'promo-bocados', name:'Promo Bocados de Felicidad', qty:'20 mini tequeños + 20 mini empanaditas', price:'S/ 36.90', cat:'Combos', desc:'Mini tequeños de queso + mini empanaditas (carne, pollo, queso/jamón) + 3 cremas', rating:'4.7'},
-  {id:'promo-fiesta', name:'Promo Fiesta de Sabor', qty:'20 tequeños + 20 mini empanaditas', price:'S/ 43.90', cat:'Combos', desc:'Tequeños de queso + mini empanaditas (carne, pollo, queso/jamón) + 3 cremas', rating:'4.8'},
-  {id:'promo-mundo', name:'Promo Mundo de Sabores', qty:'1 pizza + 20 mini tequeños', price:'S/ 51.90', cat:'Combos', desc:'1 pizza familiar + 20 mini tequeños de queso + 1 Pepsi 1 L + 2 cremas', rating:'4.8'},
-  {id:'promo-sinlimites', name:'Promo Sabor sin Límites', qty:'1 pizza + 20 mini empanaditas', price:'S/ 54.90', cat:'Combos', desc:'1 pizza familiar + 20 mini empanaditas mixtas + 1 Pepsi 1 L + 3 cremas', rating:'4.8'},
-  {id:'promo-tentacion', name:'Promo La Doble Tentación', qty:'1 pizza + 20 tequeños', price:'S/ 53.90', cat:'Combos', desc:'1 pizza hawaiana familiar + 20 tequeños de jamón/queso + 2 cremas', rating:'4.9'},
-  {id:'promo-placer', name:'Promo Doble Placer', qty:'2 pizzas + 1 gaseosa', price:'S/ 64.90', cat:'Combos', desc:'2 pizzas familiares (elige sabor) + 1 Pepsi 1 L + 2 cremas', rating:'4.9'},
-  {id:'pizza-americana', name:'Pizza Americana', qty:'Familiar 35 cm', price:'S/ 35.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella y jamón', rating:'4.7'},
-  {id:'pizza-italiana', name:'Pizza Italiana', qty:'Familiar 35 cm', price:'S/ 38.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, jamón, aceituna negra, pollo y pimentón', rating:'4.8'},
-  {id:'pizza-supermargarita', name:'Pizza Super Margarita', qty:'Familiar 35 cm', price:'S/ 36.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, jamón, pimentón y aceituna verde', rating:'4.7'},
-  {id:'pizza-hawaiana', name:'Pizza La Hawaiana', qty:'Familiar 35 cm', price:'S/ 37.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, jamón y piña', rating:'4.8'},
-  {id:'pizza-peperoni', name:'Pizza Full Peperoni', qty:'Familiar 35 cm', price:'S/ 38.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, peperoni y jamón', rating:'4.8'},
-  {id:'pizza-especial', name:'Pizza La Especial', qty:'Familiar 35 cm', price:'S/ 39.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, pimentón, tocino ahumado, champiñones y queso parmesano', rating:'4.9'},
-  {id:'pizza-espanola', name:'Pizza Española', qty:'Familiar 35 cm', price:'S/ 38.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, chorizo, pimentón y aceituna verde', rating:'4.7'},
-  {id:'pizza-vegetariana', name:'Pizza Vegetariana', qty:'Familiar 35 cm', price:'S/ 36.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, aceituna verde y negra, pimentón y champiñón', rating:'4.6'},
-  {id:'pizza-oriental', name:'Pizza Oriental', qty:'Familiar 35 cm', price:'S/ 37.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, piña y pollo', rating:'4.7'},
-  {id:'pizza-primavera', name:'Pizza Primavera', qty:'Familiar 35 cm', price:'S/ 35.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, jamón y maíz', rating:'4.6'},
-  {id:'pizza-margarita', name:'Pizza Margarita', qty:'Familiar 35 cm', price:'S/ 34.00', cat:'Pizzas', desc:'Salsa de tomate, mozarella, tomate y aceite de oliva', rating:'4.6'},
-  {id:'pizza-adicional', name:'Adicional para pizza', qty:'1 ingrediente', price:'S/ 3.00', cat:'Pizzas', desc:'Maíz, champiñones, jamón, queso parmesano, tocino o aceituna verde', rating:'4.5'},
-  {id:'pastel-queso', name:'Pastelito de queso', qty:'1 unidad', price:'S/ 3.50', cat:'Pastelitos', desc:'Pastelito relleno de queso', rating:'4.6'},
-  {id:'pastel-jamonqueso', name:'Pastelito de jamón y queso', qty:'1 unidad', price:'S/ 4.00', cat:'Pastelitos', desc:'Pastelito relleno de jamón y queso', rating:'4.6'},
-  {id:'pastel-pizza', name:'Pastelito de pizza', qty:'1 unidad', price:'S/ 4.50', cat:'Pastelitos', desc:'Pastelito relleno sabor pizza', rating:'4.6'},
-  {id:'pastel-pollo', name:'Pastelito de pollo deshilachado', qty:'1 unidad', price:'S/ 4.50', cat:'Pastelitos', desc:'Pastelito relleno de pollo deshilachado', rating:'4.7'},
-  {id:'pastel-carne', name:'Pastelito de carne deshilachada', qty:'1 unidad', price:'S/ 4.50', cat:'Pastelitos', desc:'Pastelito relleno de carne deshilachada', rating:'4.7'},
-  {id:'limonada', name:'Limonada', qty:'½ litro', price:'S/ 8.00', cat:'Bebidas', desc:'Refresco natural · 1 litro S/ 15.00', rating:'4.5'},
-  {id:'chicha', name:'Chicha morada', qty:'½ litro', price:'S/ 8.00', cat:'Bebidas', desc:'Refresco natural · 1 litro S/ 15.00', rating:'4.6'},
-  {id:'cocacola', name:'Coca Cola', qty:'600 ml', price:'S/ 5.00', cat:'Bebidas', desc:'Gaseosa personal', rating:'4.5'},
-  {id:'inkakola', name:'Inka Kola', qty:'600 ml', price:'S/ 5.00', cat:'Bebidas', desc:'Gaseosa personal', rating:'4.5'},
-  {id:'pepsi1l', name:'Pepsi', qty:'1 litro', price:'S/ 6.00', cat:'Bebidas', desc:'Gaseosa para compartir', rating:'4.4'},
-  {id:'pepsi2l', name:'Pepsi', qty:'2 litros', price:'S/ 8.00', cat:'Bebidas', desc:'Gaseosa familiar', rating:'4.4'},
-  {id:'agua', name:'Agua', qty:'Botella', price:'S/ 4.50', cat:'Bebidas', desc:'Agua mineral', rating:'4.3'},
-  {id:'infusiones', name:'Infusiones', qty:'1 taza', price:'S/ 3.50', cat:'Bebidas', desc:'Infusión caliente', rating:'4.3'},
-  {id:'tartara', name:'Crema adicional', qty:'2 oz', price:'S/ 2.00', cat:'Salsas', desc:'Mayonesa de ajo, salsa tocino, mayopalta o ají especial', rating:'4.6'}
-];
+const P = window.P || window.MOBILE_DATA?.P;
+const STORE = window.STORE || window.MOBILE_DATA?.STORE;
+const IMG_DEFAULT = window.IMG_DEFAULT || window.MOBILE_DATA?.IMG_DEFAULT;
+const IMG = window.IMG || window.MOBILE_DATA?.IMG;
+const num = window.num || ((v) => parseFloat(String(v).replace(/[^\d.]/g, '')) || 0);
+const money = window.money || ((n) => 'S/ ' + n.toFixed(2));
+const fmtTime = window.fmtTime || ((d) => { let h = d.getHours(); const m = d.getMinutes(); const ap = h >= 12 ? 'p. m.' : 'a. m.'; h = h % 12 || 12; return h + ':' + (m < 10 ? '0' + m : m) + ' ' + ap; });
+const ORDER_LINES = window.ORDER_LINES || window.MOBILE_DATA?.ORDER_LINES;
+const RAIL = window.RAIL || window.MOBILE_DATA?.RAIL;
+const TITLES = window.TITLES || window.MOBILE_DATA?.TITLES;
+const HINTS = window.HINTS || window.MOBILE_DATA?.HINTS;
+const CATALOG = window.MOBILE_CATALOG || window.CATALOG || window.MOBILE_DATA?.CATALOG;
 
 class Component extends DCLogic {
   state = {
@@ -1600,19 +1423,27 @@ class Component extends DCLogic {
 
   componentDidMount() {
     this._t = setTimeout(() => { if (this.state.screen === '01') this.setState({screen:'02'}); }, 2100);
+    let rAF = null;
     this._fit = () => {
-      const z = Math.min(1, Math.max(0.42, (window.innerHeight - 150) / 862));
-      if (z !== this.state.zoom) this.setState({zoom: z});
+      if (rAF) cancelAnimationFrame(rAF);
+      rAF = requestAnimationFrame(() => {
+        const z = Math.round(Math.min(1, Math.max(0.42, (window.innerHeight - 150) / 862)) * 100) / 100;
+        if (Math.abs(z - this.state.zoom) >= 0.01) this.setState({zoom: z});
+      });
     };
     this._fit();
-    window.addEventListener('resize', this._fit);
+    window.addEventListener('resize', this._fit, { passive: true });
   }
   componentWillUnmount() {
     clearTimeout(this._t); clearTimeout(this._tt);
     window.removeEventListener('resize', this._fit);
   }
 
-  go = (s) => () => this.setState({screen: s, terms: false});
+  go = (s) => () => {
+    this.setState({screen: s, terms: false});
+    const sc = document.querySelector('.sc');
+    if (sc) sc.scrollTop = 0;
+  };
 
   // Arma el mensaje del pedido (sin dirección, costo de envío ni método de pago) y abre WhatsApp.
   buildOrderWhatsApp = (order, note) => {
@@ -1758,16 +1589,33 @@ class Component extends DCLogic {
 
     const t = TITLES[scr] || ['',''];
     const sub = st.lines.reduce((a, l) => a + l.unit * l.n, 0);
-    const isPickup = st.mode === 'pickup';
-    const pickupStepIndex = 1; // Demo: "Preparando". El estado real debe venir del panel administrador cuando exista backend.
-    const fee = st.lines.length ? (isPickup ? 0 : STORE.fee) : 0;
+    const lo = st.lastOrder || {id: 'RTQ-2048', lines: ORDER_LINES['RTQ-2048'], sub: 52.90, fee: 0, disc: 0, total: 52.90, mode: 'pickup', pay: 'Pago contraentrega (Efectivo)', eta: '7:47 p. m.'};
+    const isPickup = (scr === '20' || scr === '19') ? (lo.mode === 'pickup') : (st.mode === 'pickup');
+    const pickupStepIndex = st.trackStepIndex !== undefined ? st.trackStepIndex : 1;
+    const fee = 0; // Costo de envío lo coordina y cobra el repartidor
     const disc = st.applied && st.lines.length ? 2 : 0;
     const total = sub + fee - disc;
     const cartCount = st.lines.reduce((a, l) => a + l.n, 0);
     const addrLine = st.addr === 'Casa' ? 'Av. Bolognesi 845, Tacna' : 'Calle Zela 320, Tacna';
-    // Último pedido confirmado (o el de ejemplo RTQ-2048 mientras no se confirme ninguno)
-    const lo = st.lastOrder || {id: 'RTQ-2048', lines: ORDER_LINES['RTQ-2048'], sub: 52.90, fee: 0, disc: 0, total: 52.90, mode: 'pickup', pay: 'Pago contraentrega (Efectivo)', eta: '7:47 p. m.'};
     const loSummary = lo.lines.map(l => l.n + ' ' + l.name).join(' + ');
+
+    const trackStepLabels = isPickup
+      ? ['Pedido confirmado', 'En cocina dorando tequeños 🔥', 'Listo para recoger en tienda 🏪', '¡Pedido entregado con éxito! 🎉']
+      : ['Pedido confirmado', 'En cocina dorando tequeños 🔥', 'En camino con repartidor 🛵', '¡Pedido entregado con éxito! 🎉'];
+
+    const trackStepIcons = ['📋', '🔥', isPickup ? '🏪' : '🛵', '🎉'];
+    const trackStepTitles = [
+      'Pedido recibido y registrado',
+      'En preparación en cocina',
+      isPickup ? 'Listo para recoger' : 'Repartidor en camino',
+      '¡Pedido entregado!'
+    ];
+    const trackStepDescs = [
+      'Tu pedido ingresó al monitor de cocina KDS.',
+      'Tus tequeños están en la freidora dorándose al punto exacto.',
+      isPickup ? 'Ya está empaquetado en Calle Alto Lima 1488, Tacna.' : 'El repartidor va en camino a tu dirección en Tacna.',
+      '¡Que disfrutes tus Retequeños! Gracias por tu preferencia.'
+    ];
 
     return {
       zoom: st.zoom,
@@ -1810,7 +1658,7 @@ class Component extends DCLogic {
       goHome: this.go('06'), go03: this.go('03'), go04: this.go('04'), go05: this.go('05'),
       go07: this.go('07'), go08: this.go('08'), go10: this.go('10'), go12: this.go('12'), go21: this.go('21'), go23: this.go('23'),
       openLastOrderWA: () => this.buildOrderWhatsApp(lo, 'Hola 👋, quisiera confirmar el estado de mi solicitud.'),
-      pickupSteps: ['Pedido recibido', 'Preparando', 'Listo para recoger', 'Recogido'].map((label, i) => ({
+      pickupSteps: trackStepLabels.map((label, i) => ({
         label,
         mark: i < pickupStepIndex ? '✓' : (i + 1).toString(),
         weight: i === pickupStepIndex ? 700 : 400,
@@ -1818,6 +1666,18 @@ class Component extends DCLogic {
         bg: i < pickupStepIndex ? '#1F9D62' : (i === pickupStepIndex ? P.coral : '#fff'),
         bd: i <= pickupStepIndex ? (i < pickupStepIndex ? '#1F9D62' : P.coral) : '#DCD2C1'
       })),
+      trackModeBadge: isPickup ? 'RECOJO EN TIENDA 🏪' : 'DELIVERY EN TACNA 🛵',
+      trackStepIcon: trackStepIcons[pickupStepIndex] || '🥟',
+      trackStepTitle: trackStepTitles[pickupStepIndex] || 'En proceso',
+      trackStepDesc: trackStepDescs[pickupStepIndex] || '',
+      advanceTrackStep: () => {
+        this.setState(s => {
+          const next = ((s.trackStepIndex !== undefined ? s.trackStepIndex : 1) + 1) % 4;
+          const names = ['Pedido recibido', 'Cocinando tequeños', isPickup ? 'Listo para recoger' : 'En camino', '¡Entregado!'];
+          this.flash('Etapa: ' + names[next]);
+          return {trackStepIndex: next};
+        });
+      },
 
       cart: cartCount, cartCount: cartCount, toast: st.toast,
       toastTap: () => { if (st.toastGo) this.setState({screen: '13', toast: '', toastGo: false}); },
@@ -2031,24 +1891,40 @@ class Component extends DCLogic {
       pay: () => {
         const ordId = 'RTQ-' + (2050 + Math.floor(Math.random() * 200));
         if (!isPickup) {
-          // Delivery: no se fija dirección, costo de envío ni método de pago en la app; todo se coordina en WhatsApp.
+          // Delivery: se envía a WhatsApp y se sincroniza en vivo con la cocina KDS
           const order = {id: ordId, lines: st.lines.slice(), sub: sub, fee: 0, disc: disc, total: total, mode: 'delivery', pay: 'Por coordinar en WhatsApp', coupon: st.applied ? 'RETE10' : null, notes: st.driverNotes};
           this.buildOrderWhatsApp(order);
-          this.flash('Solicitud enviada a WhatsApp');
-          this.setState({screen: '19', lastOrder: order, lines: [], applied: false, driverNotes: '', hist: 'En curso'});
+          this.flash('¡Pedido Delivery enviado! Coordinando con cocina y repartidor');
+          this.setState({screen: '19', lastOrder: order, lines: [], applied: false, driverNotes: '', hist: 'En curso', trackStepIndex: 0});
+          try {
+            fetch('/api/pedidos', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({
+                id: ordId,
+                customer: 'Milton Flores (App Móvil)',
+                phone: '952741852',
+                address: (st.addr === 'Casa' ? 'Av. Bolognesi 845, Tacna' : 'Calle Zela 320, Tacna') + ' · Costo de envío a coordinar con repartidor',
+                items: st.lines.map(l => ({name: l.name + (l.opts ? ' (' + l.opts + ')' : ''), qty: l.n, price: l.unit, sauces: l.opts})),
+                subtotal: sub, deliveryFee: 0, discount: disc, total: total,
+                payMethod: 'Por coordinar en WhatsApp / Yape',
+                notes: (st.driverNotes ? st.driverNotes + ' · ' : '') + 'Pedido delivery desde App Móvil. Costo de envío por coordinar con repartidor.'
+              })
+            }).catch(function(){});
+          } catch(e) {}
           return;
         }
         const etaDate = new Date(Date.now() + 22 * 60000);
         const order = {id: ordId, lines: st.lines.slice(), sub: sub, fee: 0, disc: disc, total: total, mode: 'pickup', pay: st.pay, eta: fmtTime(etaDate), notes: st.driverNotes};
         this.flash(/Yape|Plin|Transferencia/.test(st.pay) ? '¡Pedido enviado! Envíanos la captura del pago' : '¡Pedido confirmado! Te avisamos cuando esté listo');
-        this.setState({screen: '19', lastOrder: order, lines: [], applied: false, driverNotes: '', hist: 'En curso'});
+        this.setState({screen: '19', lastOrder: order, lines: [], applied: false, driverNotes: '', hist: 'En curso', trackStepIndex: 0});
         try {
           fetch('/api/pedidos', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
               id: ordId,
-              customer: 'Milton Flores (App)',
+              customer: 'Milton Flores (App Móvil)',
               phone: '952741852',
               address: 'Recojo en tienda · ' + STORE.addr,
               items: st.lines.map(l => ({name: l.name + (l.opts ? ' (' + l.opts + ')' : ''), qty: l.n, price: l.unit, sauces: l.opts})),

@@ -1,0 +1,12 @@
+/* ===================================================
+   RETEQUEÑOS ADMIN - HOJA DE ESTILOS PRINCIPAL MODULAR
+   Arquitectura modular de estilos para Panel Operativo
+   =================================================== */
+
+@import url('admin/variables.css');
+@import url('admin/base.css');
+@import url('admin/layout.css');
+@import url('admin/components.css');
+@import url('admin/dashboard.css');
+@import url('admin/kanban.css');
+@import url('admin/promos.css');

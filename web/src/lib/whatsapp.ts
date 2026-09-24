@@ -2,6 +2,7 @@ import { CartItem } from '../store/cartStore';
 import { CheckoutStore } from '../store/checkoutStore';
 import { siteConfig } from '../config/site';
 import { formatMoney } from './money';
+import { syncOrderToKDS } from './orderSync';
 
 export type CustomerData = Omit<CheckoutStore, 'setField' | 'reset'>;
 
@@ -17,7 +18,9 @@ export function openWhatsApp(text: string): void {
 export function generateWhatsAppMessage(
   items: CartItem[],
   customer: CustomerData,
-  subtotal: number
+  subtotal: number,
+  deliveryFee: number = 0,
+  zoneName?: string
 ): string {
   const lines: string[] = [
     '🧀 *¡HOLA RETEQUEÑOS!* 👋',
@@ -38,19 +41,26 @@ export function generateWhatsAppMessage(
     }
   });
 
+  const total = subtotal + (customer.deliveryType === 'delivery' ? deliveryFee : 0);
+
   lines.push('');
-  lines.push(`💰 *SUBTOTAL:* ${formatMoney(subtotal)}`);
-  lines.push(
-    customer.deliveryType === 'delivery'
-      ? '🛵 *TIPO DE ENTREGA:* Delivery (costo por confirmar)'
-      : `🏪 *TIPO DE ENTREGA:* Recojo en tienda (${siteConfig.address})`
-  );
+  lines.push(`💵 *SUBTOTAL:* ${formatMoney(subtotal)}`);
+
+  if (customer.deliveryType === 'delivery') {
+    lines.push(`🛵 *DELIVERY (${zoneName || 'Tacna'}):* A coordinar con el repartidor`);
+    lines.push(`💰 *TOTAL PRODUCTOS:* ${formatMoney(subtotal)} *(+ costo de envío según repartidor)*`);
+  } else {
+    lines.push(`🏪 *TIPO DE ENTREGA:* Recojo en tienda (${siteConfig.address}) — S/ 0.00`);
+    lines.push(`💰 *TOTAL A PAGAR:* ${formatMoney(subtotal)}`);
+  }
+
   lines.push('');
   lines.push('👤 *DATOS DEL CLIENTE:*');
   lines.push(`• Nombre: ${customer.fullName || 'No especificado'}`);
   lines.push(`• Celular: ${customer.phone || 'No especificado'}`);
 
   if (customer.deliveryType === 'delivery') {
+    lines.push(`• Distrito / Zona: ${zoneName || 'Cercado'}`);
     lines.push(`• Dirección: ${customer.address || 'No especificada'}`);
     if (customer.reference) {
       lines.push(`• Referencia: ${customer.reference}`);
@@ -71,9 +81,38 @@ export function generateWhatsAppMessage(
 export function openWhatsAppCheckout(
   items: CartItem[],
   customer: CustomerData,
-  subtotal: number
+  subtotal: number,
+  deliveryFee: number = 0,
+  zoneName?: string
 ): void {
-  openWhatsApp(generateWhatsAppMessage(items, customer, subtotal));
+  const ordId = 'RTQ-' + (2100 + Math.floor(Math.random() * 899));
+  const total = subtotal + (customer.deliveryType === 'delivery' ? deliveryFee : 0);
+
+  // 1. Sincronización en segundo plano con el KDS de cocina
+  syncOrderToKDS({
+    id: ordId,
+    customer: customer.fullName || 'Cliente Web',
+    phone: customer.phone || '',
+    channel: 'web',
+    mode: customer.deliveryType,
+    address: customer.address,
+    reference: customer.reference,
+    zone: zoneName,
+    items: items.map((it) => ({
+      name: it.name + (it.selectedPresentation ? ` (${it.selectedPresentation})` : ''),
+      qty: it.quantity,
+      price: it.unitPrice,
+      sauces: it.selectedOptions?.join(', '),
+    })),
+    subtotal,
+    deliveryFee: customer.deliveryType === 'delivery' ? deliveryFee : 0,
+    total,
+    payMethod: 'Yape / Por verificar',
+    notes: customer.generalNotes,
+  });
+
+  // 2. Abrir WhatsApp de Retequeños
+  openWhatsApp(generateWhatsAppMessage(items, customer, subtotal, deliveryFee, zoneName));
 }
 
 export function openWhatsAppDirect(customText?: string): void {

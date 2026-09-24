@@ -1,0 +1,413 @@
+// ===================================================
+// DATA: COMANDAS / PEDIDOS KDS (EN MEMORIA / SINCRONIZADO)
+// ===================================================
+
+const DEFAULT_ORDERS = [
+      {
+        id: 'RTQ-2064',
+        customer: 'Milton Flores',
+        phone: '+51 952 000 111',
+        channel: 'app',
+        payMethod: 'Pago confirmado',
+        payVerified: true,
+        mode: 'pickup',
+        status: 'new',
+        priority: false,
+        time: 'Recién recibido',
+        elapsedMinutes: 0,
+        address: '',
+        reference: 'Recojo en tienda',
+        items: [
+          { name: 'Tequeños de queso (Mayonesa de ajo)', qty: 1, price: 50.00 },
+          { name: 'Promo Duo (Queso + Mayopalta)', qty: 1, price: 70.70 }
+        ],
+        subtotal: 120.70,
+        deliveryFee: 0,
+        discount: 0,
+        total: 120.70,
+        notes: ''
+      },
+      {
+        id: 'RTQ-2181',
+        customer: 'Milton Flores',
+        phone: '+51 952 000 111',
+        channel: 'app',
+        payMethod: 'Pago contraentrega',
+        payVerified: false,
+        mode: 'pickup',
+        status: 'new',
+        priority: false,
+        time: 'Recién recibido',
+        elapsedMinutes: 1,
+        address: '',
+        reference: 'Recojo en tienda',
+        items: [
+          { name: 'Tequeños de queso (Mayonesa de ajo)', qty: 1, price: 16.00 },
+          { name: 'Promo Duo (Queso + Mayopalta)', qty: 1, price: 33.90 }
+        ],
+        subtotal: 49.90,
+        deliveryFee: 0,
+        discount: 0,
+        total: 49.90,
+        notes: ''
+      },
+      {
+        id: 'RTQ-2052',
+        customer: 'Alejandro Vargas',
+        phone: '+51 952 112 433',
+        channel: 'whatsapp',
+        payMethod: 'Por verificar',
+        payVerified: false,
+        mode: 'pickup',
+        status: 'new',
+        priority: false,
+        time: 'Hace 2 min',
+        elapsedMinutes: 2,
+        address: 'Calle San Martín 420, Tacna',
+        reference: 'Edificio azul, timbre 302',
+        items: [
+          { name: 'Promo Duo (20 unid. + 2 salsas)', qty: 1, sauces: 'Mayonesa de ajo + Mayopalta', price: 35.90 },
+          { name: 'Crema adicional (Salsa tocino)', qty: 1, price: 2.00 }
+        ],
+        subtotal: 37.90,
+        deliveryFee: 5.90,
+        discount: 0,
+        total: 43.80,
+        notes: 'Por favor tequeños bien doraditos y mayonesa de ajo bien fría.'
+      },
+      {
+        id: 'RTQ-2051',
+        customer: 'Luciana Gómez',
+        phone: '+51 989 334 112',
+        channel: 'app',
+        payMethod: 'Transferencia verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'new',
+        priority: false,
+        time: 'Hace 4 min',
+        elapsedMinutes: 4,
+        address: 'Av. Bolognesi 890, Tacna',
+        reference: 'Casa de dos pisos, portón negro',
+        items: [
+          { name: 'Tequeños de queso (10 unid.)', qty: 2, sauces: 'Mayonesa de ajo x2', price: 15.00 }
+        ],
+        subtotal: 30.00,
+        deliveryFee: 5.90,
+        discount: 0,
+        total: 35.90,
+        notes: ''
+      },
+      {
+        id: 'RTQ-2050',
+        customer: 'Carlos Mendizábal',
+        phone: '+51 953 881 290',
+        channel: 'app',
+        payMethod: 'Transferencia verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'kitchen',
+        priority: true,
+        time: 'En cocina hace 6 min',
+        elapsedMinutes: 6,
+        address: 'Urb. Vigil Mz B Lte 14, Tacna',
+        reference: 'Mz B Lote 14, casa esquina con reja verde',
+        items: [
+          { name: 'Promo Extra (20 unid. + 1 gaseosa)', qty: 1, sauces: 'Mayonesa de ajo + Salsa tocino', price: 32.90 },
+          { name: 'Limonada 1/2 litro', qty: 1, price: 8.00 }
+        ],
+        subtotal: 40.90,
+        deliveryFee: 5.90,
+        discount: 0,
+        total: 46.80,
+        notes: 'Sin cebolla, por favor.'
+      },
+      {
+        id: 'RTQ-2049',
+        customer: 'Valeria Ramos',
+        phone: '+51 974 556 123',
+        channel: 'app',
+        payMethod: 'PIN verificado',
+        payVerified: true,
+        mode: 'pickup',
+        status: 'kitchen',
+        priority: false,
+        time: 'En cocina hace 9 min',
+        elapsedMinutes: 9,
+        address: 'Av. Pinto 1240, Tacna',
+        reference: 'Al costado del grifo, puerta blanca',
+        items: [
+          { name: 'Tequeños de chocolate (10 unid.)', qty: 2, sauces: 'Chocolate', price: 17.00 }
+        ],
+        subtotal: 34.00,
+        deliveryFee: 0.90,
+        discount: 0,
+        total: 34.90,
+        notes: 'Agregar salsa extra de chocolate.'
+      },
+      {
+        id: 'RTQ-2048',
+        customer: 'Milton Flores',
+        phone: '+51 952 000 111',
+        channel: 'whatsapp',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivery',
+        priority: false,
+        time: 'Salió hace 8 min',
+        elapsedMinutes: 8,
+        address: 'Av. Primavera 123, Surco',
+        reference: 'Dejar en recepción con el portero',
+        items: [
+          { name: 'Promo Duo', qty: 1, sauces: 'Mayonesa de ajo + Mayopalta', price: 35.90 },
+          { name: 'Tequeños de chocolate', qty: 1, price: 15.00 }
+        ],
+        subtotal: 50.90,
+        deliveryFee: 5.90,
+        discount: 0,
+        total: 56.80,
+        driver: 'Luis Alberto (Moto Honda Roja)',
+        notes: 'Dejar en recepción con portero.'
+      },
+      {
+        id: 'RTQ-2047',
+        customer: 'Daniela Castro',
+        phone: '+51 981 776 223',
+        channel: 'app',
+        payMethod: 'Efectivo',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivery',
+        priority: false,
+        time: 'Salió hace 12 min',
+        elapsedMinutes: 12,
+        address: 'Calle Los Robles 456, San Borja',
+        reference: 'Torre B, piso 4, dpto 401',
+        items: [
+          { name: 'Tequeños de queso (10 unid.)', qty: 1, sauces: 'Mayopalta', price: 16.00 }
+        ],
+        subtotal: 16.00,
+        deliveryFee: 5.90,
+        discount: 0,
+        total: 21.90,
+        cashWith: 50,
+        driver: 'Jorge Ramos (Moto Azul)',
+        notes: 'Llevar sencillo de S/ 28.10.'
+      },
+      {
+        id: 'RTQ-2046',
+        customer: 'Gonzalo Peñaloza',
+        phone: '+51 950 443 112',
+        channel: 'app',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        priority: false,
+        time: 'Entregado a las 20:15',
+        elapsedMinutes: 20,
+        address: 'Av. Leguía 1430, Tacna',
+        items: [
+          { name: 'Promo Duo', qty: 1, sauces: 'Mayonesa de ajo x2', price: 35.90 }
+        ],
+        subtotal: 35.90,
+        deliveryFee: 5.90,
+        discount: 0,
+        total: 41.80,
+        notes: ''
+      },
+      {
+        id: 'RTQ-2045',
+        customer: 'María Fernanda López',
+        phone: '+51 952 778 991',
+        channel: 'whatsapp',
+        payMethod: 'Transferencia verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        priority: false,
+        time: 'Entregado a las 19:56',
+        elapsedMinutes: 35,
+        address: 'Calle Zela 312, Tacna',
+        items: [
+          { name: 'Tequeños de queso (10 unid.)', qty: 2, price: 28.05 }
+        ],
+        subtotal: 56.10,
+        deliveryFee: 5.90,
+        discount: 0,
+        total: 62.00,
+        notes: ''
+      },
+      {
+        id: 'RTQ-2044',
+        customer: 'Jorge Ramírez',
+        phone: '+51 953 221 445',
+        channel: 'app',
+        payMethod: 'Efectivo',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        priority: false,
+        time: 'Entregado a las 19:42',
+        elapsedMinutes: 48,
+        address: 'Av. Bolognesi 410, Tacna',
+        items: [
+          { name: 'Promo Familia (30 unid.)', qty: 1, price: 73.60 }
+        ],
+        subtotal: 73.60,
+        deliveryFee: 5.90,
+        discount: 0,
+        total: 79.50,
+        notes: ''
+      },
+      {
+        id: 'RTQ-2043',
+        customer: 'Carla Mendoza',
+        phone: '+51 952 667 890',
+        channel: 'app',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        time: 'Entregado a las 19:20',
+        elapsedMinutes: 65,
+        items: [{ name: 'Promo Duo', qty: 1, price: 35.90 }],
+        subtotal: 35.90, deliveryFee: 5.90, discount: 0, total: 41.80, notes: ''
+      },
+      {
+        id: 'RTQ-2042',
+        customer: 'Pedro Sotomayor',
+        phone: '+51 951 334 556',
+        channel: 'whatsapp',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'pickup',
+        status: 'delivered',
+        time: 'Entregado a las 18:55',
+        elapsedMinutes: 90,
+        items: [{ name: 'Tequeños de queso (10 unid.)', qty: 2, price: 32.00 }],
+        subtotal: 32.00, deliveryFee: 0, discount: 0, total: 32.00, notes: ''
+      },
+      {
+        id: 'RTQ-2041',
+        customer: 'Diana Albarracín',
+        phone: '+51 952 998 776',
+        channel: 'app',
+        payMethod: 'Transferencia verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        time: 'Entregado a las 18:30',
+        elapsedMinutes: 115,
+        items: [{ name: 'Promo Trío (30 unid.)', qty: 1, price: 49.90 }],
+        subtotal: 49.90, deliveryFee: 5.90, discount: 0, total: 55.80, notes: ''
+      },
+      {
+        id: 'RTQ-2040',
+        customer: 'Eduardo Quispe',
+        phone: '+51 953 445 667',
+        channel: 'app',
+        payMethod: 'Efectivo',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        time: 'Entregado a las 18:05',
+        elapsedMinutes: 140,
+        items: [{ name: 'Promo Duo', qty: 1, price: 35.90 }],
+        subtotal: 35.90, deliveryFee: 5.90, discount: 0, total: 41.80, notes: ''
+      },
+      {
+        id: 'RTQ-2039',
+        customer: 'Fiorella Beltrán',
+        phone: '+51 952 119 228',
+        channel: 'whatsapp',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        time: 'Entregado a las 17:40',
+        elapsedMinutes: 165,
+        items: [{ name: 'Tequeños de queso (10 unid.)', qty: 1, price: 16.00 }],
+        subtotal: 16.00, deliveryFee: 5.90, discount: 0, total: 21.90, notes: ''
+      },
+      {
+        id: 'RTQ-2037',
+        customer: 'Santiago Morales',
+        phone: '+51 952 338 449',
+        channel: 'app',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        time: 'Entregado a las 17:15',
+        elapsedMinutes: 190,
+        items: [{ name: 'Promo Duo', qty: 1, price: 35.90 }],
+        subtotal: 35.90, deliveryFee: 5.90, discount: 0, total: 41.80, notes: ''
+      },
+      {
+        id: 'RTQ-2036',
+        customer: 'Ana Paula Vega',
+        phone: '+51 951 887 990',
+        channel: 'app',
+        payMethod: 'Transferencia verificado',
+        payVerified: true,
+        mode: 'pickup',
+        status: 'delivered',
+        time: 'Entregado a las 16:50',
+        elapsedMinutes: 215,
+        items: [{ name: 'Tequeños de chocolate', qty: 2, price: 34.00 }],
+        subtotal: 34.00, deliveryFee: 0, discount: 0, total: 34.00, notes: ''
+      },
+      {
+        id: 'RTQ-2035',
+        customer: 'Rodrigo Bustamante',
+        phone: '+51 953 776 554',
+        channel: 'whatsapp',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        time: 'Entregado a las 16:20',
+        elapsedMinutes: 245,
+        items: [{ name: 'Promo Extra (20 unid. + 1 gaseosa)', qty: 1, price: 32.90 }],
+        subtotal: 32.90, deliveryFee: 5.90, discount: 0, total: 38.80, notes: ''
+      },
+      {
+        id: 'RTQ-2034',
+        customer: 'Vanessa Herrera',
+        phone: '+51 952 443 221',
+        channel: 'app',
+        payMethod: 'Efectivo',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'delivered',
+        time: 'Entregado a las 15:45',
+        elapsedMinutes: 280,
+        items: [{ name: 'Promo Duo', qty: 1, price: 35.90 }],
+        subtotal: 35.90, deliveryFee: 5.90, discount: 0, total: 41.80, notes: ''
+      }
+    ];
+
+// Cargar pedidos de localStorage si existen
+let savedOrders = null;
+try {
+  const item = localStorage.getItem('RTQ_ADMIN_ORDERS');
+  if (item) savedOrders = JSON.parse(item);
+} catch (e) {
+  console.warn('[Orders Data] Error al leer localStorage:', e);
+}
+
+let ORDERS = (Array.isArray(savedOrders) && savedOrders.length > 0) ? savedOrders : DEFAULT_ORDERS;
+
+function saveOrdersData() {
+  try {
+    localStorage.setItem('RTQ_ADMIN_ORDERS', JSON.stringify(ORDERS));
+  } catch (e) {
+    console.error('[Orders Data] Error al guardar en localStorage:', e);
+  }
+}
+
+window.ORDERS = ORDERS;
+window.saveOrdersData = saveOrdersData;
+
