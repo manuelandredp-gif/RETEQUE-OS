@@ -21,6 +21,7 @@ Sistema integral de comercio electrónico y gestión operativa para **Retequeño
 El proyecto fue completamente reestructurado bajo una **arquitectura por dominios y capas** para eliminar la deuda técnica de archivos monolíticos:
 
 * **Hub Operativo ([`app/admin.html`](./app/admin.html)):** Pasó de 7,534 líneas a 1,841 líneas limpias. Sus estilos se organizaron en 7 hojas modulares en [`app/css/admin/`](./app/css/admin/) y su lógica en 14 submódulos en [`app/js/admin/`](./app/js/admin/).
+* **App Móvil ([`app/index.html`](./app/index.html)):** Reducida de 2,040 a 1,406 líneas limpias. Su lógica monolítica se desacopló en submódulos especializados en [`app/js/mobile/`](./app/js/mobile/) (`state.js`, `order.service.js`, `catalog.module.js`, `cart.module.js`, `checkout.module.js`, `tracking.module.js`, `profile.module.js` y `app.js`).
 * **Configurador Web ([`ProductConfiguratorModal.tsx`](./web/src/components/configurator/)):** Subdividido en 5 pasos de acordeón independientes, datos aislados y un modal de WhatsApp dedicado.
 * **Catálogo Web ([`catalog.ts`](./web/src/data/catalog.ts)):** Desacoplado en submódulos por categoría en [`web/src/data/catalog/`](./web/src/data/catalog/).
 * **Carrito ([`CartDrawer.tsx`](./web/src/components/cart/)):** Separado en fila de ítem, formulario del cliente y footer.
