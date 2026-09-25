@@ -5,6 +5,7 @@ web/tsconfig.tsbuildinfo
 
 # Registros de compilación y parches
 tools/*.log
+data/*.tmp
 
 # Sistema
 Thumbs.db

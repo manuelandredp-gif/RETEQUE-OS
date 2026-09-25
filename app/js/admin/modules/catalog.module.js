@@ -3,6 +3,16 @@
 // ===================================================
 
 
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     let catalogFilterDebounceTimer = null;
     function filterCatalogTable(val) {
       catalogFilterQuery = (val || '').toLowerCase().trim();
@@ -35,7 +45,7 @@
         tbody.innerHTML = `
           <tr>
             <td colspan="7" style="text-align:center; padding:32px; color:var(--text-muted);">
-              No se encontraron productos que coincidan con "<strong>${catalogFilterQuery}</strong>".
+              No se encontraron productos que coincidan con "<strong>${escapeHtml(catalogFilterQuery)}</strong>".
             </td>
           </tr>
         `;
@@ -49,33 +59,43 @@
         if (prod.badge === 'RECOMENDADO') badgeHtml = '<span class="col-badge badge-purple" style="margin-left:6px;font-size:10px;">👑 Chef</span>';
         if (prod.badge === 'PROMO') badgeHtml = '<span class="col-badge badge-blue" style="margin-left:6px;font-size:10px;">🏷️ Promo</span>';
 
+        const cleanId = encodeURIComponent(String(prod.id || ''));
+        const safeName = escapeHtml(prod.name || '');
+        const safeCat = escapeHtml(prod.cat || 'Clásicos');
+        const safeQty = escapeHtml(prod.qty || 'Porción estándar');
+        const safeId = escapeHtml(prod.id || '');
+        const safeSauces = escapeHtml(prod.sauces || '');
+        const safeIcon = escapeHtml(prod.icon || '🥟');
+        const numPrice = Number(prod.price) || 0;
+        const numPromo = prod.promo ? Number(prod.promo) : null;
+
         return `
           <tr>
             <td>
               <div style="display:flex; align-items:center; gap:10px;">
                 <div style="font-size:22px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:var(--surface-subtle); border-radius:8px; border:1px solid var(--border); flex:none;">
-                  ${prod.icon || '🥟'}
+                  ${safeIcon}
                 </div>
                 <div>
                   <div style="font-weight:700; font-size:13.5px; display:flex; align-items:center;">
-                    ${prod.name} ${badgeHtml}
+                    ${safeName} ${badgeHtml}
                   </div>
                   <div style="font-size:11.5px; color:var(--text-muted);">
-                    ${prod.qty || 'Porción estándar'} · <span style="font-family:monospace; color:var(--text-light);">ID: ${prod.id}</span>
+                    ${safeQty} · <span style="font-family:monospace; color:var(--text-light);">ID: ${safeId}</span>
                   </div>
                 </div>
               </div>
             </td>
-            <td><span class="col-badge badge-blue">${prod.cat}</span></td>
-            <td style="font-weight:600;">S/ ${prod.price.toFixed(2)}</td>
+            <td><span class="col-badge badge-blue">${safeCat}</span></td>
+            <td style="font-weight:600;">S/ ${numPrice.toFixed(2)}</td>
             <td>
-              ${prod.promo ? `<span style="color:var(--primary);font-weight:800;background:var(--primary-light);padding:2px 6px;border-radius:4px;">S/ ${prod.promo.toFixed(2)}</span>` : '<span style="color:var(--text-light)">—</span>'}
+              ${numPromo ? `<span style="color:var(--primary);font-weight:800;background:var(--primary-light);padding:2px 6px;border-radius:4px;">S/ ${numPromo.toFixed(2)}</span>` : '<span style="color:var(--text-light)">—</span>'}
             </td>
-            <td style="font-size:12px; color:var(--text-muted);">${prod.sauces}</td>
+            <td style="font-size:12px; color:var(--text-muted);">${safeSauces}</td>
             <td>
               <div style="display:flex; align-items:center; gap:8px;">
                 <label class="switch">
-                  <input type="checkbox" ${prod.stock ? 'checked' : ''} onchange="toggleStock('${prod.id}', this.checked)">
+                  <input type="checkbox" ${prod.stock ? 'checked' : ''} onchange="toggleStock('${cleanId}', this.checked)">
                   <span class="slider"></span>
                 </label>
                 <span style="font-size:11.5px; font-weight:600; color:${prod.stock ? 'var(--success)' : 'var(--danger)'}">
@@ -85,7 +105,7 @@
             </td>
             <td>
               <div style="display:flex; gap:6px;">
-                <button class="btn btn-outline btn-sm" onclick="openNewProductModal('${prod.id}')" title="Editar detalles de producto">
+                <button class="btn btn-outline btn-sm" onclick="openNewProductModal('${cleanId}')" title="Editar detalles de producto">
                   ✏️ Editar
                 </button>
               </div>
@@ -102,6 +122,18 @@
         if (window.saveCatalogData) window.saveCatalogData();
         renderCatalog();
         showToast(`Stock de "${prod.name}" actualizado a ${inStock ? 'DISPONIBLE' : 'AGOTADO'}`);
+
+        // Sincronizar persistencia centralizada en backend
+        try {
+          const token = window.getAdminToken ? window.getAdminToken() : '';
+          const headers = { 'Content-Type': 'application/json' };
+          if (token) headers['Authorization'] = `Bearer ${token}`;
+          fetch(`/api/catalog/${encodeURIComponent(id)}/stock`, {
+            method: 'PATCH',
+            headers,
+            body: JSON.stringify({ stock: inStock })
+          }).catch(() => {});
+        } catch (e) {}
       }
     }
 
@@ -217,6 +249,19 @@
       renderCatalog();
       playAlertSound();
       closeProductModal();
+
+      // Sincronizar con backend centralizado
+      try {
+        const token = window.getAdminToken ? window.getAdminToken() : '';
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+        const prodToSave = editId ? CATALOG.find(p => p.id === editId) : newProduct;
+        fetch('/api/catalog', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(prodToSave)
+        }).catch(() => {});
+      } catch (err) {}
     }
 
     function handleDeleteProduct() {
@@ -232,6 +277,17 @@
         renderCatalog();
         closeProductModal();
         showToast(`🗑️ "${name}" ha sido eliminado del catálogo.`);
+
+        // Sincronizar eliminación con backend
+        try {
+          const token = window.getAdminToken ? window.getAdminToken() : '';
+          const headers = {};
+          if (token) headers['Authorization'] = `Bearer ${token}`;
+          fetch(`/api/catalog/${encodeURIComponent(editId)}`, {
+            method: 'DELETE',
+            headers
+          }).catch(() => {});
+        } catch (err) {}
       }
     }
 
@@ -243,3 +299,17 @@ window.closeProductModal = closeProductModal;
 window.selectProductIcon = selectProductIcon;
 window.handleSaveProduct = handleSaveProduct;
 window.handleDeleteProduct = handleDeleteProduct;
+
+// Cargar catálogo oficial del servidor al iniciar
+(async function initCatalogSync() {
+  try {
+    const res = await fetch('/api/catalog');
+    if (res.ok) {
+      const remote = await res.json();
+      if (Array.isArray(remote) && remote.length > 0) {
+        window.CATALOG = remote;
+        renderCatalog();
+      }
+    }
+  } catch (e) {}
+})();

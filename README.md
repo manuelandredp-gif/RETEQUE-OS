@@ -1,30 +1,50 @@
 # Retequeños · Ecosistema Digital (Retequeños OS)
 
-Sistema integral de comercio electrónico y gestión operativa para **Retequeños** (Tacna, Perú). Incluye web de pedidos por WhatsApp, prototipo navegable de la app móvil y hub administrativo con monitor KDS de cocina en tiempo real.
+Sistema integral de comercio electrónico y gestión operativa para **Retequeños** (Tacna, Perú). Incluye web de pedidos por WhatsApp, prototipo navegable de la app móvil y hub administrativo con monitor KDS de cocina en tiempo real conectado a una API REST segura con persistencia transaccional en disco.
 
 ---
 
 ## 📂 Estructura General del Proyecto
 
-| Carpeta | Descripción |
+| Carpeta / Archivo | Descripción |
 |---|---|
-| [**`documentacion/`**](./documentacion/README.md) | **Centro de Documentación Oficial**. Contiene la [arquitectura técnica y diagramas](./documentacion/ARQUITECTURA_Y_SISTEMA.md), bitácoras de rediseño KDS, catálogo de mejoras y especificaciones. |
+| [**`documentacion/`**](./documentacion/README.md) | **Centro de Documentación Oficial**. Contiene la [arquitectura técnica y diagramas](./documentacion/ARQUITECTURA_Y_SISTEMA.md), bitácoras de auditoría de seguridad, catálogo de mejoras y especificaciones. |
+| [**`data/`**](./data/) | **Fuente Única de Verdad (Single Source of Truth)**. Base de datos persistente en disco con escrituras atómicas: [`orders.db.json`](./data/orders.db.json), [`catalog.db.json`](./data/catalog.db.json) y [`store.config.json`](./data/store.config.json). |
 | [**`app/`**](./app/) | **Hub Operativo & App Móvil**. Panel de administración modular ([`admin.html`](./app/admin.html)) con monitor KDS, control de stock y métricas BI, junto al prototipo navegable de 26 pantallas ([`index.html`](./app/index.html)). |
 | [**`web/`**](./web/) | **Web de Pedidos**. React 18 + Vite 6 + Tailwind CSS + Zustand. Catálogo modularizado, configurador dinámico de promos/pizzas/tequeños y checkout por WhatsApp. |
-| [**`tools/`**](./tools/) | **Utilidades**. Servidores locales en PowerShell nativo (`serve-app.ps1`, `serve-web.ps1`) y lanzador de Node integrado (`node.cmd`). |
+| [**`tools/`**](./tools/) | **Backend & Utilidades**. Servidor de producción nativo en Node.js ([`server.js`](./tools/server.js)), suite de pruebas automatizadas ([`test-system.js`](./tools/test-system.js)) y lanzadores de ejecución. |
 | [**`capturas/`**](./capturas/) | Registro visual del sistema antes y después de las mejoras. |
 
 ---
 
-## 🏗️ Arquitectura Modular
+## 📊 Transformación del Sistema: Antes vs. Después de las Auditorías
 
-El proyecto fue completamente reestructurado bajo una **arquitectura por dominios y capas** para eliminar la deuda técnica de archivos monolíticos:
+El ecosistema atravesó dos fases intensivas de auditoría técnica y blindaje arquitectónico:
 
-* **Hub Operativo ([`app/admin.html`](./app/admin.html)):** Pasó de 7,534 líneas a 1,841 líneas limpias. Sus estilos se organizaron en 7 hojas modulares en [`app/css/admin/`](./app/css/admin/) y su lógica en 14 submódulos en [`app/js/admin/`](./app/js/admin/).
-* **App Móvil ([`app/index.html`](./app/index.html)):** Reducida de 2,040 a 1,406 líneas limpias. Su lógica monolítica se desacopló en submódulos especializados en [`app/js/mobile/`](./app/js/mobile/) (`state.js`, `order.service.js`, `catalog.module.js`, `cart.module.js`, `checkout.module.js`, `tracking.module.js`, `profile.module.js` y `app.js`).
-* **Configurador Web ([`ProductConfiguratorModal.tsx`](./web/src/components/configurator/)):** Subdividido en 5 pasos de acordeón independientes, datos aislados y un modal de WhatsApp dedicado.
-* **Catálogo Web ([`catalog.ts`](./web/src/data/catalog.ts)):** Desacoplado en submódulos por categoría en [`web/src/data/catalog/`](./web/src/data/catalog/).
-* **Carrito ([`CartDrawer.tsx`](./web/src/components/cart/)):** Separado en fila de ítem, formulario del cliente y footer.
+| Dimensión | Estado Original (Antes) | Estado Auditado y Blindado (Después) |
+|---|---|---|
+| **Persistencia de Datos** | Servidor volátil en memoria (PowerShell). Los pedidos se borraban al cerrar la consola. | **Persistencia ACID** en disco ([`data/orders.db.json`](./data/orders.db.json)) con escrituras atómicas y respaldos automáticos. |
+| **Integridad Financiera** | El cliente enviaba `precio` y `total` manipulables por HTTP; redondeo inexacto por coma flotante IEEE 754. | **Cálculo autoritativo en servidor** contra catálogo maestro. Redondeo en centavos enteros (`Math.round(x * 100)`) inmune a manipulación. |
+| **Control de Acceso (BOLA/IDOR)** | Cualquiera con la URL podía ver o cancelar pedidos ajenos de otros clientes. | **Protección por Token de Acceso**. Lectura y cancelación pública exigen token secreto; admin protegido por sesión PIN (`2026`). |
+| **Protección de Datos (PII)** | La API `/api/pedidos` exponía en texto plano teléfonos, nombres y direcciones a cualquier petición pública GET. | **Enmascaramiento de datos (PII)** para peticiones no autenticadas (`912***950`, `Juan P***`, `Calle Al***`). |
+| **Seguridad Frontend (XSS / Inyecciones)** | Concatenación vulnerable de HTML (`innerHTML`) y exportación CSV susceptible a CSV Formula Injection (`=CMD|...`). | **Sanitización estricta**, interpolación segura y neutralización de prefijos `=`, `+`, `-`, `@` con apóstrofe en CSV. |
+| **Aislamiento y Concurrencia** | El cliente web intentaba cargar scripts locales de `app/` provocando errores CORS en el navegador. | **Aislamiento estricto**: `web/` compila autónomamente; `app/` consume la API REST de `tools/server.js`. |
+| **Batería de Pruebas** | 0 pruebas automatizadas. | **21 pruebas automatizadas de extremo a extremo** ([`tools/test-system.js`](./tools/test-system.js)) cubriendo seguridad, ACID y finanzas. |
+
+> Consulta el informe técnico completo con ejemplos de código antes y después en: [**`documentacion/BITACORA_AUDITORIAS_Y_MEJORAS.md`**](./documentacion/BITACORA_AUDITORIAS_Y_MEJORAS.md).
+
+---
+
+## 🏗️ Arquitectura Modular y Seguridad de Producción
+
+El proyecto fue auditado exhaustivamente y reestructurado bajo estándares profesionales de ingeniería de software para eliminar deuda técnica y garantizar estabilidad en producción:
+
+* **Backend Seguro en Node.js ([`tools/server.js`](./tools/server.js)):** Sustituyó el antiguo servidor en memoria de PowerShell. Ofrece I/O no bloqueante, persistencia atómica en disco (resistente a fallos de energía y reinicios), validación de orígenes CORS y protección estricta contra Path Traversal.
+* **Fuente Única de Verdad (`data/`):** La configuración del negocio (teléfono oficial de WhatsApp `51912266950`, dirección `Calle Alto Lima 1488, Tacna`, Yape) y los 49 productos del catálogo maestro se sincronizan centralizadamente a través de la API REST (`/api/config`, `/api/catalog`).
+* **Blindaje contra Stored XSS ([`app/js/admin/modules/kanban.module.js`](./app/js/admin/modules/kanban.module.js)):** Todos los datos ingresados por clientes o recibidos de la API se sanitizan e interpolan de forma segura antes de renderizarse en el tablero KDS, modales o comandas térmicas.
+* **Autenticación por PIN de Administrador:** El panel de administración y las operaciones de mutación de pedidos/carta están protegidas por PIN (predeterminado: **`2026`**) con sesiones criptográficas y cookies `HttpOnly`.
+* **Configurador Web Tipado ([`ProductConfiguratorModal.tsx`](./web/src/components/configurator/)):** Se erradicó por completo la lógica heurística de "string-sniffing" en descripciones, adoptando un modelo fuertemente tipado (`ConfigurableItem` y `PromoConfig`).
+* **Hub Operativo Modular ([`app/admin.html`](./app/admin.html)):** Organizado en 7 hojas de estilo modulares en [`app/css/admin/`](./app/css/admin/) y 14 submódulos especializados en [`app/js/admin/`](./app/js/admin/).
 
 > Consulta el documento maestro de arquitectura: [**`documentacion/ARQUITECTURA_Y_SISTEMA.md`**](./documentacion/ARQUITECTURA_Y_SISTEMA.md).
 
@@ -32,12 +52,14 @@ El proyecto fue completamente reestructurado bajo una **arquitectura por dominio
 
 ## 🚀 Cómo Ejecutar el Sistema
 
-### 1. Hub Operativo (KDS + Admin) y Prototipo Móvil
-* **Desde Windows (Sin Node ni instalaciones):**  
-  Doble clic en `Iniciar app (celular).cmd`.  
-  * **App móvil:** [http://localhost:3000](http://localhost:3000) (o desde tu celular en la misma WiFi con la IP mostrada en consola).
-  * **Panel Administrador & KDS:** [http://localhost:3000/admin](http://localhost:3000/admin)
-  * **API de Pedidos en Memoria:** [http://localhost:3000/api/pedidos](http://localhost:3000/api/pedidos)
+### 1. Hub Operativo (KDS + Admin) y App Móvil
+* **Desde Windows (1 Clic):**  
+  Doble clic en **`Iniciar app (celular).cmd`**.  
+  * **App móvil:** [http://localhost:3000](http://localhost:3000) (o desde tu celular en la misma red WiFi con la IP mostrada en consola).
+  * **Panel Administrador & KDS:** [http://localhost:3000/admin](http://localhost:3000/admin) (PIN de acceso: **`2026`**).
+  * **API REST Pedidos (Persistente):** [http://localhost:3000/api/pedidos](http://localhost:3000/api/pedidos)
+  * **API REST Catálogo Maestro:** [http://localhost:3000/api/catalog](http://localhost:3000/api/catalog)
+  * **API REST Configuración:** [http://localhost:3000/api/config](http://localhost:3000/api/config)
 
 ### 2. Web de Pedidos (React + Vite)
 * **Desarrollo:**
@@ -50,9 +72,18 @@ El proyecto fue completamente reestructurado bajo una **arquitectura por dominio
   * Ejecuta `Compilar web.cmd` (compila con el Node integrado de Antigravity IDE).
   * Ejecuta `Iniciar web.cmd` (sirve `web/dist` en http://localhost:5173).
 
+### 3. Suite de Pruebas Automatizadas
+* **Ejecutar pruebas del sistema:**  
+  Doble clic en **`Ejecutar pruebas.cmd`** o ejecuta en terminal:
+  ```bash
+  node tools/test-system.js
+  ```
+  Ejecuta y valida **21 pruebas automatizadas**: persistencia ACID, autenticación por PIN, protección XSS, bloqueo de Path Traversal, sincronización del catálogo, control de acceso BOLA/IDOR, enmascaramiento de PII, cálculo autoritativo de precios y consistencia financiera.
+
 ---
 
 ## 📌 Datos de Configuración del Negocio
 
-* **Web:** Todo se centraliza en [`web/src/config/site.ts`](./web/src/config/site.ts) (WhatsApp, dirección, horario, redes sociales y número de Yape).
-* **Prototipo Móvil:** En la constante `STORE` de [`app/js/mobile/data.js`](./app/js/mobile/data.js).
+* **Fuente Centralizada:** [`data/store.config.json`](./data/store.config.json) (WhatsApp oficial `51912266950`, dirección `Calle Alto Lima 1488, Tacna`, horario, redes y número de Yape `912 266 950`).
+* **Web:** [`web/src/config/site.ts`](./web/src/config/site.ts).
+* **App Móvil:** [`app/js/mobile/data.js`](./app/js/mobile/data.js).

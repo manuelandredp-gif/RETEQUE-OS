@@ -11,7 +11,7 @@ export const siteConfig = {
   facebookUrl: 'https://www.facebook.com/retequenos', // confirmar
   address: 'Calle Alto Lima 1488, Tacna', // confirmar
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Reteque%C3%B1os+Tacna',
-  hours: '', // Ej. "Lun a Dom · 5:00 p. m. – 11:00 p. m." (vacío = no se muestra)
+  hours: 'Lun a Dom · 5:00 p. m. – 11:00 p. m.',
   slogan: '¡Expertos en tequeños!',
   tagline: 'Tacna sabe mejor con Retequeños ♡',
   heroHeadline: 'TEQUEÑOS QUE ALEGRAN EL DÍA',

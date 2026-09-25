@@ -8,8 +8,9 @@ Bienvenido al repositorio central de documentación de **Retequeños OS** (Tacna
 
 | Documento | Descripción |
 |---|---|
+| [**BITACORA_AUDITORIAS_Y_MEJORAS.md**](./BITACORA_AUDITORIAS_Y_MEJORAS.md) | **Bitácora de Auditorías (Antes vs. Después)**. Registro técnico integral de vulnerabilidades resueltas, blindaje de seguridad, integridad financiera y 21 pruebas automatizadas. |
 | [**ARQUITECTURA_Y_SISTEMA.md**](./ARQUITECTURA_Y_SISTEMA.md) | **Lectura Obligatoria**. Arquitectura integral del sistema, diagrama completo de carpetas, flujos de datos (Mermaid), ciclo de vida de pedidos y subsistemas. |
-| [**MEJORAS.md**](./MEJORAS.md) | Catálogo de las 60 mejoras aplicadas al sistema (30 en la app móvil y 30 en la web de pedidos) con priorización MVP. |
+| [**MEJORAS.md**](./MEJORAS.md) | Catálogo de mejoras aplicadas (App móvil, Web y Auditorías Fase 1 + Fase 2) con comparativa Antes vs. Después. |
 | [**CAMBIOS_KDS_REDISENO.md**](./CAMBIOS_KDS_REDISENO.md) | Registro del rediseño del monitor KDS (Kitchen Display System), tarjetas de comandas, cronómetros y semáforos de urgencia. |
 | [**CAMBIOS_DASHBOARD_REDISENO.md**](./CAMBIOS_DASHBOARD_REDISENO.md) | Registro del dashboard ejecutivo BI, curvas horarias de ventas, mix de canales y feed de operaciones en vivo. |
 | [**CAMBIOS_CUPONES_OFERTAS.md**](./CAMBIOS_CUPONES_OFERTAS.md) | Especificación del motor de cupones, reglas de descuento, planificador semanal y mockup de previsualización en celular. |

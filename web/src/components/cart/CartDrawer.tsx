@@ -10,6 +10,8 @@ import { CartItemRow } from './CartItemRow';
 import { CartCustomerForm } from './CartCustomerForm';
 import { CartDrawerFooter } from './CartDrawerFooter';
 import { DEFAULT_TACNA_ZONE, TacnaZone } from '../../config/tacnaZones';
+import { roundMoney } from '../../lib/money';
+import { validateCoupon } from '../../lib/coupons';
 
 export const CartDrawer: React.FC = () => {
   const isOpen = useCartStore((s) => s.isCartOpen);
@@ -24,6 +26,8 @@ export const CartDrawer: React.FC = () => {
   const [selectedZone, setSelectedZone] = useState<TacnaZone>(DEFAULT_TACNA_ZONE);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sent, setSent] = useState(false);
+  const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discount: number } | null>(null);
+  const [couponMessage, setCouponMessage] = useState<{ text: string; error?: boolean } | null>(null);
 
   // Bloquea el scroll del fondo y cierra con Escape
   useEffect(() => {
@@ -41,15 +45,38 @@ export const CartDrawer: React.FC = () => {
   }, [isOpen, closeCart]);
 
   useEffect(() => {
-    if (items.length === 0) setSent(false);
+    if (items.length === 0) {
+      setSent(false);
+      setAppliedCoupon(null);
+      setCouponMessage(null);
+    }
   }, [items.length]);
 
   if (!isOpen) return null;
 
-  const subtotal = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
+  const subtotal = roundMoney(items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0));
   const totalCount = items.reduce((sum, item) => sum + item.quantity, 0);
-  const deliveryFee = deliveryType === 'delivery' ? selectedZone.fee : 0;
-  const grandTotal = subtotal + deliveryFee;
+  const deliveryFee = deliveryType === 'delivery' ? roundMoney(selectedZone.fee) : 0;
+  const discount = appliedCoupon ? appliedCoupon.discount : 0;
+  const grandTotal = roundMoney(Math.max(0, subtotal - discount + deliveryFee));
+
+  const handleApplyCoupon = (code: string) => {
+    const res = validateCoupon(code, subtotal);
+    if (res.valid) {
+      setAppliedCoupon({ code: res.rule!.code, discount: res.discount });
+      setCouponMessage({ text: res.message });
+      showToast({ message: `Cupón ${res.rule!.code} aplicado: -S/ ${res.discount.toFixed(2)}` });
+    } else {
+      setAppliedCoupon(null);
+      setCouponMessage({ text: res.message, error: true });
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponMessage(null);
+    showToast({ message: 'Cupón removido' });
+  };
 
   const validate = () => {
     const errs: Record<string, string> = {};
@@ -67,7 +94,9 @@ export const CartDrawer: React.FC = () => {
       { fullName, phone, deliveryType, address, reference, generalNotes },
       subtotal,
       deliveryFee,
-      deliveryType === 'delivery' ? selectedZone.name : undefined
+      deliveryType === 'delivery' ? selectedZone.name : undefined,
+      discount,
+      appliedCoupon?.code
     );
     setSent(true);
   };
@@ -75,6 +104,8 @@ export const CartDrawer: React.FC = () => {
   const handleClear = () => {
     clearCart();
     setSent(false);
+    setAppliedCoupon(null);
+    setCouponMessage(null);
     closeCart();
     showToast({ message: 'Pedido vaciado. ¡Gracias por tu compra!' });
   };
@@ -150,7 +181,13 @@ export const CartDrawer: React.FC = () => {
         {/* Acciones Footer */}
         {items.length > 0 && (
           <CartDrawerFooter
-            subtotal={grandTotal}
+            subtotal={subtotal}
+            discount={discount}
+            grandTotal={grandTotal}
+            appliedCouponCode={appliedCoupon?.code}
+            onApplyCoupon={handleApplyCoupon}
+            onRemoveCoupon={handleRemoveCoupon}
+            couponMessage={couponMessage}
             sent={sent}
             onSend={handleSend}
             onClear={handleClear}

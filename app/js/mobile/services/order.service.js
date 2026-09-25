@@ -48,7 +48,7 @@
       wa.push('');
       wa.push(note || 'Hola 👋, quisiera realizar este pedido.');
 
-      const phone = waStore.whatsapp || '51952741852';
+      const phone = waStore.whatsapp || '51912266950';
       window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(wa.join('\n')), '_blank');
     },
 

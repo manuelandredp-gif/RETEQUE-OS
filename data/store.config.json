@@ -1,0 +1,17 @@
+{
+  "name": "Retequeños",
+  "city": "Tacna, Perú",
+  "address": "Calle Alto Lima 1488, Tacna",
+  "hours": "Lun a Dom · 5:00 p. m. – 11:00 p. m.",
+  "whatsappDisplay": "912 266 950",
+  "whatsappInternational": "51912266950",
+  "yape": {
+    "number": "912 266 950",
+    "holder": "Retequeños"
+  },
+  "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Reteque%C3%B1os+Tacna",
+  "instagram": "@retequenos",
+  "instagramUrl": "https://www.instagram.com/retequenos",
+  "facebook": "Retequeños",
+  "facebookUrl": "https://www.facebook.com/retequenos"
+}

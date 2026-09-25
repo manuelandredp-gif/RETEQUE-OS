@@ -22,19 +22,33 @@
         </div>`).join('');
 
       const sl = document.getElementById('surveys-list-container');
-      if (sl) sl.innerHTML = SURVEYS.map(s => `
+      if (sl) sl.innerHTML = SURVEYS.map(s => {
+        const encodedId = encodeURIComponent(s.id);
+        const untilFormatted = (s.until || '').split('-').reverse().join('/');
+        return `
         <div class="coupon-card">
-          <div class="coupon-badge-code" style="font-size:11px;">${s.id}</div>
+          <div class="coupon-badge-code" style="font-size:11px;">${escapeHtml(s.id)}</div>
           <div class="coupon-meta">
-            <div class="coupon-title">${s.title}</div>
-            <div class="coupon-desc">Hasta ${s.until.split('-').reverse().join('/')} · ${s.responses} respuestas · ${s.coupons} cupones ${s.couponCode || ''} · ${s.google ? '4-5★ → Google' : 'sin Google'}</div>
-            <div class="coupon-desc" style="font-family:monospace;">🔗 ${s.link}</div>
+            <div class="coupon-title">${escapeHtml(s.title)}</div>
+            <div class="coupon-desc">Hasta ${escapeHtml(untilFormatted)} · ${Number(s.responses || 0)} respuestas · ${Number(s.coupons || 0)} cupones ${escapeHtml(s.couponCode || '')} · ${s.google ? '4-5★ → Google' : 'sin Google'}</div>
+            <div class="coupon-desc" style="font-family:monospace;">🔗 ${escapeHtml(s.link)}</div>
           </div>
-          <div><label class="switch"><input type="checkbox" ${s.active ? 'checked' : ''} onchange="toggleSurvey('${s.id}', this.checked)"><span class="slider"></span></label></div>
-        </div>`).join('');
+          <div><label class="switch"><input type="checkbox" ${s.active ? 'checked' : ''} onchange="toggleSurvey('${encodedId}', this.checked)"><span class="slider"></span></label></div>
+        </div>`;
+      }).join('');
 
       renderReviews();
       renderDashboardFeedback();
+    }
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
     }
 
     function renderReviews() {
@@ -44,21 +58,22 @@
       if (!tb) return;
       tb.innerHTML = rows.map(r => `
         <tr>
-          <td style="white-space:nowrap;">${r.date}</td>
-          <td style="font-family:monospace;">${r.order}</td>
-          <td>${r.customer}</td>
+          <td style="white-space:nowrap;">${escapeHtml(r.date)}</td>
+          <td style="font-family:monospace;">${escapeHtml(r.order)}</td>
+          <td>${escapeHtml(r.customer)}</td>
           <td style="white-space:nowrap;">${starsHtml(r.stars)}</td>
-          <td><span class="col-badge badge-blue">${r.source}</span></td>
-          <td>${r.improve.length ? r.improve.map(t => `<span class="col-badge badge-orange" style="margin:1px;">${t}</span>`).join(' ') : '<span style="color:var(--text-light)">—</span>'}</td>
-          <td style="font-size:12px; max-width:260px;">${r.comment}</td>
-          <td>${r.coupon ? `<span class="col-badge badge-green">${r.coupon}</span>` : '—'}</td>
+          <td><span class="col-badge badge-blue">${escapeHtml(r.source)}</span></td>
+          <td>${r.improve && r.improve.length ? r.improve.map(t => `<span class="col-badge badge-orange" style="margin:1px;">${escapeHtml(t)}</span>`).join(' ') : '<span style="color:var(--text-light)">—</span>'}</td>
+          <td style="font-size:12px; max-width:260px;">${escapeHtml(r.comment)}</td>
+          <td>${r.coupon ? `<span class="col-badge badge-green">${escapeHtml(r.coupon)}</span>` : '—'}</td>
           <td>${r.google ? '✅ Sí' : '<span style="color:var(--text-light)">No</span>'}</td>
         </tr>`).join('') || '<tr><td colspan="9" style="text-align:center; padding:24px; color:var(--text-muted);">Sin respuestas para este filtro.</td></tr>';
     }
 
     function toggleSurvey(id, active) {
-      const s = SURVEYS.find(x => x.id === id);
-      if (s) { s.active = active; showToast(`Encuesta ${id} ${active ? 'ACTIVADA' : 'PAUSADA'} en la App y el QR`); }
+      const cleanId = decodeURIComponent(id || '');
+      const s = SURVEYS.find(x => x.id === cleanId);
+      if (s) { s.active = active; showToast(`Encuesta ${cleanId} ${active ? 'ACTIVADA' : 'PAUSADA'} en la App y el QR`); }
     }
 
     function handleCreateSurvey(e) {

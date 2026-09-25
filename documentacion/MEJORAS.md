@@ -145,3 +145,27 @@ Aplicado sobre `app/index.html` (prototipo móvil). No se tocó `web/` ni el pan
 - Perfil: "Mis direcciones" ya no existe; "Mis pedidos" sí.
 - Valoración: el botón de Google aparece sin haber calificado con estrellas.
 - Verificación de sintaxis del script embebido (`new Function()` sobre el bloque JS) sin errores tras cada parche.
+
+---
+
+## D · Auditorías Técnicas y Blindaje del Ecosistema (Fase 1 + Fase 2)
+
+Bitácora detallada de las mejoras de seguridad, arquitectura, backend y estabilidad implementadas tras las auditorías integrales de código:
+
+| Área Auditada | Estado ANTES de la Auditoría | Estado DESPUÉS de la Auditoría | Impacto |
+|---|---|---|---|
+| **Control de Acceso (BOLA)** | `PATCH /api/pedidos/:id` permitía a cualquiera cambiar el estado de cualquier comanda sin autenticación. | Exige `Authorization: Bearer <token>`, `x-admin-token` o cookie `rtq_admin_token` validada con sesión de 24h. | Evita sabotaje del flujo de cocina KDS por terceros. |
+| **Privacidad (PII Leak)** | `GET /api/pedidos` exponía nombres, celulares y direcciones de todos los clientes a cualquiera. | Protegido con 401 para consultas masivas. Endpoint `/api/pedidos/:id` individual anonimizado para tracking seguro. | Cumplimiento estricto de privacidad y protección de datos. |
+| **Integridad Financiera** | El servidor aceptaba `total: 0.10` en `POST /api/pedidos` sin verificar los productos. | El backend recalcula forzosamente el subtotal a partir de los ítems y aplica `total = subtotal + envío - descuento`. | Imposibilita fraudes de precios desde el cliente. |
+| **Protección contra DoS** | Creación ilimitada de pedidos en `POST /api/pedidos` (riesgo de saturación por bots). | Limitador por IP a 30 pedidos por minuto con respuesta HTTP 429 Too Many Requests. | Previene colapso de memoria y disco. |
+| **Vulnerabilidad XSS** | Inyección HTML en tablero KDS, cupones, productos y reseñas (`innerHTML`). | Sanitización con `escapeHtml()` y manipulación DOM segura (`textContent`, `createElement`). | Neutraliza inyección de scripts maliciosos. |
+| **Inyección CSV (DDE)** | Exportación de cupones vulnerable a ejecución de comandos en hojas de cálculo. | Sanitización con `sanitizeCsvCell()` que neutraliza fórmulas que inicien con `=`, `+`, `-`, `@`. | Protege equipos administrativos al abrir reportes en Excel. |
+| **Autenticación PIN** | Comparación no constante de PIN y fuerza bruta ilimitada. | Validación con `crypto.timingSafeEqual()` y bloqueo tras 5 intentos fallidos por 15 minutos. | Resistencia total a timing attacks y ataques de diccionario. |
+| **Persistencia Backend** | Datos en memoria en PowerShell (`serve-app.ps1`) o `.tmp` propensos a colisión. | Servidor nativo Node.js (`tools/server.js`) con escrituras ACID atómicas y sufijo criptográfico aleatorio. | Cero pérdida de datos ante caídas de luz o reinicios. |
+| **Punto Flotante en Carrito** | Imprecisiones binarias en sumas de productos (`51.900000000000006`). | Función `roundMoney(amount)` con `Number.EPSILON` aplicada en Zustand, drawer y sincronización. | Montos y centavos exactos en cada comanda. |
+| **Sincronización KDS** | Compras directas (modal o ficha) abrían WhatsApp sin ID y sin notificar a cocina. | Generación automática de `RTQ-XXXX` y sincronización en vivo mediante `syncOrderToKDS()`. | Cada orden directa ingresa de inmediato al monitor de cocina. |
+| **Motor de Cupones Web** | Tienda web sin soporte para canjear los cupones configurados en el Hub. | Motor `web/src/lib/coupons.ts` con validación de mínimos y descuento visual en el pie del carrito. | Fidelización unificada entre marketing y tienda online. |
+| **Pruebas de Regresión** | 0 pruebas automatizadas. | Suite de 21 pruebas automatizadas en `tools/test-system.js` ejecutándose con 21/21 PASS. | Garantía de estabilidad continua en producción. |
+
+> Consulta el informe completo de la auditoría en [**`documentacion/BITACORA_AUDITORIAS_Y_MEJORAS.md`**](./BITACORA_AUDITORIAS_Y_MEJORAS.md).
+

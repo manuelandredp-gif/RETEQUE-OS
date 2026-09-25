@@ -2,6 +2,16 @@
 // MODULE: CUPONES, OFERTAS & MOTOR DE PROMOCIONES
 // ===================================================
 
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     function renderCoupons(filterText = '') {
       const tbody = document.getElementById('co-table-body');
       if (!tbody) return;
@@ -25,7 +35,7 @@
         } else if (c.status === 'Pausado') {
           statusBadge = '<span class="co-day-badge co-badge-pausada">● Pausado</span>';
         } else {
-          statusBadge = `<span class="co-day-badge" style="background:#F3F4F6;color:#6B7280;">● ${c.status}</span>`;
+          statusBadge = `<span class="co-day-badge" style="background:#F3F4F6;color:#6B7280;">● ${escapeHtml(c.status)}</span>`;
         }
 
         const pushBadge = c.push
@@ -36,34 +46,36 @@
           ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>'
           : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
 
+        const encodedCode = encodeURIComponent(c.code);
+
         return `
           <tr>
-            <td><span class="co-table-code">${c.code}</span></td>
+            <td><span class="co-table-code">${escapeHtml(c.code)}</span></td>
             <td>
-              <div style="font-weight:700;color:#111827;font-size:12.5px;">${c.name}</div>
-              ${c.minOrder ? `<div style="font-size:10.5px;color:#9CA3AF;">Mínimo: ${c.minOrder}</div>` : ''}
+              <div style="font-weight:700;color:#111827;font-size:12.5px;">${escapeHtml(c.name)}</div>
+              ${c.minOrder ? `<div style="font-size:10.5px;color:#9CA3AF;">Mínimo: ${escapeHtml(c.minOrder)}</div>` : ''}
             </td>
             <td>${statusBadge}</td>
-            <td><span style="font-size:11.5px;color:#4B5563;white-space:nowrap;">${c.validity}</span></td>
-            <td><span style="font-size:11.5px;color:#4B5563;white-space:nowrap;">${c.schedule}</span></td>
-            <td><span style="font-size:11.5px;font-weight:600;color:#4B5563;">${c.segment}</span></td>
-            <td><span style="font-size:11.5px;font-weight:700;color:#111827;">${c.uses} / ${c.limit}</span></td>
+            <td><span style="font-size:11.5px;color:#4B5563;white-space:nowrap;">${escapeHtml(c.validity)}</span></td>
+            <td><span style="font-size:11.5px;color:#4B5563;white-space:nowrap;">${escapeHtml(c.schedule)}</span></td>
+            <td><span style="font-size:11.5px;font-weight:600;color:#4B5563;">${escapeHtml(c.segment)}</span></td>
+            <td><span style="font-size:11.5px;font-weight:700;color:#111827;">${Number(c.uses || 0)} / ${Number(c.limit || 0)}</span></td>
             <td>${pushBadge}</td>
             <td style="text-align:right;">
               <div class="co-table-actions">
-                <button type="button" class="co-act-btn" onclick="previewCouponInMockup('${c.code}')" title="Ver en teléfono">
+                <button type="button" class="co-act-btn" onclick="previewCouponInMockup('${encodedCode}')" title="Ver en teléfono">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                 </button>
-                <button type="button" class="co-act-btn" onclick="editCoupon('${c.code}')" title="Editar cupón">
+                <button type="button" class="co-act-btn" onclick="editCoupon('${encodedCode}')" title="Editar cupón">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                 </button>
-                <button type="button" class="co-act-btn" onclick="toggleCouponStatus('${c.code}')" title="${c.status === 'Activo' ? 'Pausar cupón' : 'Reactivar cupón'}">
+                <button type="button" class="co-act-btn" onclick="toggleCouponStatus('${encodedCode}')" title="${c.status === 'Activo' ? 'Pausar cupón' : 'Reactivar cupón'}">
                   ${pausePlayIcon}
                 </button>
-                <button type="button" class="co-act-btn" onclick="duplicateCoupon('${c.code}')" title="Duplicar cupón">
+                <button type="button" class="co-act-btn" onclick="duplicateCoupon('${encodedCode}')" title="Duplicar cupón">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                 </button>
-                <button type="button" class="co-act-btn delete" onclick="deleteCoupon('${c.code}')" title="Eliminar cupón">
+                <button type="button" class="co-act-btn delete" onclick="deleteCoupon('${encodedCode}')" title="Eliminar cupón">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                 </button>
               </div>
@@ -92,16 +104,16 @@
       grid.innerHTML = DETAILED_WEEK_SCHEDULE.map((col, idx) => {
         const itemsHtml = col.items.length > 0 ? col.items.map(item => `
           <div class="co-day-card">
-            <div class="co-day-time">${item.time}</div>
-            <div class="co-day-card-title">${item.title}</div>
+            <div class="co-day-time">${escapeHtml(item.time)}</div>
+            <div class="co-day-card-title">${escapeHtml(item.title)}</div>
             <span class="co-day-badge ${item.status === 'Activa' ? 'co-badge-activa' : 'co-badge-programada'}">
-              ● ${item.status}
+              ● ${escapeHtml(item.status)}
             </span>
           </div>
         `).join('') : '<div class="co-day-empty">Sin promociones</div>';
 
         const addBtnHtml = col.allowAdd ? `
-          <button type="button" class="co-btn-add-offer" onclick="openAddOfferModal('${col.day}', ${idx})">
+          <button type="button" class="co-btn-add-offer" onclick="openAddOfferModal('${escapeHtml(col.day)}', ${idx})">
             + Agregar oferta
           </button>
         ` : '';
@@ -110,10 +122,10 @@
           <div class="co-day-col">
             <div class="co-day-header">
               <div>
-                <div class="co-day-name ${col.day === 'DOMINGO' ? 'muted' : ''}">${col.day}</div>
-                <div class="co-day-date">${col.date}</div>
+                <div class="co-day-name ${col.day === 'DOMINGO' ? 'muted' : ''}">${escapeHtml(col.day)}</div>
+                <div class="co-day-date">${escapeHtml(col.date)}</div>
               </div>
-              <div class="co-day-more" onclick="showToast('Opciones para ${col.day}')">⋮</div>
+              <div class="co-day-more" onclick="showToast('Opciones para ${escapeHtml(col.day)}')">⋮</div>
             </div>
             <div class="co-day-items">
               ${itemsHtml}
@@ -150,14 +162,24 @@
       if (minEl) minEl.textContent = `🛒 Pedido mínimo: ${min || 'S/ 0.00'}`;
 
       if (valEl) {
+        valEl.textContent = '';
+        const span = document.createElement('span');
         if (discount.includes('%')) {
-          valEl.innerHTML = `<span>${discount}</span> OFF`;
+          span.textContent = discount;
+          valEl.appendChild(span);
+          valEl.appendChild(document.createTextNode(' OFF'));
         } else if (discount.toLowerCase().includes('envío') || discount.toLowerCase().includes('gratis')) {
-          valEl.innerHTML = `<span>ENVÍO</span> GRATIS`;
+          span.textContent = 'ENVÍO';
+          valEl.appendChild(span);
+          valEl.appendChild(document.createTextNode(' GRATIS'));
         } else if (discount.toLowerCase().includes('2x1')) {
-          valEl.innerHTML = `<span>2x1</span> PROMO`;
+          span.textContent = '2x1';
+          valEl.appendChild(span);
+          valEl.appendChild(document.createTextNode(' PROMO'));
         } else {
-          valEl.innerHTML = `<span>${discount}</span> OFF`;
+          span.textContent = discount;
+          valEl.appendChild(span);
+          valEl.appendChild(document.createTextNode(' OFF'));
         }
       }
     }
@@ -298,7 +320,8 @@
       showToast(`🚀 Cupón "${code}" programado para activación futura`);
     }
 
-    function editCoupon(code) {
+    function editCoupon(rawCode) {
+      const code = decodeURIComponent(rawCode || '');
       const c = DETAILED_COUPONS.find(item => item.code === code);
       if (!c) return;
       editingCouponCode = code;
@@ -317,7 +340,8 @@
       showToast(`✏️ Editando cupón "${code}"`);
     }
 
-    function previewCouponInMockup(code) {
+    function previewCouponInMockup(rawCode) {
+      const code = decodeURIComponent(rawCode || '');
       const c = DETAILED_COUPONS.find(item => item.code === code);
       if (!c) return;
       document.getElementById('preview-badge').textContent = `¡${c.code}!`;
@@ -326,13 +350,18 @@
       document.getElementById('preview-min').textContent = `🛒 Pedido mínimo: ${c.minOrder || 'S/ 20.00'}`;
       const valEl = document.getElementById('preview-val');
       if (valEl) {
-        valEl.innerHTML = `<span>${c.discountVal || 'S/ 5.00'}</span> OFF`;
+        valEl.textContent = '';
+        const span = document.createElement('span');
+        span.textContent = c.discountVal || 'S/ 5.00';
+        valEl.appendChild(span);
+        valEl.appendChild(document.createTextNode(' OFF'));
       }
       document.querySelector('.co-phone-mockup').scrollIntoView({ behavior: 'smooth' });
       showToast(`📱 Vista previa cargada para "${code}"`);
     }
 
-    function toggleCouponStatus(code) {
+    function toggleCouponStatus(rawCode) {
+      const code = decodeURIComponent(rawCode || '');
       const c = DETAILED_COUPONS.find(item => item.code === code);
       if (!c) return;
       c.status = c.status === 'Activo' ? 'Pausado' : 'Activo';
@@ -340,7 +369,8 @@
       showToast(`Estado de "${code}" cambiado a ${c.status}`);
     }
 
-    function duplicateCoupon(code) {
+    function duplicateCoupon(rawCode) {
+      const code = decodeURIComponent(rawCode || '');
       const c = DETAILED_COUPONS.find(item => item.code === code);
       if (!c) return;
       const newCode = `${c.code}_COPIA`;
@@ -351,7 +381,8 @@
       showToast(`📋 Cupón duplicado como "${newCode}"`);
     }
 
-    function deleteCoupon(code) {
+    function deleteCoupon(rawCode) {
+      const code = decodeURIComponent(rawCode || '');
       if (confirm(`¿Estás seguro de eliminar el cupón "${code}"? Esta acción no se puede deshacer.`)) {
         DETAILED_COUPONS = DETAILED_COUPONS.filter(c => c.code !== code);
         renderCoupons();
@@ -427,8 +458,9 @@
     }
 
     function openAddOfferModal(day, idx) {
-      const name = prompt(`Agregar promoción para el ${day} (ej. "2x1 en Tequeños"):`);
-      if (name) {
+      const rawName = prompt(`Agregar promoción para el ${day} (ej. "2x1 en Tequeños"):`);
+      if (rawName && rawName.trim()) {
+        const name = rawName.trim().replace(/[<>]/g, '').slice(0, 100);
         DETAILED_WEEK_SCHEDULE[idx].items.push({
           time: '18:00 - 22:00',
           title: name,
@@ -477,12 +509,27 @@
       }
     }
 
+    function sanitizeCsvCell(str) {
+      const val = String(str ?? '');
+      // Mitigación de CSV Formula Injection: si comienza con = + - @ prefijar con comilla simple
+      const safe = /^[=+\-@\t\r]/.test(val) ? `'${val}` : val;
+      return `"${safe.replace(/"/g, '""')}"`;
+    }
+
     function exportCouponsCSV() {
       const headers = ['Codigo', 'Nombre', 'Estado', 'Vigencia', 'Horario', 'Segmento', 'Usos', 'Limite', 'Push'];
       const rows = DETAILED_COUPONS.map(c => [
-        c.code, `"${c.name}"`, c.status, `"${c.validity}"`, `"${c.schedule}"`, c.segment, c.uses, c.limit, c.push ? 'Si' : 'No'
+        sanitizeCsvCell(c.code),
+        sanitizeCsvCell(c.name),
+        sanitizeCsvCell(c.status),
+        sanitizeCsvCell(c.validity),
+        sanitizeCsvCell(c.schedule),
+        sanitizeCsvCell(c.segment),
+        Number(c.uses || 0),
+        Number(c.limit || 0),
+        c.push ? 'Si' : 'No'
       ].join(','));
-      const csv = [headers.join(','), ...rows].join('\n');
+      const csv = [headers.join(','), ...rows].join('\r\n');
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');

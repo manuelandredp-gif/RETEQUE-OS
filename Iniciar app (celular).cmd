@@ -1,13 +1,22 @@
 @echo off
-title Retequenos - App movil (prototipo)
+title Retequenos - App movil y KDS (Produccion Local)
 cd /d "%~dp0"
-echo Abriendo la app movil en http://localhost:3000 ...
-echo Para verla en tu celular, conectalo a la misma red WiFi y abre la direccion que aparece abajo.
+echo ======================================================
+echo RETEQUENOS OS - Servidor Seguro y Hub Operativo
+echo ======================================================
+echo Abriendo la app en http://localhost:3000 ...
 start "" "http://localhost:3000"
-powershell -NoProfile -ExecutionPolicy Bypass -File "tools\serve-app.ps1" -Port 3000 -Lan
+
+where node >nul 2>nul
+if %ERRORLEVEL% EQU 0 (
+  node "tools\server.js" --port 3000 -Lan
+) else (
+  call "tools\node.cmd" "tools\server.js" --port 3000 -Lan
+)
+
 if %ERRORLEVEL% NEQ 0 (
   echo.
-  echo No se pudo publicar en la red. Se abre solo en esta PC:
-  powershell -NoProfile -ExecutionPolicy Bypass -File "tools\serve-app.ps1" -Port 3000
+  echo [ERROR] No se pudo iniciar el servidor Node.js.
+  pause
 )
-pause
+

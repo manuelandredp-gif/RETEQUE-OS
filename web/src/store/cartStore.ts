@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { roundMoney } from '../lib/money';
 
 export interface CartItem {
   lineId: string;
@@ -99,7 +100,7 @@ export const useCartStore = create<CartStore>()(
       },
 
       getSubtotal: () => {
-        return get().items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
+        return roundMoney(get().items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0));
       },
 
       getTotalCount: () => {

@@ -330,6 +330,16 @@
       });
     }, { passive: true });
 
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     function renderTopProducts(period) {
       const list = TOP_PRODUCTS[period] || TOP_PRODUCTS.hoy;
       const max = list[0].orders;
@@ -339,8 +349,8 @@
       el.innerHTML = list.map((p, i) => `
         <div>
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; font-size:13px;">
-            <span style="font-weight:700; color:#111827;">${i + 1}. ${p.icon} ${p.name}</span>
-            <span style="font-weight:700; ${i === 0 ? 'color:#EF4444;' : 'color:#111827;'}">${p.orders} órdenes - S/ ${p.sales.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+            <span style="font-weight:700; color:#111827;">${i + 1}. ${escapeHtml(p.icon)} ${escapeHtml(p.name)}</span>
+            <span style="font-weight:700; ${i === 0 ? 'color:#EF4444;' : 'color:#111827;'}">${Number(p.orders || 0)} órdenes - S/ ${Number(p.sales || 0).toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
           </div>
           <div style="height:7px; background:#F3F4F6; border-radius:999px; overflow:hidden;">
             <div style="width:${Math.round(p.orders / max * 100)}%; height:100%; background:${colors[i]}; border-radius:999px;"></div>
@@ -362,7 +372,8 @@
     }
 
     function starsHtml(n) {
-      return '<span style="color:#F59E0B; letter-spacing:1px;">' + '★'.repeat(n) + '</span><span style="color:#E5E7EB; letter-spacing:1px;">' + '★'.repeat(5 - n) + '</span>';
+      const cleanN = Math.max(0, Math.min(5, parseInt(n, 10) || 0));
+      return '<span style="color:#F59E0B; letter-spacing:1px;">' + '★'.repeat(cleanN) + '</span><span style="color:#E5E7EB; letter-spacing:1px;">' + '★'.repeat(5 - cleanN) + '</span>';
     }
 
     function renderDashboardFeedback() {
@@ -370,10 +381,10 @@
       if (lg) lg.innerHTML = ATTRIBUTION.map(a => `
         <div style="display:flex; align-items:center; justify-content:space-between; font-size:12px;">
           <div style="display:flex; align-items:center; gap:8px;">
-            <span style="width:9px; height:9px; border-radius:50%; background:${a.color}; flex-shrink:0;"></span>
-            <span style="color:#374151; font-weight:500;">${a.source}</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:${escapeHtml(a.color)}; flex-shrink:0;"></span>
+            <span style="color:#374151; font-weight:500;">${escapeHtml(a.source)}</span>
           </div>
-          <strong style="color:#111827;">${a.pct}%</strong>
+          <strong style="color:#111827;">${Number(a.pct || 0)}%</strong>
         </div>`).join('');
 
       const rl = document.getElementById('dashboard-reviews-list');
@@ -382,18 +393,18 @@
           <div>
             <div style="display:flex; justify-content:space-between; align-items:flex-start; font-size:11.5px; gap:6px;">
               <div>
-                <span style="font-weight:700; color:#111827;">${r.customer}</span>
+                <span style="font-weight:700; color:#111827;">${escapeHtml(r.customer)}</span>
                 <span style="color:#9CA3AF; margin:0 2px;">•</span>
-                <span style="color:#6B7280;">${r.order}</span>
+                <span style="color:#6B7280;">${escapeHtml(r.order)}</span>
               </div>
               <div>${starsHtml(r.stars)}</div>
             </div>
-            <div style="font-size:10.5px; color:#9CA3AF; margin-top:1px;">${r.date}</div>
-            <div style="font-size:12px; color:#374151; margin-top:8px; line-height:1.35; font-style:italic;">“${r.comment}”</div>
+            <div style="font-size:10.5px; color:#9CA3AF; margin-top:1px;">${escapeHtml(r.date)}</div>
+            <div style="font-size:12px; color:#374151; margin-top:8px; line-height:1.35; font-style:italic;">“${escapeHtml(r.comment)}”</div>
           </div>
           <div style="display:flex; gap:5px; margin-top:10px; flex-wrap:wrap;">
-            <span style="background:#EFF6FF; color:#2563EB; font-size:10px; font-weight:600; padding:2px 7px; border-radius:4px;">${r.source}</span>
-            ${r.improve.map(t => `<span style="background:#FEF3C7; color:#D97706; font-size:10px; font-weight:600; padding:2px 7px; border-radius:4px;">${t}</span>`).join('')}
+            <span style="background:#EFF6FF; color:#2563EB; font-size:10px; font-weight:600; padding:2px 7px; border-radius:4px;">${escapeHtml(r.source)}</span>
+            ${(r.improve || []).map(t => `<span style="background:#FEF3C7; color:#D97706; font-size:10px; font-weight:600; padding:2px 7px; border-radius:4px;">${escapeHtml(t)}</span>`).join('')}
             ${r.google ? '<span style="background:#ECFDF5; color:#059669; font-size:10px; font-weight:600; padding:2px 7px; border-radius:4px;">★ Enviado a Google</span>' : ''}
           </div>
         </div>`).join('');
@@ -408,7 +419,7 @@
       const tp = document.getElementById('improve-topics');
       if (tp) tp.innerHTML = Object.keys(counts).map(t => `
         <span style="background:#FEF3C7; color:#B45309; border:1px solid #FDE68A; font-weight:600; font-size:11px; padding:3px 8px; border-radius:6px;">
-          ${t} (${counts[t]})
+          ${escapeHtml(t)} (${counts[t]})
         </span>`).join('');
 
       const badge = document.getElementById('badge-reviews');

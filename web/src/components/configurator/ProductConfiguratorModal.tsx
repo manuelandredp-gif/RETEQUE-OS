@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
-import { formatMoney } from '../../lib/money';
+import { formatMoney, roundMoney } from '../../lib/money';
 import { useCartStore } from '../../store/cartStore';
 import { useCheckoutStore } from '../../store/checkoutStore';
 import { openWhatsApp } from '../../lib/whatsapp';
+import { syncOrderToKDS } from '../../lib/orderSync';
 import type { PromoConfig } from '../../data/promotions';
 
 import {
@@ -22,11 +23,18 @@ import { UpgradesStep } from './steps/UpgradesStep';
 import { ConfiguratorFooter } from './ConfiguratorFooter';
 import { DirectCheckoutModal } from './DirectCheckoutModal';
 
+import type { ConfigurableItem } from '../../store/uiStore';
+import type { Promotion } from '../../data/promotions';
+
 interface ProductConfiguratorModalProps {
   isOpen: boolean;
   onClose: () => void;
-  productOrPromo: any;
+  productOrPromo: ConfigurableItem;
   onOpenCartDrawer?: () => void;
+}
+
+function isPromotion(item: ConfigurableItem): item is Promotion {
+  return 'config' in item && typeof (item as Promotion).config === 'object';
 }
 
 export const ProductConfiguratorModal: React.FC<ProductConfiguratorModalProps> = ({
@@ -38,64 +46,41 @@ export const ProductConfiguratorModal: React.FC<ProductConfiguratorModalProps> =
   const addItem = useCartStore((state) => state.addItem);
   const { fullName, phone, deliveryType, address, reference, generalNotes } = useCheckoutStore();
 
-  const isPromo = Boolean(productOrPromo?.items || productOrPromo?.badge === 'Promo');
-  const promoConfig: PromoConfig | undefined = isPromo ? productOrPromo?.config : undefined;
-  const isDirectPizza = productOrPromo?.category === 'pizzas';
-  const sniff = (text: string | undefined, needle: string) =>
-    Boolean(text && text.toLowerCase().includes(needle));
-  const itemsText: string = Array.isArray(productOrPromo?.items) ? productOrPromo.items.join(' ') : '';
+  const isPromo = isPromotion(productOrPromo);
+  const promoConfig: PromoConfig | undefined = isPromo ? productOrPromo.config : undefined;
 
-  // Reglas explícitas de la promo (data/promotions.ts). Si faltan, se deducen del texto.
+  // Selected presentation for regular tequeños
+  const [selectedPresentation, setSelectedPresentation] = useState<string>('10 unid.');
+  const [quantity, setQuantity] = useState(1);
+
+  // Reglas deterministas basadas en el modelo de datos (cero string-sniffing)
   const hasTequeños = promoConfig
     ? promoConfig.tequenos > 0
-    : !isDirectPizza &&
-      (productOrPromo?.category === 'tequenos' ||
-        sniff(productOrPromo?.name, 'tequeño') ||
-        sniff(productOrPromo?.description, 'tequeño') ||
-        sniff(itemsText, 'tequeño'));
+    : productOrPromo.category === 'tequenos';
 
   const hasPizza = promoConfig
     ? promoConfig.pizzas > 0
-    : isDirectPizza ||
-      sniff(productOrPromo?.name, 'pizza') ||
-      sniff(productOrPromo?.description, 'pizza') ||
-      sniff(itemsText, 'pizza');
+    : productOrPromo.category === 'pizzas';
 
   const targetPizzasCount = promoConfig
     ? promoConfig.pizzas
     : hasPizza
-    ? sniff(productOrPromo?.name, 'doble') || sniff(productOrPromo?.description, '2 pizza')
-      ? 2
-      : 1
+    ? 1
     : 0;
 
   const targetTequeños = promoConfig
     ? promoConfig.tequenos
     : hasTequeños
-    ? sniff(productOrPromo?.description, '40')
-      ? 40
-      : sniff(productOrPromo?.description, '20') || sniff(productOrPromo?.name, 'extra') || sniff(productOrPromo?.name, 'dúo')
-      ? 20
-      : sniff(productOrPromo?.description, '5 tequeño')
-      ? 5
-      : 10
+    ? (selectedPresentation.includes('40') ? 40 : selectedPresentation.includes('20') ? 20 : selectedPresentation.includes('5') ? 5 : 10)
     : 0;
 
   const targetCreams = promoConfig
     ? promoConfig.creams
-    : isPromo
-    ? sniff(productOrPromo?.description, '4 crema')
-      ? 4
-      : sniff(productOrPromo?.description, '3 crema')
-      ? 3
-      : 2
-    : 2;
+    : hasTequeños
+    ? 2
+    : 0;
 
-  const includesDrink = promoConfig ? promoConfig.drink : isPromo;
-
-  // Selected presentation for regular tequeños
-  const [selectedPresentation, setSelectedPresentation] = useState<string>('10 unid.');
-  const [quantity, setQuantity] = useState(1);
+  const includesDrink = promoConfig ? promoConfig.drink : false;
 
   // Pizza flavor selection (array of flavor ids up to targetPizzasCount)
   const [selectedPizzaFlavors, setSelectedPizzaFlavors] = useState<string[]>(['americana']);
@@ -314,14 +299,21 @@ export const ProductConfiguratorModal: React.FC<ProductConfiguratorModalProps> =
   const upgradesCountTotal = Object.values(upgradeCounts).reduce((a, b) => a + b, 0);
 
   // Generate WhatsApp message with 100% Retequeños branding
-  const buildWhatsAppMessage = () => {
+  const buildWhatsAppMessage = (ordId?: string) => {
     const lines: string[] = [
       '🧀 *¡HOLA RETEQUEÑOS!* 👋',
+    ];
+
+    if (ordId) {
+      lines.push(`🔖 *PEDIDO / COMANDA: ${ordId}*`);
+    }
+
+    lines.push(
       '',
       'Quiero realizar el siguiente pedido personalizado:',
       '',
       `📦 *${quantity} x ${productOrPromo.name}* — ${formatMoney(grandTotalPrice)}`,
-    ];
+    );
 
     if (productOrPromo.description) {
       lines.push(`   📝 ${productOrPromo.description}`);
@@ -412,7 +404,32 @@ export const ProductConfiguratorModal: React.FC<ProductConfiguratorModalProps> =
     setCheckoutErrors({});
     setIsCheckoutModalOpen(false);
 
-    openWhatsApp(buildWhatsAppMessage());
+    const ordId = 'RTQ-' + (2100 + Math.floor(Math.random() * 899));
+    const roundedTotal = roundMoney(grandTotalPrice);
+
+    // Sincronización en vivo con el monitor de cocina KDS
+    syncOrderToKDS({
+      id: ordId,
+      customer: fullName.trim(),
+      phone: phone.trim(),
+      channel: 'web',
+      mode: deliveryType,
+      address: deliveryType === 'delivery' ? address.trim() : undefined,
+      reference: reference.trim() || undefined,
+      items: [{
+        name: `${quantity} x ${productOrPromo.name}`,
+        qty: quantity,
+        price: roundedTotal,
+        sauces: Object.entries(creamCounts).map(([id, c]) => `${id} (x${c})`).join(', ')
+      }],
+      subtotal: roundedTotal,
+      deliveryFee: 0,
+      total: roundedTotal,
+      payMethod: 'Yape / Por verificar',
+      notes: generalNotes.trim() || undefined
+    });
+
+    openWhatsApp(buildWhatsAppMessage(ordId));
   };
 
   const handleAddToCart = () => {

@@ -6,6 +6,7 @@ import { useCartStore } from '../store/cartStore';
 import { useUiStore } from '../store/uiStore';
 import { formatMoney } from '../lib/money';
 import { openWhatsApp } from '../lib/whatsapp';
+import { syncOrderToKDS } from '../lib/orderSync';
 import { QuantityStepper } from '../components/ui/QuantityStepper';
 import { ImageWithFallback } from '../components/ui/ImageWithFallback';
 import { NotFoundPage } from './NotFoundPage';
@@ -69,9 +70,31 @@ const ProductDetail: React.FC<{ product: ProductType }> = ({ product }) => {
   };
 
   const handleBuyWhatsApp = () => {
+    const ordId = 'RTQ-' + (2100 + Math.floor(Math.random() * 899));
     const presText = selectedPres ? ` (${selectedPres.label})` : '';
+
+    syncOrderToKDS({
+      id: ordId,
+      customer: 'Cliente Web (Compra Rápida)',
+      phone: '',
+      channel: 'web',
+      mode: 'delivery',
+      items: [{
+        name: product.name + presText,
+        qty: quantity,
+        price: unitPrice,
+        sauces: cremaLabels.join(', ')
+      }],
+      subtotal: totalPrice,
+      deliveryFee: 0,
+      total: totalPrice,
+      payMethod: 'Por coordinar en WhatsApp',
+      notes: notes.trim() || undefined
+    });
+
     const lines = [
       '🧀 *¡HOLA RETEQUEÑOS!* 👋',
+      `🔖 *PEDIDO / COMANDA: ${ordId}*`,
       '',
       'Quiero realizar el siguiente pedido:',
       '',

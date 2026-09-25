@@ -1,7 +1,7 @@
 import { CartItem } from '../store/cartStore';
 import { CheckoutStore } from '../store/checkoutStore';
 import { siteConfig } from '../config/site';
-import { formatMoney } from './money';
+import { formatMoney, roundMoney } from './money';
 import { syncOrderToKDS } from './orderSync';
 
 export type CustomerData = Omit<CheckoutStore, 'setField' | 'reset'>;
@@ -20,14 +20,20 @@ export function generateWhatsAppMessage(
   customer: CustomerData,
   subtotal: number,
   deliveryFee: number = 0,
-  zoneName?: string
+  zoneName?: string,
+  orderId?: string,
+  discount: number = 0,
+  couponCode?: string
 ): string {
   const lines: string[] = [
     '🧀 *¡HOLA RETEQUEÑOS!* 👋',
-    '',
-    'Quiero realizar el siguiente pedido:',
-    '',
   ];
+
+  if (orderId) {
+    lines.push(`🔖 *PEDIDO / COMANDA: ${orderId}*`);
+  }
+
+  lines.push('', 'Quiero realizar el siguiente pedido:', '');
 
   items.forEach((item) => {
     const presentation = item.selectedPresentation ? ` (${item.selectedPresentation})` : '';
@@ -41,17 +47,22 @@ export function generateWhatsAppMessage(
     }
   });
 
-  const total = subtotal + (customer.deliveryType === 'delivery' ? deliveryFee : 0);
+  const totalProducts = roundMoney(Math.max(0, subtotal - discount));
+  const grandTotal = roundMoney(Math.max(0, totalProducts + (customer.deliveryType === 'delivery' ? deliveryFee : 0)));
 
   lines.push('');
   lines.push(`💵 *SUBTOTAL:* ${formatMoney(subtotal)}`);
 
+  if (couponCode && discount > 0) {
+    lines.push(`🎟 *CUPÓN APLICADO (${couponCode}):* -${formatMoney(discount)}`);
+  }
+
   if (customer.deliveryType === 'delivery') {
     lines.push(`🛵 *DELIVERY (${zoneName || 'Tacna'}):* A coordinar con el repartidor`);
-    lines.push(`💰 *TOTAL PRODUCTOS:* ${formatMoney(subtotal)} *(+ costo de envío según repartidor)*`);
+    lines.push(`💰 *TOTAL PRODUCTOS:* ${formatMoney(totalProducts)} *(+ costo de envío según repartidor)*`);
   } else {
     lines.push(`🏪 *TIPO DE ENTREGA:* Recojo en tienda (${siteConfig.address}) — S/ 0.00`);
-    lines.push(`💰 *TOTAL A PAGAR:* ${formatMoney(subtotal)}`);
+    lines.push(`💰 *TOTAL A PAGAR:* ${formatMoney(grandTotal)}`);
   }
 
   lines.push('');
@@ -83,10 +94,12 @@ export function openWhatsAppCheckout(
   customer: CustomerData,
   subtotal: number,
   deliveryFee: number = 0,
-  zoneName?: string
+  zoneName?: string,
+  discount: number = 0,
+  couponCode?: string
 ): void {
   const ordId = 'RTQ-' + (2100 + Math.floor(Math.random() * 899));
-  const total = subtotal + (customer.deliveryType === 'delivery' ? deliveryFee : 0);
+  const total = roundMoney(Math.max(0, subtotal - discount + (customer.deliveryType === 'delivery' ? deliveryFee : 0)));
 
   // 1. Sincronización en segundo plano con el KDS de cocina
   syncOrderToKDS({
@@ -108,11 +121,11 @@ export function openWhatsAppCheckout(
     deliveryFee: customer.deliveryType === 'delivery' ? deliveryFee : 0,
     total,
     payMethod: 'Yape / Por verificar',
-    notes: customer.generalNotes,
+    notes: (couponCode ? `Cupón: ${couponCode} (-S/ ${discount.toFixed(2)}) · ` : '') + (customer.generalNotes || ''),
   });
 
-  // 2. Abrir WhatsApp de Retequeños
-  openWhatsApp(generateWhatsAppMessage(items, customer, subtotal, deliveryFee, zoneName));
+  // 2. Abrir WhatsApp de Retequeños con la comanda y número de pedido
+  openWhatsApp(generateWhatsAppMessage(items, customer, subtotal, deliveryFee, zoneName, ordId, discount, couponCode));
 }
 
 export function openWhatsAppDirect(customText?: string): void {

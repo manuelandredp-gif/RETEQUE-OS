@@ -1,0 +1,97 @@
+[
+  {
+    "id": "RTQ-2064",
+    "customer": "Milton Flores",
+    "phone": "+51 952 000 111",
+    "channel": "app",
+    "payMethod": "Pago confirmado",
+    "payVerified": true,
+    "mode": "pickup",
+    "status": "new",
+    "priority": false,
+    "time": "Recién recibido",
+    "elapsedMinutes": 0,
+    "address": "Calle Alto Lima 1488",
+    "reference": "Recojo en tienda",
+    "items": [
+      {
+        "name": "Tequeños de queso (Mayonesa de ajo)",
+        "qty": 1,
+        "price": 16,
+        "sauces": "Mayonesa de ajo"
+      },
+      {
+        "name": "Promo Duo (Queso + Mayopalta)",
+        "qty": 1,
+        "price": 35.9,
+        "sauces": "Mayopalta"
+      }
+    ],
+    "subtotal": 51.9,
+    "deliveryFee": 0,
+    "discount": 0,
+    "total": 51.9,
+    "notes": "Por favor servilletas adicionales."
+  },
+  {
+    "id": "RTQ-2181",
+    "customer": "Paola Vizcarra",
+    "phone": "+51 952 223 344",
+    "channel": "app",
+    "payMethod": "Yape verificado",
+    "payVerified": true,
+    "mode": "delivery",
+    "status": "kitchen",
+    "priority": true,
+    "time": "En cocina hace 6 min",
+    "elapsedMinutes": 6,
+    "address": "Urb. Vigil Mz B Lte 12",
+    "reference": "Frente al parque infantil",
+    "items": [
+      {
+        "name": "Pizza Familiar Americana",
+        "qty": 1,
+        "price": 34.9,
+        "sauces": "Orégano extra"
+      },
+      {
+        "name": "Inka Cola 1.5L",
+        "qty": 1,
+        "price": 8.5
+      }
+    ],
+    "subtotal": 43.4,
+    "deliveryFee": 5,
+    "discount": 0,
+    "total": 48.4,
+    "notes": "Tocar timbre blanco."
+  },
+  {
+    "id": "RTQ-2052",
+    "customer": "Alejandro Vargas",
+    "phone": "+51 952 112 433",
+    "channel": "whatsapp",
+    "payMethod": "Por verificar",
+    "payVerified": false,
+    "mode": "delivery",
+    "status": "new",
+    "priority": false,
+    "time": "Recién recibido",
+    "elapsedMinutes": 1,
+    "address": "Av. Bolognesi 450 Dpto 302",
+    "reference": "Edificio Los Pinos",
+    "items": [
+      {
+        "name": "Promo Tequepizza",
+        "qty": 1,
+        "price": 38.9,
+        "sauces": "Tártara"
+      }
+    ],
+    "subtotal": 38.9,
+    "deliveryFee": 6,
+    "discount": 0,
+    "total": 44.9,
+    "notes": "Enviar comprobante antes de mandar motorizado."
+  }
+]

@@ -15,9 +15,12 @@ graph TD
         APP["Prototipo App Móvil (26 Pantallas)<br/>/"]
     end
 
-    subgraph SERVIDOR ["Servidor Local & API (PowerShell / Node)"]
-        SRV["tools/serve-app.ps1 (Puerto 3000)"]
-        API["API de Pedidos en Memoria<br/>GET, POST, PATCH /api/pedidos"]
+    subgraph SERVIDOR ["Servidor Local & API REST Segura (Node.js)"]
+        SRV["tools/server.js (Puerto 3000)"]
+        API["API REST Segura + Persistencia ACID<br/>/api/pedidos, /api/catalog, /api/config, /api/auth"]
+        DB[("data/orders.db.json<br/>data/catalog.db.json")]
+        SRV --- API
+        API --- DB
     end
 
     subgraph OPERACIONES ["Hub Operativo & Cocina"]
@@ -261,9 +264,10 @@ sequenceDiagram
   * `catalog.ts` se redujo de 514 líneas a 27 líneas, con submódulos dedicados por categoría en `web/src/data/catalog/`.
   * `CartDrawer.tsx` se redujo de 378 líneas a 150 líneas, separando filas de productos, formulario de datos de cliente y botones de acción.
 
-### 4.4. Servidores Locales (`tools/`)
-* **`serve-app.ps1`:** Servidor web escrito en PowerShell nativo de Windows (sin requerir dependencias externas ni `npm install`). Incluye soporte MIME para archivos estáticos y una API REST en memoria para pedidos (`/api/pedidos`).
-* **`serve-web.ps1`:** Servidor estático ligero para publicar la versión compilada de la web (`web/dist`).
+### 4.4. Servidores y Herramientas Locales (`tools/`)
+* **`tools/server.js`:** Servidor HTTP de producción en Node.js nativo (cero dependencias externas). Implementa la API REST completa (`/api/pedidos`, `/api/catalog`, `/api/config`, `/api/auth`), persistencia transaccional ACID en disco (`data/orders.db.json` con escrituras atómicas), autenticación administrativa por PIN con sesiones criptográficas, limitador de tasa contra DoS (30 req/min por IP) y recálculo estricto de subtotales y totales.
+* **`tools/test-system.js`:** Suite de pruebas automatizadas integrales (21 pruebas) que valida la seguridad (XSS, BOLA, PII leak), consistencia financiera, persistencia atómica en disco y orígenes CORS.
+* **`tools/node.cmd`:** Lanzador que aprovecha el motor de Node.js 22 embebido en el entorno de desarrollo para ejecutar pruebas y scripts sin instalaciones globales.
 
 ---
 
@@ -271,7 +275,7 @@ sequenceDiagram
 
 1. **Arquitectura Feature-Based:** Cada funcionalidad nueva debe crearse en su propio módulo dentro de `modules/` o `steps/`, evitando crear archivos superiores a 300–400 líneas.
 2. **Compatibilidad Estática:** El hub operativo (`app/`) no debe depender de pasos de transpilación obligatorios para permitir su ejecución instantánea con `Iniciar app (celular).cmd`.
-3. **Persistencia y Reactividad:** Las mutaciones en `ORDERS` o `CATALOG` deben notificarse visualmente mediante los servicios de Toast y Audio.
+3. **Persistencia y Reactividad:** Las mutaciones en `ORDERS` o `CATALOG` deben notificarse visualmente mediante los servicios de Toast y Audio y persistirse de inmediato en el backend REST.
 
 ---
 
@@ -287,9 +291,9 @@ Se implementaron y validaron al 100% las 6 mejoras arquitectónicas y operativas
 * **Implementación:** `printOrderTicket(ordId)` en `app/js/admin/modules/kanban.module.js` y reglas CSS `@media print` en `app/css/admin/kanban.css`.
 * **Funcionamiento:** En cada tarjeta KDS y dentro del modal de detalle de comanda, se añadió el botón de impresión `🖨️ Imprimir Ticket`. Al presionarlo, el sistema genera automáticamente un ticket formateado para impresoras térmicas estándar (58mm y 80mm) con desglose de comida, salsas, notas del cliente, flete, método de pago y datos de despacho, aislando completamente la interfaz gráfica para una impresión limpia.
 
-### 💾 Mejora 3: Persistencia en LocalStorage
-* **Implementación:** `saveCatalogData()`, `saveCouponsData()` y `saveOrdersData()` en `app/js/admin/data/`.
-* **Funcionamiento:** Todas las modificaciones operativas (desactivación o activación de stock de productos, creación o edición de cupones, cambios de estado de comandas de Cocina a Delivery) se almacenan de manera persistente en `localStorage`. Si el administrador actualiza la pestaña o reinicia el navegador, las comandas, el stock y las promociones conservan su estado sin pérdidas.
+### 💾 Mejora 3: Persistencia ACID y Fuente Única de Verdad (`data/`)
+* **Implementación:** `OrderRepository`, `CatalogRepository` y `ConfigRepository` en `tools/server.js` + archivos JSON en `data/`.
+* **Funcionamiento:** Todas las modificaciones operativas (desactivación o activación de stock de productos, creación o edición de cupones, cambios de estado de comandas de Cocina a Delivery) se almacenan de manera persistente en archivos JSON con escrituras atómicas libres de colisiones concurrentes (`.tmp` con sal criptográfica). Si el servidor se apaga o reinicia, la información permanece íntegra sin corrupción.
 
 ### 📍 Mejora 4: Selector de Zonas de Tacna con Tarifas Automatizadas
 * **Implementación:** `web/src/config/tacnaZones.ts`, integrado en `CartCustomerForm.tsx`, `CartDrawer.tsx` y `whatsapp.ts`.
@@ -306,4 +310,16 @@ Se implementaron y validaron al 100% las 6 mejoras arquitectónicas y operativas
 ### 📱 Mejora 5: PWA y Soporte de Pantalla Completa Móvil
 * **Implementación:** `app/manifest.json`, `app/sw.js` (Service Worker con estrategia *stale-while-revalidate* para offline) y metaetiquetas PWA en `app/index.html`.
 * **Funcionamiento:** Al abrir la aplicación móvil desde un dispositivo Android o iPhone en la red local (`http://<IP>:3000`), el navegador ofrece instalarla como aplicación nativa (Standalone PWA) con el ícono oficial de Retequeños y sin barras de navegación del navegador web.
+
+### 🔒 Mejora 6: Blindaje de Seguridad, Integridad Financiera y Suite de 21 Pruebas
+* **Implementación:** `tools/server.js`, `app/js/admin/modules/promos.module.js`, `dashboard.module.js`, `surveys.module.js`, `web/src/lib/money.ts`, `web/src/lib/coupons.ts` y `tools/test-system.js`.
+* **Funcionamiento:**
+  * **Control de Acceso (BOLA):** Bloqueo con 401 en `PATCH /api/pedidos/:id` y `GET /api/pedidos` sin sesión válida.
+  * **Integridad Financiera:** Recálculo forzado de `subtotal` y `total` en el backend para imposibilitar la manipulación de precios desde el navegador.
+  * **Protección DoS:** Limitador de tasa por IP a 30 pedidos por minuto en la API pública.
+  * **Sanitización XSS y CSV:** Funciones `escapeHtml()` y `sanitizeCsvCell()` aplicadas sobre cupones, opiniones de clientes y exportaciones a hojas de cálculo.
+  * **Aritmética de Alta Precisión:** Utilidad `roundMoney(amount)` con `Number.EPSILON` que erradica imprecisiones de coma flotante en el carrito.
+  * **Batería de Pruebas Automatizadas:** 21 pruebas de extremo a extremo que validan la salud integral del sistema en cada despliegue.
+
+> Para el desglose histórico y comparativo detallado, revisa [**`documentacion/BITACORA_AUDITORIAS_Y_MEJORAS.md`**](./BITACORA_AUDITORIAS_Y_MEJORAS.md).
 

@@ -1,9 +1,15 @@
-import React from 'react';
-import { MessageCircle, CheckCircle2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { MessageCircle, CheckCircle2, Tag, X } from 'lucide-react';
 import { formatMoney } from '../../lib/money';
 
 interface CartDrawerFooterProps {
   subtotal: number;
+  discount: number;
+  grandTotal: number;
+  appliedCouponCode?: string;
+  onApplyCoupon: (code: string) => void;
+  onRemoveCoupon: () => void;
+  couponMessage?: { text: string; error?: boolean } | null;
   sent: boolean;
   onSend: () => void;
   onClear: () => void;
@@ -11,15 +17,87 @@ interface CartDrawerFooterProps {
 
 export const CartDrawerFooter: React.FC<CartDrawerFooterProps> = ({
   subtotal,
+  discount,
+  grandTotal,
+  appliedCouponCode,
+  onApplyCoupon,
+  onRemoveCoupon,
+  couponMessage,
   sent,
   onSend,
   onClear,
 }) => {
+  const [inputCode, setInputCode] = useState('');
+
+  const handleApply = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inputCode.trim()) return;
+    onApplyCoupon(inputCode.trim());
+  };
+
   return (
     <div className="p-4 border-t border-neutral-200 bg-white space-y-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
-      <div className="flex items-center justify-between text-sm">
-        <span className="text-neutral-500 font-bold">Subtotal</span>
-        <span className="text-lg font-black text-neutral-900">{formatMoney(subtotal)}</span>
+      {/* Sección Cupón de Descuento */}
+      {appliedCouponCode ? (
+        <div className="flex items-center justify-between bg-emerald-50 border border-emerald-200 px-3 py-2 rounded-xl text-xs">
+          <div className="flex items-center gap-1.5 text-emerald-800 font-bold">
+            <Tag className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Cupón {appliedCouponCode} (-{formatMoney(discount)})</span>
+          </div>
+          <button
+            type="button"
+            onClick={onRemoveCoupon}
+            className="text-emerald-700 hover:text-emerald-900 p-0.5 rounded cursor-pointer"
+            title="Quitar cupón"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      ) : (
+        <form onSubmit={handleApply} className="flex gap-2">
+          <div className="relative flex-1">
+            <Tag className="w-3.5 h-3.5 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={inputCode}
+              onChange={(e) => setInputCode(e.target.value.toUpperCase())}
+              placeholder="¿Tienes un cupón? (ej. BIENVENIDO10)"
+              className="w-full h-9 pl-8 pr-2.5 rounded-lg border border-neutral-200 text-xs uppercase font-medium placeholder:normal-case placeholder:font-normal focus:outline-none focus:border-[#C5161D] focus:ring-1 focus:ring-[#C5161D]/20"
+            />
+          </div>
+          <button
+            type="submit"
+            className="h-9 px-3.5 bg-neutral-900 hover:bg-neutral-800 text-white font-bold text-xs rounded-lg transition-colors cursor-pointer shrink-0"
+          >
+            Aplicar
+          </button>
+        </form>
+      )}
+
+      {couponMessage && (
+        <p className={`text-[11px] font-medium ${couponMessage.error ? 'text-[#C5161D]' : 'text-emerald-600'}`}>
+          {couponMessage.text}
+        </p>
+      )}
+
+      {/* Desglose de Totales */}
+      <div className="space-y-1 pt-1 text-sm border-t border-neutral-100">
+        <div className="flex items-center justify-between text-neutral-600 text-xs">
+          <span>Subtotal</span>
+          <span className="font-bold text-neutral-800">{formatMoney(subtotal)}</span>
+        </div>
+
+        {discount > 0 && (
+          <div className="flex items-center justify-between text-emerald-600 text-xs font-bold">
+            <span>Descuento aplicado</span>
+            <span>-{formatMoney(discount)}</span>
+          </div>
+        )}
+
+        <div className="flex items-center justify-between pt-1">
+          <span className="text-neutral-900 font-black">Total productos</span>
+          <span className="text-lg font-black text-[#C5161D]">{formatMoney(grandTotal)}</span>
+        </div>
       </div>
 
       {sent ? (

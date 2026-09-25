@@ -1,19 +1,24 @@
-# Servidor local de la app movil (prototipo) + panel admin + API de pedidos en memoria. No necesita Node.
-#   /            -> app/index.html   (prototipo movil; abrelo desde el celular en la misma red)
-#   /admin       -> app/admin.html   (panel administrador)
-#   /api/pedidos -> API en memoria (GET / POST / PATCH /api/pedidos/:id)
-# Uso: powershell -ExecutionPolicy Bypass -File tools\serve-app.ps1 -Port 3000
+# Servidor local de producción para RETEQUEÑOS OS
+# DELEGACIÓN AUTOMÁTICA A NODE.JS (tools/server.js) PARA PERSISTENCIA REAL Y SEGURIDAD
 param([int]$Port = 3000, [switch]$Lan)
 
-$BaseDir = (Resolve-Path (Join-Path $PSScriptRoot '..\app')).Path
-[Console]::OutputEncoding = [Text.Encoding]::UTF8
+$serverJs = Join-Path $PSScriptRoot 'server.js'
+$nodeCmd = Join-Path $PSScriptRoot 'node.cmd'
+$lanArg = if ($Lan) { "-Lan" } else { "" }
 
-$Mime = @{
-  '.html'='text/html; charset=UTF-8'; '.js'='text/javascript; charset=UTF-8'; '.css'='text/css; charset=UTF-8'
-  '.json'='application/json; charset=UTF-8'; '.png'='image/png'; '.jpg'='image/jpeg'; '.jpeg'='image/jpeg'
-  '.gif'='image/gif'; '.svg'='image/svg+xml'; '.ico'='image/x-icon'; '.webp'='image/webp'
-  '.woff'='font/woff'; '.woff2'='font/woff2'; '.ttf'='font/ttf'; '.md'='text/plain; charset=UTF-8'
+if (Get-Command node -ErrorAction SilentlyContinue) {
+  Write-Host "[INFO] Iniciando backend seguro en Node.js..." -ForegroundColor Green
+  & node "$serverJs" --port $Port $lanArg
+  exit $LASTEXITCODE
+} elseif (Test-Path $nodeCmd) {
+  Write-Host "[INFO] Iniciando backend con Node integrado..." -ForegroundColor Green
+  & "$nodeCmd" "$serverJs" --port $Port $lanArg
+  exit $LASTEXITCODE
 }
+
+Write-Warning "Node.js no fue encontrado en el sistema. Ejecutando fallback temporal en PowerShell."
+$BaseDir = (Resolve-Path (Join-Path $PSScriptRoot '..\app')).Path
+
 $Orders = New-Object System.Collections.ArrayList
 
 function Send-Bytes($res, [int]$code, [string]$type, [byte[]]$bytes) {

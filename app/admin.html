@@ -1701,6 +1701,29 @@
     </div>
   </div>
 
+  <!-- Modal: Autenticación Admin (PIN de Seguridad) -->
+  <div class="modal-backdrop" id="modal-admin-auth" style="z-index:9999;">
+    <div class="modal-box" style="max-width:380px; text-align:center;">
+      <div class="modal-header" style="justify-content:center; border-bottom:none; padding-bottom:0;">
+        <div style="width:52px; height:52px; border-radius:14px; background:#FFF0F1; color:#FF2442; display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto 10px; box-shadow:0 4px 14px rgba(255,36,66,0.15);">🔐</div>
+      </div>
+      <div style="padding:0 24px 24px;">
+        <h3 style="font-size:18px; font-weight:800; color:var(--text-main); margin-bottom:6px;">Acceso Administrador</h3>
+        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:20px;">Ingresa el PIN de seguridad para gestionar comandas y sincronizar con la API de cocina.</p>
+        <form id="form-admin-pin" onsubmit="handleAdminLogin(event)">
+          <div style="margin-bottom:16px;">
+            <input type="password" id="input-admin-pin" maxlength="10" placeholder="••••" autocomplete="current-password" autofocus style="width:100%; text-align:center; font-size:26px; letter-spacing:8px; font-weight:800; padding:12px; border:2px solid var(--border); border-radius:12px; outline:none; background:var(--surface);" required />
+            <div id="auth-error-msg" style="color:#EF4444; font-size:12px; font-weight:600; margin-top:8px; display:none;">PIN incorrecto. Inténtalo de nuevo.</div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:12px; font-weight:700; font-size:14px;">
+            <span>Desbloquear Hub Operativo</span>
+          </button>
+          <div style="font-size:11.5px; color:var(--text-muted); margin-top:14px;">PIN predeterminado: <strong>2026</strong></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal: Crear / Editar Producto -->
   <div class="modal-backdrop" id="modal-new-product">
     <div class="modal-box" style="max-width: 620px;">

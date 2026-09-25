@@ -15,41 +15,41 @@ const DEFAULT_ORDERS = [
         priority: false,
         time: 'Recién recibido',
         elapsedMinutes: 0,
-        address: '',
+        address: 'Calle Alto Lima 1488',
         reference: 'Recojo en tienda',
         items: [
-          { name: 'Tequeños de queso (Mayonesa de ajo)', qty: 1, price: 50.00 },
-          { name: 'Promo Duo (Queso + Mayopalta)', qty: 1, price: 70.70 }
+          { name: 'Tequeños de queso (Mayonesa de ajo)', qty: 1, price: 16.00, sauces: 'Mayonesa de ajo' },
+          { name: 'Promo Duo (Queso + Mayopalta)', qty: 1, price: 35.90, sauces: 'Mayopalta' }
         ],
-        subtotal: 120.70,
+        subtotal: 51.90,
         deliveryFee: 0,
         discount: 0,
-        total: 120.70,
-        notes: ''
+        total: 51.90,
+        notes: 'Por favor servilletas adicionales.'
       },
       {
         id: 'RTQ-2181',
-        customer: 'Milton Flores',
-        phone: '+51 952 000 111',
+        customer: 'Paola Vizcarra',
+        phone: '+51 952 223 344',
         channel: 'app',
-        payMethod: 'Pago contraentrega',
-        payVerified: false,
-        mode: 'pickup',
-        status: 'new',
-        priority: false,
-        time: 'Recién recibido',
-        elapsedMinutes: 1,
-        address: '',
-        reference: 'Recojo en tienda',
+        payMethod: 'Yape verificado',
+        payVerified: true,
+        mode: 'delivery',
+        status: 'kitchen',
+        priority: true,
+        time: 'En cocina hace 6 min',
+        elapsedMinutes: 6,
+        address: 'Urb. Vigil Mz B Lte 12',
+        reference: 'Frente al parque infantil',
         items: [
-          { name: 'Tequeños de queso (Mayonesa de ajo)', qty: 1, price: 16.00 },
-          { name: 'Promo Duo (Queso + Mayopalta)', qty: 1, price: 33.90 }
+          { name: 'Pizza Familiar Americana', qty: 1, price: 34.90, sauces: 'Orégano extra' },
+          { name: 'Inka Cola 1.5L', qty: 1, price: 8.50 }
         ],
-        subtotal: 49.90,
-        deliveryFee: 0,
+        subtotal: 43.40,
+        deliveryFee: 5.00,
         discount: 0,
-        total: 49.90,
-        notes: ''
+        total: 48.40,
+        notes: 'Tocar timbre blanco.'
       },
       {
         id: 'RTQ-2052',
@@ -58,22 +58,21 @@ const DEFAULT_ORDERS = [
         channel: 'whatsapp',
         payMethod: 'Por verificar',
         payVerified: false,
-        mode: 'pickup',
+        mode: 'delivery',
         status: 'new',
         priority: false,
-        time: 'Hace 2 min',
-        elapsedMinutes: 2,
-        address: 'Calle San Martín 420, Tacna',
-        reference: 'Edificio azul, timbre 302',
+        time: 'Recién recibido',
+        elapsedMinutes: 1,
+        address: 'Av. Bolognesi 450 Dpto 302',
+        reference: 'Edificio Los Pinos',
         items: [
-          { name: 'Promo Duo (20 unid. + 2 salsas)', qty: 1, sauces: 'Mayonesa de ajo + Mayopalta', price: 35.90 },
-          { name: 'Crema adicional (Salsa tocino)', qty: 1, price: 2.00 }
+          { name: 'Promo Tequepizza', qty: 1, price: 38.90, sauces: 'Tártara' }
         ],
-        subtotal: 37.90,
-        deliveryFee: 5.90,
+        subtotal: 38.90,
+        deliveryFee: 6.00,
         discount: 0,
-        total: 43.80,
-        notes: 'Por favor tequeños bien doraditos y mayonesa de ajo bien fría.'
+        total: 44.90,
+        notes: 'Enviar comprobante antes de mandar motorizado.'
       },
       {
         id: 'RTQ-2051',
