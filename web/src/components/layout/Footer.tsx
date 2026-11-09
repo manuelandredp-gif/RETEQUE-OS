@@ -110,7 +110,11 @@ export const Footer: React.FC = () => {
 
         <div className="mt-8 pt-4 border-t border-white/10 text-center text-xs text-white/60 flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>© {new Date().getFullYear()} {siteConfig.name} · {siteConfig.city}. Todos los derechos reservados.</span>
-          <span>{siteConfig.deliveryNote}</span>
+          <div className="flex items-center gap-3">
+            <Link to="/privacidad" className="hover:text-white hover:underline">Privacidad</Link>
+            <Link to="/libro-reclamaciones" className="hover:text-white hover:underline">Libro de Reclamaciones</Link>
+            <span>{siteConfig.deliveryNote}</span>
+          </div>
         </div>
       </div>
     </footer>

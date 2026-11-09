@@ -83,6 +83,24 @@ async function runTests() {
     }
   });
 
+  await assert('Operación: GET /api/health no expone PII y confirma el servicio', async () => {
+    const res = await request('GET', '/api/health');
+    if (res.status !== 200 || res.body.ok !== true || typeof res.body.ordersInMemory !== 'number') {
+      throw new Error(`Health inválido: ${JSON.stringify(res.body)}`);
+    }
+  });
+
+  await assert('Legal: Libro de Reclamaciones registra caso y protege su consulta', async () => {
+    const denied = await request('GET', '/api/reclamos');
+    if (denied.status !== 401) throw new Error('El libro quedó expuesto sin sesión');
+    const created = await request('POST', '/api/reclamos', {
+      fullName: 'Cliente Prueba', phone: '999111222', type: 'reclamo', detail: 'Producto recibido con retraso de prueba.', orderId: 'RTQ-2064'
+    });
+    if (created.status !== 201 || !/^LR-\d{4}-\d{4}$/.test(created.body.caseId || '')) throw new Error('No se registró un caso válido');
+    const authorized = await request('GET', '/api/reclamos', null, { 'Authorization': `Bearer ${authToken}` });
+    if (authorized.status !== 200 || !Array.isArray(authorized.body)) throw new Error('El administrador no puede consultar los casos');
+  });
+
   // 3. Fuente Única de Verdad: Catálogo Maestro
   await assert('Fuente Única de Verdad: GET /api/catalog devuelve productos maestros en disco', async () => {
     const res = await request('GET', '/api/catalog');
@@ -199,6 +217,7 @@ async function runTests() {
       id: "RTQ-XSS');alert(1);//",
       customer: 'Atacante XSS',
       phone: '999999999',
+      mode: 'pickup',
       items: [{ name: 'Test', qty: 1, price: 10 }],
       total: 10
     };
@@ -285,6 +304,7 @@ async function runTests() {
       id: 'RTQ-TAMPERED-01',
       customer: 'Auditor Financiero',
       phone: '952000000',
+      mode: 'pickup',
       items: [
         { name: 'Tequeños', qty: 2, price: 20.00 }, // subtotal real = 40.00
         { name: 'Bebida', qty: 1, price: 10.00 }    // total acumulado = 50.00
@@ -318,20 +338,81 @@ async function runTests() {
     }
   });
 
+  // 22. RN-02: el servidor impide saltar estados del ciclo de vida.
+  await assert('Regla de negocio [RN-02]: bloquea transiciones de estado inválidas', async () => {
+    const res = await request('PATCH', '/api/pedidos/RTQ-2064', { status: 'delivered' }, {
+      'Authorization': `Bearer ${authToken}`
+    });
+    if (res.status !== 409) throw new Error(`Se permitió salto inválido de estado: ${res.status}`);
+  });
+
+  // 23-25. RF-13/RF-14: delivery debe pasar por listo, publicación y asignación.
+  const dispatchOrder = {
+    id: 'RTQ-STATE-TEST', customer: 'Prueba de despacho', phone: '999111222', channel: 'app',
+    mode: 'delivery', address: 'Calle Alto Lima 1488, Tacna', payMethod: 'Efectivo', payVerified: false,
+    items: [{ name: 'Tequeños', qty: 1, price: 16 }], deliveryFee: 5, total: 21
+  };
+  await assert('Despacho [RF-14]: registra pedido de prueba para el ciclo completo', async () => {
+    const res = await request('POST', '/api/pedidos', dispatchOrder);
+    if (res.status !== 201 || res.body.order?.status !== 'new') throw new Error('No se creó pedido en estado nuevo');
+  });
+  await assert('Despacho [RF-14]: conserva los estados listo, publicado y asignado', async () => {
+    for (const status of ['kitchen', 'ready', 'published', 'assigned']) {
+      const res = await request('PATCH', '/api/pedidos/RTQ-STATE-TEST', { status }, { 'Authorization': `Bearer ${authToken}` });
+      if (res.status !== 200 || res.body.order?.status !== status) throw new Error(`No avanzó a ${status}: ${res.status}`);
+    }
+  });
+  await assert('Despacho [RF-13]: confirma la entrega solo después de asignación', async () => {
+    const res = await request('PATCH', '/api/pedidos/RTQ-STATE-TEST', { status: 'delivered' }, { 'Authorization': `Bearer ${authToken}` });
+    if (res.status !== 200 || res.body.order?.status !== 'delivered') throw new Error('No confirmó entrega');
+  });
+
+  await assert('Confiabilidad: POST repetido no sobrescribe ni duplica una comanda', async () => {
+    const original = { ...dispatchOrder, id: 'RTQ-IDEMPOTENT-TEST', mode: 'pickup' };
+    const first = await request('POST', '/api/pedidos', original);
+    const repeated = await request('POST', '/api/pedidos', { ...original, customer: 'Nombre alterado' });
+    if (first.status !== 201 || repeated.status !== 200 || repeated.body.duplicate !== true || repeated.body.order.customer !== original.customer) {
+      throw new Error('La repetición no fue tratada de forma idempotente');
+    }
+  });
+
+  await assert('Validación: rechaza celular y cantidades fuera de las reglas de negocio', async () => {
+    const res = await request('POST', '/api/pedidos', {
+      ...dispatchOrder, id: 'RTQ-INVALID-TEST', mode: 'pickup', phone: '123', items: [{ name: 'Tequeños', qty: 51, price: 16 }]
+    });
+    if (res.status !== 400) throw new Error(`Se aceptó pedido inválido: ${res.status}`);
+  });
+
   // Limpieza Post-Pruebas: Restaurar estado original de pedidos en disco
   try {
     const dbPath = path.resolve(__dirname, '..', 'data', 'orders.db.json');
     if (fs.existsSync(dbPath)) {
       const orders = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
       const cleaned = orders
-        .filter(o => !o.id.includes('XSS') && !o.id.includes('TAMPERED'))
+        .filter(o => !o.id.includes('XSS') && !o.id.includes('TAMPERED') && !o.id.includes('STATE-TEST') && !o.id.includes('IDEMPOTENT-TEST'))
         .map(o => {
           if (o.id === 'RTQ-2064') {
-            return { ...o, status: 'new', time: 'Recién recibido', elapsedMinutes: 0 };
+            const {
+              updatedAt,
+              dispatchPublishedAt,
+              dispatchRequired,
+              driverName,
+              driverPhone,
+              ...originalOrder
+            } = o;
+            return { ...originalOrder, status: 'new', time: 'Recién recibido', elapsedMinutes: 0 };
           }
           return o;
         });
       fs.writeFileSync(dbPath, JSON.stringify(cleaned, null, 2), 'utf8');
+    }
+  } catch (e) {}
+
+  try {
+    const complaintsPath = path.resolve(__dirname, '..', 'data', 'complaints.db.json');
+    if (fs.existsSync(complaintsPath)) {
+      const complaints = JSON.parse(fs.readFileSync(complaintsPath, 'utf8'));
+      fs.writeFileSync(complaintsPath, JSON.stringify(complaints.filter(c => c.fullName !== 'Cliente Prueba'), null, 2), 'utf8');
     }
   } catch (e) {}
 

@@ -1,4 +1,5 @@
 import { Product } from './types';
+import { CREMAS_EXTRAS } from './cremas';
 
 export const TEQUENOS_PRODUCTS: Product[] = [
   // ================= TEQUEÑOS CLÁSICOS =================

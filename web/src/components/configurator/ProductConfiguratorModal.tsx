@@ -179,7 +179,7 @@ export const ProductConfiguratorModal: React.FC<ProductConfiguratorModalProps> =
   if (!isOpen || !productOrPromo) return null;
 
   // Calculo de precio base
-  let calculatedBasePrice = productOrPromo.price || productOrPromo.basePrice || 0;
+  let calculatedBasePrice = isPromo ? productOrPromo.price : (productOrPromo.basePrice || 0);
   if (!isPromo && selectedPresentation === '20 unid.' && productOrPromo.presentations) {
     const pres20 = productOrPromo.presentations.find((p: any) => p.label.includes('20'));
     if (pres20) calculatedBasePrice = pres20.price;
@@ -413,7 +413,7 @@ export const ProductConfiguratorModal: React.FC<ProductConfiguratorModalProps> =
       customer: fullName.trim(),
       phone: phone.trim(),
       channel: 'web',
-      mode: deliveryType,
+      mode: deliveryType === 'recojo' ? 'pickup' : 'delivery',
       address: deliveryType === 'delivery' ? address.trim() : undefined,
       reference: reference.trim() || undefined,
       items: [{
@@ -471,8 +471,8 @@ export const ProductConfiguratorModal: React.FC<ProductConfiguratorModalProps> =
       image: productOrPromo.image,
       quantity,
       unitPrice: unitTotalPrice,
-      presentationLabel: isPromo ? undefined : selectedPresentation,
-      optionsSummary: optionsList.length > 0 ? optionsList.join(' • ') : undefined,
+      selectedPresentation: isPromo ? undefined : selectedPresentation,
+      selectedOptions: optionsList.length > 0 ? optionsList : undefined,
     });
 
     onClose();

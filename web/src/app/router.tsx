@@ -10,6 +10,8 @@ import { BebidasPage } from '../pages/BebidasPage';
 import { CremasPage } from '../pages/CremasPage';
 import { ProductDetailPage } from '../pages/ProductDetailPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
+import { PrivacyPage } from '../pages/PrivacyPage';
+import { ComplaintsPage } from '../pages/ComplaintsPage';
 import { useCartStore } from '../store/cartStore';
 
 function ScrollToTop() {
@@ -47,6 +49,8 @@ export const AppRouter: React.FC = () => {
         <Route path="/cremas" element={withLayout(<CremasPage />)} />
         <Route path="/producto/:slug" element={withLayout(<ProductDetailPage />)} />
         <Route path="/carrito" element={<CartRedirect />} />
+        <Route path="/privacidad" element={withLayout(<PrivacyPage />)} />
+        <Route path="/libro-reclamaciones" element={withLayout(<ComplaintsPage />)} />
         <Route path="*" element={withLayout(<NotFoundPage />)} />
       </Routes>
     </>

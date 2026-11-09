@@ -2,6 +2,8 @@
 web/node_modules/
 web/dist/
 web/tsconfig.tsbuildinfo
+data/backups/
+data/complaints.db.json
 
 # Registros de compilación y parches
 tools/*.log

@@ -82,9 +82,8 @@
 
       // Compute total active counts irrespective of search filter for KPI top cards
       ORDERS.forEach(ord => {
-        if (totalActiveCounts[ord.status] !== undefined) {
-          totalActiveCounts[ord.status]++;
-        }
+        const kpiStatus = ['ready', 'published', 'assigned'].includes(ord.status) ? 'delivery' : ord.status;
+        if (totalActiveCounts[kpiStatus] !== undefined) totalActiveCounts[kpiStatus]++;
         if (ord.isDelayed || ((ord.status === 'new' || ord.status === 'kitchen') && ord.elapsedMinutes && ord.elapsedMinutes >= 20)) {
           totalActiveCounts.delayed++;
         }
@@ -136,9 +135,8 @@
 
       // Render filtered cards into columns
       filteredOrders.forEach(ord => {
-        if (counts[ord.status] !== undefined) {
-          counts[ord.status]++;
-        }
+        const columnStatus = ['ready', 'published', 'assigned'].includes(ord.status) ? 'delivery' : ord.status;
+        if (counts[columnStatus] !== undefined) counts[columnStatus]++;
 
         const isDelayed = (ord.status === 'new' || ord.status === 'kitchen') && (ord.isDelayed || (ord.elapsedMinutes && ord.elapsedMinutes >= 20));
         const card = document.createElement('div');
@@ -205,10 +203,16 @@
         if (ord.status === 'new') {
           actionButtonsHtml += `<button class="kds-btn-action kds-btn-accept" onclick="event.stopPropagation(); moveOrderStatus('${cleanId}', 'kitchen')">✓ Aceptar</button>`;
         } else if (ord.status === 'kitchen') {
-          const actionText = ord.mode === 'pickup' ? 'Marcar listo' : 'Pasar a delivery';
-          const nextStatus = ord.mode === 'pickup' ? 'delivered' : 'delivery';
+          const actionText = 'Marcar listo';
+          const nextStatus = 'ready';
           actionButtonsHtml += `<button class="kds-btn-action kds-btn-kitchen" onclick="event.stopPropagation(); moveOrderStatus('${cleanId}', '${nextStatus}')">${ord.mode === 'pickup' ? '✓ ' + actionText : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> ' + actionText}</button>`;
-        } else if (ord.status === 'delivery') {
+        } else if (ord.status === 'ready') {
+          actionButtonsHtml += ord.mode === 'pickup'
+            ? `<button class="kds-btn-action kds-btn-delivered" onclick="event.stopPropagation(); moveOrderStatus('${cleanId}', 'delivered')">✓ Entregado en tienda</button>`
+            : `<button class="kds-btn-action kds-btn-kitchen" onclick="event.stopPropagation(); moveOrderStatus('${cleanId}', 'published')">📣 Publicar a motorizados</button>`;
+        } else if (ord.status === 'published') {
+          actionButtonsHtml += `<button class="kds-btn-action kds-btn-accept" onclick="event.stopPropagation(); assignDriver('${cleanId}')">🛵 Asignar motorizado</button>`;
+        } else if (ord.status === 'assigned') {
           actionButtonsHtml += `<button class="kds-btn-action kds-btn-delivered" onclick="event.stopPropagation(); moveOrderStatus('${cleanId}', 'delivered')">✓ Marcar entregado</button>`;
         }
 
@@ -240,8 +244,8 @@
           </div>
         `;
 
-        if (fragments[ord.status]) {
-          fragments[ord.status].appendChild(card);
+        if (fragments[columnStatus]) {
+          fragments[columnStatus].appendChild(card);
         }
       });
 
@@ -351,8 +355,14 @@
           ord.time = 'En cocina hace 1 min';
           ord.elapsedMinutes = 1;
         }
-        if (newStatus === 'delivery') {
-          ord.time = 'Salió hace 1 min';
+        if (newStatus === 'ready') {
+          ord.time = 'Listo para despacho';
+        }
+        if (newStatus === 'published') {
+          ord.time = 'Publicado a motorizados';
+        }
+        if (newStatus === 'assigned') {
+          ord.time = 'Motorizado asignado';
           ord.elapsedMinutes = 1;
         }
         if (newStatus === 'delivered') {
@@ -380,8 +390,29 @@
 
         renderKanban();
         playAlertSound();
-        showToast(`Pedido ${id} actualizado a ${newStatus === 'kitchen' ? 'COCINA' : newStatus === 'delivery' ? 'DELIVERY' : 'ENTREGADO'}`);
+        const labels = { kitchen: 'COCINA', ready: 'LISTO', published: 'PUBLICADO', assigned: 'ASIGNADO', delivered: 'ENTREGADO' };
+        showToast(`Pedido ${id} actualizado a ${labels[newStatus] || newStatus.toUpperCase()}`);
       }
+    }
+
+    function assignDriver(id) {
+      const driverName = window.prompt('Nombre del motorizado asignado:');
+      if (!driverName || !driverName.trim()) return;
+      const driverPhone = window.prompt('Celular del motorizado (opcional):') || '';
+      const ord = ORDERS.find(o => o.id === id);
+      if (!ord) return;
+      const token = window.getAdminToken ? window.getAdminToken() : '';
+      fetch(`/api/pedidos/${encodeURIComponent(id)}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}`, 'x-admin-token': token } : {}) },
+        body: JSON.stringify({ status: 'assigned', driverName, driverPhone })
+      }).then(res => res.json()).then(data => {
+        if (!data.ok) throw new Error(data.error || 'No se pudo asignar');
+        Object.assign(ord, data.order);
+        if (window.saveOrdersData) window.saveOrdersData();
+        renderKanban();
+        showToast(`🛵 ${driverName.trim()} asignado a ${id}`);
+      }).catch(error => showToast(`⚠️ ${error.message}`));
     }
 
     function triggerSimulatedOrder() {

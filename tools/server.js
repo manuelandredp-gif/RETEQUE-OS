@@ -21,12 +21,18 @@ const ROOT_DIR = path.resolve(__dirname, '..');
 const APP_DIR = path.join(ROOT_DIR, 'app');
 const DATA_DIR = path.join(ROOT_DIR, 'data');
 const DB_FILE = path.join(DATA_DIR, 'orders.db.json');
+const BACKUP_DIR = path.join(DATA_DIR, 'backups');
+const COMPLAINTS_FILE = path.join(DATA_DIR, 'complaints.db.json');
 
 // Parseo de argumentos de línea de comandos
 const args = process.argv.slice(2);
 let PORT = 3000;
 let BIND_ALL = false;
 let ADMIN_PIN = process.env.RTQ_ADMIN_PIN || '2026';
+// La automatización es opcional y se configura fuera del código. Si no hay
+// webhook, el operador conserva el procedimiento manual de despacho.
+const N8N_WEBHOOK_URL = process.env.RTQ_N8N_WEBHOOK_URL || '';
+const N8N_SERVICE_TOKEN = process.env.RTQ_N8N_SERVICE_TOKEN || '';
 
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '-p' || args[i] === '--port') {
@@ -60,6 +66,15 @@ const MIME_TYPES = {
 const activeSessions = new Map(); // token -> { createdAt, expiresAt }
 const loginAttempts = new Map(); // ip -> { count, lockedUntil }
 const orderRateLimits = new Map(); // ip -> { count, resetAt }
+const ORDER_STATUSES = ['new', 'kitchen', 'ready', 'published', 'assigned', 'delivered'];
+const STATUS_TRANSITIONS = {
+  new: ['kitchen'],
+  kitchen: ['ready'],
+  ready: ['published', 'delivered'], // "delivered" aplica solo a recojo
+  published: ['assigned'],
+  assigned: ['delivered'],
+  delivered: []
+};
 
 function checkRateLimit(ip) {
   const now = Date.now();
@@ -239,10 +254,26 @@ class OrderRepository {
   }
 
   saveSync() {
+    this.createDailyBackup();
     const tmpPath = `${this.filePath}.${Date.now()}.${crypto.randomBytes(4).toString('hex')}.tmp`;
     const jsonStr = JSON.stringify(this.orders, null, 2);
     fs.writeFileSync(tmpPath, jsonStr, 'utf8');
     fs.renameSync(tmpPath, this.filePath); // Operación atómica en POSIX y Windows NTFS
+  }
+
+  createDailyBackup() {
+    if (!fs.existsSync(this.filePath)) return;
+    fs.mkdirSync(BACKUP_DIR, { recursive: true });
+    const day = new Date().toISOString().slice(0, 10);
+    const backup = path.join(BACKUP_DIR, `orders-${day}.json`);
+    if (!fs.existsSync(backup)) fs.copyFileSync(this.filePath, backup);
+
+    const backups = fs.readdirSync(BACKUP_DIR)
+      .filter(name => /^orders-\d{4}-\d{2}-\d{2}\.json$/.test(name))
+      .sort();
+    while (backups.length > 7) {
+      fs.unlinkSync(path.join(BACKUP_DIR, backups.shift()));
+    }
   }
 
   getAll() {
@@ -255,18 +286,23 @@ class OrderRepository {
 
   insert(order) {
     // Sanitización y parseo de ítems con precisión monetaria
-    const items = Array.isArray(order.items)
-      ? order.items.map(it => {
-          const qty = Math.max(1, parseInt(it.qty, 10) || 1);
+    if (!Array.isArray(order.items) || order.items.length === 0 || order.items.length > 30) {
+      throw new Error('El pedido debe incluir entre 1 y 30 productos.');
+    }
+    const maxQuantity = order.channel === 'app' ? 20 : 50;
+    const items = order.items.map(it => {
+          const qty = parseInt(it.qty, 10);
           const price = Math.round((Math.max(0, parseFloat(it.price) || 0) + Number.EPSILON) * 100) / 100;
+          const name = sanitizeString(it.name || '');
+          if (!Number.isInteger(qty) || qty < 1 || qty > maxQuantity) throw new Error(`Cada producto admite entre 1 y ${maxQuantity} unidades.`);
+          if (!name || price <= 0) throw new Error('Cada producto debe tener nombre y precio válido.');
           return {
-            name: sanitizeString(it.name || 'Ítem'),
+            name,
             qty,
             price,
             sauces: sanitizeString(it.sauces || '')
           };
-        })
-      : [];
+        });
 
     const deliveryFee = Math.round((Math.max(0, parseFloat(order.deliveryFee) || 0) + Number.EPSILON) * 100) / 100;
     const discount = Math.round((Math.max(0, parseFloat(order.discount) || 0) + Number.EPSILON) * 100) / 100;
@@ -288,17 +324,25 @@ class OrderRepository {
     }
 
     // Sanitización preventiva profunda de campos de texto
+    const customer = sanitizeString(order.customer || '');
+    const phoneDigits = String(order.phone || '').replace(/\D/g, '').replace(/^51/, '');
+    if (customer.length < 3) throw new Error('El nombre del cliente debe tener al menos 3 caracteres.');
+    if (!/^9\d{8}$/.test(phoneDigits)) throw new Error('El celular debe ser peruano: 9 dígitos que inician en 9.');
+    const mode = ['delivery', 'pickup'].includes(order.mode) ? order.mode : 'delivery';
+    const address = sanitizeString(order.address || '');
+    if (mode === 'delivery' && address.length < 5) throw new Error('Indique una dirección válida para delivery.');
+
     const sanitized = {
       id: sanitizeId(order.id),
-      customer: sanitizeString(order.customer || 'Cliente'),
-      phone: sanitizeString(order.phone || ''),
+      customer,
+      phone: phoneDigits,
       channel: ['web', 'app', 'whatsapp'].includes(order.channel) ? order.channel : 'app',
-      mode: ['delivery', 'pickup'].includes(order.mode) ? order.mode : 'delivery',
-      status: ['new', 'kitchen', 'delivery', 'delivered'].includes(order.status) ? order.status : 'new',
+      mode,
+      status: 'new',
       priority: Boolean(order.priority),
       payMethod: sanitizeString(order.payMethod || 'Por verificar'),
       payVerified: Boolean(order.payVerified),
-      address: sanitizeString(order.address || ''),
+      address,
       reference: sanitizeString(order.reference || ''),
       gps: sanitizeUrl(order.gps || ''),
       notes: sanitizeString(order.notes || ''),
@@ -312,40 +356,67 @@ class OrderRepository {
       total
     };
 
-    // Si ya existe por ID, se ignora o actualiza para evitar duplicados
-    const existingIdx = this.orders.findIndex(o => o.id === sanitized.id);
-    if (existingIdx >= 0) {
-      this.orders[existingIdx] = sanitized;
-    } else {
-      this.orders.unshift(sanitized);
-    }
+    // Idempotencia: una repetición de red devuelve la comanda existente, nunca la sobrescribe.
+    const existing = this.getById(sanitized.id);
+    if (existing) return { order: existing, duplicate: true };
+    this.orders.unshift(sanitized);
 
     this.saveSync();
-    return sanitized;
+    return { order: sanitized, duplicate: false };
   }
 
-  updateStatus(id, newStatus) {
+  updateStatus(id, newStatus, actor = 'admin', driver = {}) {
     const order = this.orders.find(o => o.id === id);
     if (!order) return null;
 
-    if (['new', 'kitchen', 'delivery', 'delivered'].includes(newStatus)) {
-      order.status = newStatus;
-      if (newStatus === 'kitchen') {
-        order.time = 'En cocina hace 1 min';
-        order.elapsedMinutes = 1;
-      } else if (newStatus === 'delivery') {
-        order.time = 'Salió hace 1 min';
-        order.elapsedMinutes = 1;
-      } else if (newStatus === 'delivered') {
-        const now = new Date();
-        const hh = String(now.getHours()).padStart(2, '0');
-        const mm = String(now.getMinutes()).padStart(2, '0');
-        order.time = `Entregado a las ${hh}:${mm}`;
-      }
-      this.saveSync();
-      return order;
+    if (!ORDER_STATUSES.includes(newStatus) || !STATUS_TRANSITIONS[order.status]?.includes(newStatus)) {
+      return { error: `Transición no permitida: ${order.status} → ${newStatus}` };
     }
-    return null;
+    if (newStatus === 'kitchen' && isDigitalPayment(order) && !order.payVerified) {
+      return { error: 'El pago digital debe verificarse antes de preparar el pedido.' };
+    }
+    if (newStatus === 'ready' && order.mode === 'pickup') {
+      // En recojo no se publica ni asigna motorizado.
+      order.dispatchRequired = false;
+    }
+    if ((newStatus === 'published' || newStatus === 'assigned') && order.mode !== 'delivery') {
+      return { error: 'Solo los pedidos delivery pueden pasar por despacho.' };
+    }
+    if ((newStatus === 'published' || newStatus === 'assigned') && actor !== 'n8n' && actor !== 'admin') {
+      return { error: 'Actor no autorizado para despacho.' };
+    }
+
+    order.status = newStatus;
+    order.updatedAt = new Date().toISOString();
+    if (newStatus === 'kitchen') {
+      order.time = 'En cocina hace 1 min';
+      order.elapsedMinutes = 1;
+    } else if (newStatus === 'ready') {
+      order.time = 'Listo para despacho';
+    } else if (newStatus === 'published') {
+      order.time = 'Publicado a motorizados';
+      order.dispatchPublishedAt = order.updatedAt;
+    } else if (newStatus === 'assigned') {
+      order.time = 'Motorizado asignado';
+      if (driver.name !== undefined) order.driverName = sanitizeString(driver.name || 'Motorizado').slice(0, 100);
+      if (driver.phone !== undefined) order.driverPhone = sanitizeString(driver.phone || '').slice(0, 30);
+    } else if (newStatus === 'delivered') {
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      order.time = `Entregado a las ${hh}:${mm}`;
+    }
+    this.saveSync();
+    return order;
+  }
+
+  assignDriver(id, driverName, driverPhone) {
+    const order = this.orders.find(o => o.id === id);
+    if (!order) return null;
+    if (order.status !== 'published') return { error: 'El pedido debe estar publicado antes de asignar motorizado.' };
+    order.driverName = sanitizeString(driverName || 'Motorizado').slice(0, 100);
+    order.driverPhone = sanitizeString(driverPhone || '').slice(0, 30);
+    return this.updateStatus(id, 'assigned', 'n8n', { name: order.driverName, phone: order.driverPhone });
   }
 
   verifyPayment(id) {
@@ -390,6 +461,55 @@ class ConfigRepository {
     fs.renameSync(tmp, this.filePath);
     return this.config;
   }
+}
+
+// Libro de Reclamaciones local. Los datos solo se exponen al administrador.
+class ComplaintRepository {
+  constructor(filePath) {
+    this.filePath = filePath;
+    this.complaints = [];
+    try {
+      if (fs.existsSync(filePath)) {
+        const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        if (Array.isArray(parsed)) this.complaints = parsed;
+      }
+    } catch (error) {
+      console.warn('[Reclamos] No se pudo leer el libro:', error.message);
+    }
+  }
+
+  saveSync() {
+    const tmp = `${this.filePath}.${Date.now()}.${crypto.randomBytes(4).toString('hex')}.tmp`;
+    fs.writeFileSync(tmp, JSON.stringify(this.complaints, null, 2), 'utf8');
+    fs.renameSync(tmp, this.filePath);
+  }
+
+  create(input) {
+    const fullName = sanitizeString(input.fullName || '');
+    const phone = String(input.phone || '').replace(/\D/g, '').replace(/^51/, '');
+    const detail = sanitizeString(input.detail || '');
+    const type = input.type === 'reclamo' ? 'reclamo' : 'queja';
+    if (fullName.length < 3 || !/^9\d{8}$/.test(phone) || detail.length < 10) {
+      throw new Error('Complete nombre, celular peruano y un detalle de al menos 10 caracteres.');
+    }
+    const complaint = {
+      id: `LR-${new Date().getFullYear()}-${String(this.complaints.length + 1).padStart(4, '0')}`,
+      type,
+      fullName,
+      phone,
+      email: sanitizeString(input.email || '').slice(0, 150),
+      orderId: input.orderId ? sanitizeId(input.orderId) : '',
+      detail,
+      requestedSolution: sanitizeString(input.requestedSolution || ''),
+      status: 'received',
+      createdAt: new Date().toISOString()
+    };
+    this.complaints.unshift(complaint);
+    this.saveSync();
+    return complaint;
+  }
+
+  getAll() { return [...this.complaints]; }
 }
 
 // --------------------------------------------------------------------------
@@ -476,6 +596,7 @@ class CatalogRepository {
 }
 
 const configRepo = new ConfigRepository(CONFIG_FILE);
+const complaintRepo = new ComplaintRepository(COMPLAINTS_FILE);
 const catalogRepo = new CatalogRepository(CATALOG_FILE);
 
 
@@ -501,6 +622,10 @@ function sanitizeUrl(url) {
     return trimmed;
   }
   return '';
+}
+
+function isDigitalPayment(order) {
+  return /yape|plin|transfer/i.test(String(order?.payMethod || ''));
 }
 
 const repo = new OrderRepository(DB_FILE);
@@ -538,6 +663,47 @@ function extractToken(req) {
   return null;
 }
 
+function isN8nServiceRequest(req) {
+  if (!N8N_SERVICE_TOKEN) return false;
+  const provided = String(req.headers['x-n8n-token'] || '');
+  return timingSafeEqualStrings(provided, N8N_SERVICE_TOKEN);
+}
+
+function canUseN8nWebhook() {
+  try {
+    const url = new URL(N8N_WEBHOOK_URL);
+    return url.protocol === 'https:' || (url.protocol === 'http:' && ['127.0.0.1', 'localhost'].includes(url.hostname));
+  } catch (_) {
+    return false;
+  }
+}
+
+async function notifyN8nDispatch(order) {
+  if (!canUseN8nWebhook()) return { sent: false, reason: 'webhook no configurado' };
+  // El webhook recibe únicamente el identificador y datos operativos no personales.
+  // n8n debe solicitar el detalle por API autenticada después de asignar al motorizado.
+  const payload = {
+    event: 'order.ready_for_dispatch',
+    orderId: order.id,
+    total: order.total,
+    deliveryFee: order.deliveryFee,
+    mode: order.mode,
+    createdAt: order.createdAt
+  };
+  try {
+    const response = await fetch(N8N_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-N8N-Token': N8N_SERVICE_TOKEN },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(3000)
+    });
+    return { sent: response.ok, status: response.status };
+  } catch (error) {
+    console.warn(`[n8n] No se pudo notificar despacho de ${order.id}: ${error.message}`);
+    return { sent: false, reason: error.message };
+  }
+}
+
 // Validación de Origen CORS Seguro
 function handleCors(req, res) {
   const origin = req.headers['origin'];
@@ -559,7 +725,7 @@ function handleCors(req, res) {
   }
 
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-admin-token');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-admin-token, x-n8n-token');
 }
 
 // Lector seguro de body JSON con límite de tamaño (DoS protection)
@@ -617,6 +783,16 @@ const server = http.createServer(async (req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   let pathname = decodeURIComponent(parsedUrl.pathname);
 
+  // Sonda sin PII para comprobar que el servicio local responde.
+  if (pathname === '/api/health' && req.method === 'GET') {
+    return sendJson(res, 200, {
+      ok: true,
+      timestamp: new Date().toISOString(),
+      ordersInMemory: repo.getAll().length,
+      n8nConfigured: canUseN8nWebhook()
+    });
+  }
+
   // --------------------------------------------------------------------------
   // API: Autenticación Admin
   // --------------------------------------------------------------------------
@@ -664,6 +840,28 @@ const server = http.createServer(async (req, res) => {
   }
 
   // --------------------------------------------------------------------------
+  // API: Libro de Reclamaciones (Ley N.° 29571)
+  // --------------------------------------------------------------------------
+  if (pathname === '/api/reclamos') {
+    if (req.method === 'POST') {
+      try {
+        const clientIp = req.socket.remoteAddress || 'unknown';
+        const rate = checkOrderRateLimit(`complaint:${clientIp}`);
+        if (!rate.allowed) return sendJson(res, 429, { ok: false, error: rate.error });
+        const complaint = complaintRepo.create(await readJsonBody(req));
+        return sendJson(res, 201, { ok: true, caseId: complaint.id, createdAt: complaint.createdAt });
+      } catch (error) {
+        return sendJson(res, 400, { ok: false, error: error.message });
+      }
+    }
+    if (req.method === 'GET') {
+      const token = extractToken(req);
+      if (!isValidAdminSession(token)) return sendJson(res, 401, { ok: false, error: 'Requiere autenticación de administrador' });
+      return sendJson(res, 200, complaintRepo.getAll());
+    }
+  }
+
+  // --------------------------------------------------------------------------
   // API: Pedidos (RESTful)
   // --------------------------------------------------------------------------
   if (pathname === '/api/pedidos') {
@@ -697,9 +895,12 @@ const server = http.createServer(async (req, res) => {
           return sendJson(res, 400, { ok: false, error: 'Cuerpo de pedido inválido' });
         }
 
-        const newOrder = repo.insert(payload);
-        console.log(`[PEDIDO CREADO] ${newOrder.id} - ${newOrder.customer} - Total: S/ ${newOrder.total.toFixed(2)} (${newOrder.channel})`);
-        return sendJson(res, 201, { ok: true, order: newOrder });
+        const result = repo.insert(payload);
+        if (result.duplicate) {
+          return sendJson(res, 200, { ok: true, duplicate: true, order: result.order });
+        }
+        console.log(`[PEDIDO CREADO] ${result.order.id} - ${result.order.customer} - Total: S/ ${result.order.total.toFixed(2)} (${result.order.channel})`);
+        return sendJson(res, 201, { ok: true, duplicate: false, order: result.order });
       } catch (err) {
         return sendJson(res, 400, { ok: false, error: err.message });
       }
@@ -715,7 +916,8 @@ const server = http.createServer(async (req, res) => {
     }
     const token = extractToken(req);
     const isAuth = isValidAdminSession(token);
-    if (!isAuth) {
+    const isN8n = isN8nServiceRequest(req);
+    if (!isAuth && !isN8n) {
       return sendJson(res, 200, {
         id: ord.id,
         status: ord.status,
@@ -735,7 +937,9 @@ const server = http.createServer(async (req, res) => {
   // PATCH /api/pedidos/:id (Actualizar estado o verificar pago - Requiere sesión de Administrador)
   if (pathname.startsWith('/api/pedidos/') && (req.method === 'PATCH' || req.method === 'POST')) {
     const token = extractToken(req);
-    if (!isValidAdminSession(token)) {
+    const isAdmin = isValidAdminSession(token);
+    const isN8n = isN8nServiceRequest(req);
+    if (!isAdmin && !isN8n) {
       return sendJson(res, 401, { ok: false, error: 'Requiere autenticación de administrador' });
     }
 
@@ -747,14 +951,31 @@ const server = http.createServer(async (req, res) => {
     try {
       const body = await readJsonBody(req);
       if (body.status) {
-        const updated = repo.updateStatus(orderId, body.status);
-        if (updated) {
-          return sendJson(res, 200, { ok: true, order: updated });
+        const updated = repo.updateStatus(orderId, body.status, isN8n ? 'n8n' : 'admin', {
+          name: body.driverName,
+          phone: body.driverPhone
+        });
+        if (updated && !updated.error) {
+          let dispatch = null;
+          if (updated.status === 'ready' && updated.mode === 'delivery') {
+            dispatch = await notifyN8nDispatch(updated);
+          }
+          return sendJson(res, 200, { ok: true, order: updated, dispatch });
         }
+        if (updated?.error) return sendJson(res, 409, { ok: false, error: updated.error });
+        return sendJson(res, 404, { ok: false, error: 'Pedido no encontrado' });
+      }
+
+      if (body.assignDriver) {
+        if (!isN8n) return sendJson(res, 403, { ok: false, error: 'La asignación de motorizado requiere token de n8n.' });
+        const updated = repo.assignDriver(orderId, body.driverName, body.driverPhone);
+        if (updated && !updated.error) return sendJson(res, 200, { ok: true, order: updated });
+        if (updated?.error) return sendJson(res, 409, { ok: false, error: updated.error });
         return sendJson(res, 404, { ok: false, error: 'Pedido no encontrado' });
       }
 
       if (body.verifyPayment) {
+        if (!isAdmin) return sendJson(res, 403, { ok: false, error: 'La verificación de pago debe realizarla un administrador.' });
         const updated = repo.verifyPayment(orderId);
         if (updated) {
           return sendJson(res, 200, { ok: true, order: updated });

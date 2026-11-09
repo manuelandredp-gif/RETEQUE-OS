@@ -107,7 +107,7 @@ export function openWhatsAppCheckout(
     customer: customer.fullName || 'Cliente Web',
     phone: customer.phone || '',
     channel: 'web',
-    mode: customer.deliveryType,
+    mode: customer.deliveryType === 'recojo' ? 'pickup' : 'delivery',
     address: customer.address,
     reference: customer.reference,
     zone: zoneName,
